@@ -1,3 +1,5 @@
+default_stages: [pre-commit]
+
 repos:
   # --- General hygiene ---
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -28,7 +30,6 @@ repos:
       - id: mypy
         args: ["--ignore-missing-imports", "--no-error-summary"]
         files: ^services/
-        # Each service has its own deps; run mypy per-service directory
         pass_filenames: false
         entry: bash -c 'for svc in services/*/; do [ -f "$svc/pyproject.toml" ] && (cd "$svc" && uv run mypy . --ignore-missing-imports --no-error-summary) || true; done'
 
