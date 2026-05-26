@@ -2,7 +2,6 @@
 
 import json
 import signal
-import sys
 
 import structlog
 from confluent_kafka import KafkaError
@@ -35,14 +34,16 @@ def main() -> None:
             msg = consumer.poll(timeout=1.0)
             if msg is None:
                 continue
-            if msg.error():
-                if msg.error().code() == KafkaError._PARTITION_EOF:
+            err = msg.error()
+            if err:
+                if err.code() == KafkaError._PARTITION_EOF:
                     continue
-                logger.error("kafka_consumer_error", error=str(msg.error()))
+                logger.error("kafka_consumer_error", error=str(err))
                 continue
 
             try:
-                event = json.loads(msg.value().decode("utf-8"))
+                raw = msg.value()
+                event = json.loads(raw.decode("utf-8") if raw is not None else "{}")
                 video_id = event.get("video_id", "?")
                 logger.info("event_received", video_id=video_id, topic=msg.topic(), partition=msg.partition())
 
@@ -62,4 +63,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()
