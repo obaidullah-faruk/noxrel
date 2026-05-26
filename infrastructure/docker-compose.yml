@@ -1,4 +1,47 @@
-# Application services — extend with:
-# docker compose -f docker-compose.infra.yml -f docker-compose.yml up -d
-# Service containers are added here as each phase is implemented.
-services: {}
+# Application services
+# Run with: docker compose -f docker-compose.infra.yml -f docker-compose.yml up -d
+
+services:
+  user-service-test:
+    build:
+      context: ../services/user-service
+      dockerfile: Dockerfile
+      target: test
+    env_file:
+      - ../services/user-service/.env
+    environment:
+      REDIS_URL: redis://redis:6379/15
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: >
+      sh -c "
+        uv run python manage.py collectstatic --noinput -v 0 &&
+        uv run pytest /app/tests/ -v --tb=short
+      "
+    profiles: ["test"]
+
+  user-service:
+    build:
+      context: ../services/user-service
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../services/user-service/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: >
+      sh -c "
+        uv run python manage.py collectstatic --noinput &&
+        uv run python manage.py migrate --noinput &&
+        uv run python manage.py seed_rbac &&
+        uv run python manage.py create_dev_admin &&
+        uv run gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 4 --timeout 60 --access-logfile -
+      "
+    restart: unless-stopped

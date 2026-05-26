@@ -71,6 +71,21 @@ make logs
 aws --endpoint-url=http://localhost:4566 s3 ls
 ```
 
+## Services
+
+| Service | Status | README |
+|---|---|---|
+| user-service | ✅ implemented | [services/user-service/README.md](services/user-service/README.md) |
+| video-ingest-service | planned | — |
+| transcode-worker | planned | — |
+| streaming-service | planned | — |
+| live-service | planned | — |
+| social-service | planned | — |
+| billing-service | planned | — |
+| search-service | planned | — |
+| notification-service | planned | — |
+| ai-service | planned | — |
+
 ## Repository Layout
 
 ```
