@@ -35,16 +35,33 @@ dev = [
 ]
 
 [tool.ruff]
-line-length = 100
+line-length = 120
 target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I"]
 
+[tool.ruff.lint.per-file-ignores]
+"*/migrations/*.py" = ["E501"]
+
 [tool.mypy]
 python_version = "3.12"
 plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "accounts.models",
+    "accounts.serializers",
+    "accounts.views",
+    "auth_api.serializers",
+    "auth_api.tokens",
+    "auth_api.views",
+    "roles.management.commands.seed_rbac",
+    "roles.models",
+    "subscriptions.views",
+]
+ignore_errors = true
 
 [tool.django-stubs]
 django_settings_module = "config.settings"

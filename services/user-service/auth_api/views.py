@@ -1,6 +1,12 @@
+from datetime import timedelta
+
+import requests as http_requests
 import structlog
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -9,14 +15,10 @@ from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
-from django.utils import timezone
-from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-import requests as http_requests
 
 from accounts.models import OAuthConnection, UserProfile
-
 from core.kafka import publish
+
 from .serializers import (
     CustomTokenObtainPairSerializer,
     LogoutSerializer,
@@ -218,7 +220,7 @@ def _get_or_create_oauth_user(user_info: dict, token_data: dict) -> User:
         access_token=token_data.get("access_token", ""),
         refresh_token=token_data.get("refresh_token", ""),
         expires_at=(
-            timezone.now() + timezone.timedelta(seconds=token_data["expires_in"])
+            timezone.now() + timedelta(seconds=token_data["expires_in"])
             if "expires_in" in token_data else None
         ),
     )

@@ -2,10 +2,10 @@ import pytest
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
 from rest_framework.test import APIClient
+
 from auth_api import views as auth_views
 from auth_api.tokens import UserRefreshToken
 from roles.models import Role, UserRole
-from auth_api.tokens import UserRefreshToken
 
 User = get_user_model()
 

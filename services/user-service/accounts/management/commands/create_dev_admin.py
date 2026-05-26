@@ -42,4 +42,6 @@ class Command(BaseCommand):
             UserRole.objects.get_or_create(user=user, role=role)
             self.stdout.write("Superadmin RBAC role assigned.")
         except Role.DoesNotExist:
-            self.stdout.write(self.style.WARNING("'superadmin' role not found — run seed_rbac first."))
+            self.stdout.write(
+                self.style.WARNING("'superadmin' role not found — run seed_rbac first.")
+            )

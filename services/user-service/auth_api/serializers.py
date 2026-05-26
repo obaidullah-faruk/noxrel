@@ -7,6 +7,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from accounts.models import UserProfile
+
 from .tokens import UserRefreshToken
 
 User = get_user_model()

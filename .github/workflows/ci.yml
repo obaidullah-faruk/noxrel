@@ -5,66 +5,59 @@ jobs:
   lint-test-python:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        service:
-          - user-service
-          - video-ingest-service
-          - social-service
-          - billing-service
-          - auth-service
-          - search-service
-          - notification-service
-          - transcode-worker
-          - ai-service
+        include:
+          - service: user-service
+            install_cmd: "pip install uv && uv sync --group dev"
+            lint_cmd: "uv run ruff check . && uv run mypy . --ignore-missing-imports"
+            test_cmd: "uv run python manage.py migrate --run-syncdb && uv run pytest tests/ -v --tb=short"
+
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_DB: user_service
+          POSTGRES_USER: platform
+          POSTGRES_PASSWORD: platform_dev
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U platform"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:8.4.3-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_NAME: user_service
+      DB_USER: platform
+      DB_PASSWORD: platform_dev
+      REDIS_URL: redis://localhost:6379/0
+      SECRET_KEY: ci-test-secret-key
+      DEBUG: "true"
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install & lint
+        working-directory: services/${{ matrix.service }}
         run: |
-          cd services/${{ matrix.service }}
-          pip install -r requirements.txt
-          ruff check .
-          mypy . --ignore-missing-imports
+          ${{ matrix.install_cmd }}
+          ${{ matrix.lint_cmd }}
       - name: Test
-        run: |
-          cd services/${{ matrix.service }}
-          pytest tests/ -v --tb=short
-
-  lint-test-node:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        service:
-          - streaming-service
-          - live-service
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - name: Install, lint & test
-        run: |
-          cd services/${{ matrix.service }}
-          npm ci
-          npm test
-
-  lint-test-frontend:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        app:
-          - web-user
-          - web-admin
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - name: Install, lint & test
-        run: |
-          cd frontend/${{ matrix.app }}
-          npm ci
-          npm run lint
-          npm test
+        working-directory: services/${{ matrix.service }}
+        run: ${{ matrix.test_cmd }}

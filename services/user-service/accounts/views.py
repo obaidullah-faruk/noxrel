@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 
 from core.permissions import IsAdminRole, invalidate_user_rbac_cache
 from roles.models import Role, UserRole
+
 from .serializers import (
     AdminUserDetailSerializer,
     UpdateProfileSerializer,
