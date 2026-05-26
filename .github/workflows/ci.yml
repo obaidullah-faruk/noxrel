@@ -1,0 +1,70 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  lint-test-python:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - user-service
+          - video-ingest-service
+          - social-service
+          - billing-service
+          - auth-service
+          - search-service
+          - notification-service
+          - transcode-worker
+          - ai-service
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install & lint
+        run: |
+          cd services/${{ matrix.service }}
+          pip install -r requirements.txt
+          ruff check .
+          mypy . --ignore-missing-imports
+      - name: Test
+        run: |
+          cd services/${{ matrix.service }}
+          pytest tests/ -v --tb=short
+
+  lint-test-node:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - streaming-service
+          - live-service
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install, lint & test
+        run: |
+          cd services/${{ matrix.service }}
+          npm ci
+          npm test
+
+  lint-test-frontend:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app:
+          - web-user
+          - web-admin
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install, lint & test
+        run: |
+          cd frontend/${{ matrix.app }}
+          npm ci
+          npm run lint
+          npm test

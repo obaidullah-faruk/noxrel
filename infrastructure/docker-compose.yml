@@ -1,0 +1,4 @@
+# Application services — extend with:
+# docker compose -f docker-compose.infra.yml -f docker-compose.yml up -d
+# Service containers are added here as each phase is implemented.
+services: {}
