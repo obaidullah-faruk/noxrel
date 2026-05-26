@@ -18,6 +18,11 @@ jobs:
             lint_cmd: "uv run ruff check . && uv run mypy . --ignore-missing-imports"
             test_cmd: "uv run pytest tests/ -v --tb=short"
             django_settings: "config.test_settings"
+          - service: transcode-worker
+            install_cmd: "pip install uv && uv sync --group dev"
+            lint_cmd: "uv run ruff check . && uv run mypy . --ignore-missing-imports"
+            test_cmd: "uv run pytest tests/ -v --tb=short"
+            django_settings: ""
 
     services:
       postgres:

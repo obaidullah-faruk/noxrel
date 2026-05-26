@@ -1,0 +1,38 @@
+[project]
+name = "transcode-worker"
+version = "0.1.0"
+description = "Kafka consumer that transcodes uploaded videos to HLS/DASH via FFmpeg"
+requires-python = ">=3.12"
+dependencies = [
+    "confluent-kafka>=2.5",
+    "boto3>=1.35",
+    "tenacity>=9.0",
+    "structlog>=24.4",
+    "python-decouple>=3.8",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+    "moto[s3]>=5.0",
+    "ruff>=0.8",
+    "mypy>=1.13",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--tb=short -v"

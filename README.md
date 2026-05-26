@@ -136,7 +136,7 @@ Use sparingly — CI runs the same checks and will catch any bypass.
 |---|---|---|
 | user-service | ✅ implemented | [services/user-service/README.md](services/user-service/README.md) |
 | video-service | ✅ implemented | [services/video-service/README.md](services/video-service/README.md) |
-| transcode-worker | planned | — |
+| transcode-worker | ✅ implemented | [services/transcode-worker/README.md](services/transcode-worker/README.md) |
 | streaming-service | planned | — |
 | live-service | planned | — |
 | social-service | planned | — |
