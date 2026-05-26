@@ -8,7 +8,7 @@ A cloud-native, event-driven video streaming platform built as a microservices m
 |---|---|---|---|
 | auth-service | FastAPI | PostgreSQL + Redis | RS256 JWT issuance, login, token refresh |
 | user-service | Django REST | PostgreSQL + Redis | Profiles, RBAC, trial tracking |
-| video-ingest-service | FastAPI | PostgreSQL + S3 | Presigned URL generation, multipart upload |
+| video-service | Django REST | PostgreSQL + S3 | Multipart upload orchestration, video catalog, transcode trigger |
 | transcode-worker | Python + FFmpeg | S3 | Async video transcoding |
 | streaming-service | Node.js | Redis | HLS/DASH manifest serving |
 | live-service | Node.js + nginx-rtmp | Redis | RTMP ingest + live HLS |
@@ -32,6 +32,8 @@ A cloud-native, event-driven video streaming platform built as a microservices m
 | Kafka UI | 8080 |
 | LocalStack (AWS) | 4566 |
 | Traefik dashboard | 8081 |
+| user-service | 8000 |
+| video-service | 8001 |
 
 ## Quick Start
 
@@ -133,7 +135,7 @@ Use sparingly — CI runs the same checks and will catch any bypass.
 | Service | Status | README |
 |---|---|---|
 | user-service | ✅ implemented | [services/user-service/README.md](services/user-service/README.md) |
-| video-ingest-service | planned | — |
+| video-service | ✅ implemented | [services/video-service/README.md](services/video-service/README.md) |
 | transcode-worker | planned | — |
 | streaming-service | planned | — |
 | live-service | planned | — |

@@ -10,8 +10,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = [
-            "bio", "country_code", "preferred_language",
-            "content_preferences", "notification_preferences", "updated_at",
+            "bio",
+            "country_code",
+            "preferred_language",
+            "content_preferences",
+            "notification_preferences",
+            "updated_at",
         ]
         read_only_fields = ["updated_at"]
 
@@ -22,8 +26,16 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            "id", "email", "username", "display_name", "avatar_url",
-            "is_active", "is_email_verified", "created_at", "updated_at", "profile",
+            "id",
+            "email",
+            "username",
+            "display_name",
+            "avatar_url",
+            "is_active",
+            "is_email_verified",
+            "created_at",
+            "updated_at",
+            "profile",
         ]
         read_only_fields = ["id", "email", "created_at", "updated_at"]
 
@@ -55,10 +67,21 @@ class AdminUserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            "id", "email", "username", "display_name", "avatar_url",
-            "is_active", "is_staff", "is_email_verified", "email_verified_at",
-            "last_login_at", "login_attempts", "locked_until",
-            "created_at", "updated_at", "profile",
+            "id",
+            "email",
+            "username",
+            "display_name",
+            "avatar_url",
+            "is_active",
+            "is_staff",
+            "is_email_verified",
+            "email_verified_at",
+            "last_login_at",
+            "login_attempts",
+            "locked_until",
+            "created_at",
+            "updated_at",
+            "profile",
         ]
         read_only_fields = ["id", "email", "created_at", "updated_at"]
 

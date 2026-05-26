@@ -88,7 +88,8 @@ class AdminUserRolesView(APIView):
         if action == "add":
             for role in roles:
                 UserRole.objects.update_or_create(
-                    user=user, role=role,
+                    user=user,
+                    role=role,
                     defaults={"granted_by": request.user, "expires_at": expires_at},
                 )
         else:

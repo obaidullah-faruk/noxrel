@@ -1,4 +1,5 @@
 """Cron job: downgrade expired free trials to the guest role. Run daily."""
+
 import structlog
 from django.core.management.base import BaseCommand
 from django.utils import timezone

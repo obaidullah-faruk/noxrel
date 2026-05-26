@@ -1,4 +1,5 @@
 """Integration tests: register → login → protected endpoint → refresh → logout."""
+
 from unittest.mock import patch
 
 import pytest
@@ -74,9 +75,7 @@ class TestProtectedEndpoints:
         assert resp.data["username"] == registered_user.username
 
     def test_users_me_patch(self, auth_client):
-        resp = auth_client.patch(
-            "/api/v1/users/me", {"display_name": "Updated Name"}, format="json"
-        )
+        resp = auth_client.patch("/api/v1/users/me", {"display_name": "Updated Name"}, format="json")
         assert resp.status_code == status.HTTP_200_OK
         assert resp.data["display_name"] == "Updated Name"
 
@@ -85,6 +84,7 @@ class TestProtectedEndpoints:
 class TestTokenRefresh:
     def test_refresh_returns_new_tokens(self, api_client, registered_user):
         from auth_api.tokens import UserRefreshToken
+
         refresh = UserRefreshToken.for_user(registered_user)
         resp = api_client.post("/api/v1/auth/refresh", {"refresh": str(refresh)}, format="json")
         assert resp.status_code == status.HTTP_200_OK
@@ -99,6 +99,7 @@ class TestTokenRefresh:
 class TestLogout:
     def test_logout_blacklists_token(self, api_client, registered_user):
         from auth_api.tokens import UserRefreshToken
+
         refresh = UserRefreshToken.for_user(registered_user)
         api_client.credentials(HTTP_AUTHORIZATION=f"Bearer {str(refresh.access_token)}")
         resp = api_client.post("/api/v1/auth/logout", {"refresh": str(refresh)}, format="json")
@@ -106,6 +107,7 @@ class TestLogout:
 
     def test_logout_requires_auth(self, api_client, registered_user):
         from auth_api.tokens import UserRefreshToken
+
         refresh = UserRefreshToken.for_user(registered_user)
         resp = api_client.post("/api/v1/auth/logout", {"refresh": str(refresh)}, format="json")
         assert resp.status_code == status.HTTP_401_UNAUTHORIZED

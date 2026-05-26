@@ -32,15 +32,16 @@ class UserSubscription(models.Model):
     STATUS_PAUSED = "paused"
     STATUS_INCOMPLETE = "incomplete"
     STATUS_CHOICES = [
-        (STATUS_TRIALING, "Trialing"), (STATUS_ACTIVE, "Active"),
-        (STATUS_PAST_DUE, "Past Due"), (STATUS_CANCELLED, "Cancelled"),
-        (STATUS_PAUSED, "Paused"), (STATUS_INCOMPLETE, "Incomplete"),
+        (STATUS_TRIALING, "Trialing"),
+        (STATUS_ACTIVE, "Active"),
+        (STATUS_PAST_DUE, "Past Due"),
+        (STATUS_CANCELLED, "Cancelled"),
+        (STATUS_PAUSED, "Paused"),
+        (STATUS_INCOMPLETE, "Incomplete"),
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="subscriptions"
-    )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="subscriptions")
     tier = models.ForeignKey(SubscriptionTier, on_delete=models.PROTECT)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, db_index=True)
     trial_start = models.DateTimeField(null=True, blank=True)

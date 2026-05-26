@@ -3,6 +3,7 @@ Create a superadmin user for local development. Idempotent.
 Credentials come from settings (DEV_ADMIN_EMAIL / DEV_ADMIN_PASSWORD).
 Default: admin@admin.com / admin1234
 """
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
@@ -42,6 +43,4 @@ class Command(BaseCommand):
             UserRole.objects.get_or_create(user=user, role=role)
             self.stdout.write("Superadmin RBAC role assigned.")
         except Role.DoesNotExist:
-            self.stdout.write(
-                self.style.WARNING("'superadmin' role not found — run seed_rbac first.")
-            )
+            self.stdout.write(self.style.WARNING("'superadmin' role not found — run seed_rbac first."))

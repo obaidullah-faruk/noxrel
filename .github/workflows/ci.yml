@@ -12,6 +12,12 @@ jobs:
             install_cmd: "pip install uv && uv sync --group dev"
             lint_cmd: "uv run ruff check . && uv run mypy . --ignore-missing-imports"
             test_cmd: "uv run python manage.py migrate --run-syncdb && uv run pytest tests/ -v --tb=short"
+            django_settings: "config.settings"
+          - service: video-service
+            install_cmd: "pip install uv && uv sync --group dev"
+            lint_cmd: "uv run ruff check . && uv run mypy . --ignore-missing-imports"
+            test_cmd: "uv run pytest tests/ -v --tb=short"
+            django_settings: "config.test_settings"
 
     services:
       postgres:

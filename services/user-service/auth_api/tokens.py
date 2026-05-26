@@ -28,9 +28,9 @@ class UserRefreshToken(RefreshToken):
 def _get_trial_end(user):
     try:
         from subscriptions.models import UserSubscription
+
         sub = (
-            UserSubscription.objects
-            .filter(user=user, status=UserSubscription.STATUS_TRIALING)
+            UserSubscription.objects.filter(user=user, status=UserSubscription.STATUS_TRIALING)
             .order_by("-created_at")
             .first()
         )

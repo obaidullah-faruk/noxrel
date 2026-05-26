@@ -177,6 +177,7 @@ cxFBTxhSLveOj1TvNXK1dwo3PCeQNuK6IqepDG1j6xqWfGPGFmZL9P013qut1qXr
 sQIDAQAB
 -----END PUBLIC KEY-----"""
 
+
 def _get_jwt_key(env_var: str, default: str) -> str:
     """Read a PEM key from env var. Handles escaped newlines from docker env files."""
     value = config(env_var, default="").strip()

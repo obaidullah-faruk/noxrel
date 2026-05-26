@@ -20,7 +20,13 @@ class OAuthConnectionInline(admin.TabularInline):
 class UserAdmin(BaseUserAdmin):
     inlines = [UserProfileInline, OAuthConnectionInline]
     list_display = [
-        "email", "username", "display_name", "is_active", "is_email_verified", "is_staff", "created_at",
+        "email",
+        "username",
+        "display_name",
+        "is_active",
+        "is_email_verified",
+        "is_staff",
+        "created_at",
     ]
     list_filter = ["is_active", "is_staff", "is_email_verified"]
     search_fields = ["email", "username", "display_name"]
@@ -37,10 +43,13 @@ class UserAdmin(BaseUserAdmin):
     )
 
     add_fieldsets = (
-        (None, {
-            "classes": ("wide",),
-            "fields": ("email", "username", "display_name", "password1", "password2"),
-        }),
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ("email", "username", "display_name", "password1", "password2"),
+            },
+        ),
     )
 
 

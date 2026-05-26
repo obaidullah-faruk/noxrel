@@ -16,8 +16,15 @@ class UserSubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSubscription
         fields = [
-            "id", "tier", "status", "trial_start", "trial_end",
-            "current_period_start", "current_period_end",
-            "cancel_at_period_end", "cancelled_at", "created_at",
+            "id",
+            "tier",
+            "status",
+            "trial_start",
+            "trial_end",
+            "current_period_start",
+            "current_period_end",
+            "cancel_at_period_end",
+            "cancelled_at",
+            "created_at",
         ]
         read_only_fields = fields

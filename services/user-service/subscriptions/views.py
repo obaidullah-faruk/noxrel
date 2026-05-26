@@ -18,8 +18,7 @@ class MySubscriptionView(generics.RetrieveAPIView):
 
     def get_object(self) -> UserSubscription:
         sub = (
-            UserSubscription.objects
-            .filter(user=self.request.user)
+            UserSubscription.objects.filter(user=self.request.user)
             .select_related("tier")
             .order_by("-created_at")
             .first()
@@ -40,8 +39,7 @@ class UserSubscriptionView(generics.RetrieveAPIView):
 
     def get_object(self) -> UserSubscription:
         sub = (
-            UserSubscription.objects
-            .filter(user_id=self.kwargs["id"])
+            UserSubscription.objects.filter(user_id=self.kwargs["id"])
             .select_related("tier")
             .order_by("-created_at")
             .first()

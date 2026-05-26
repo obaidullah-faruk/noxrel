@@ -116,7 +116,6 @@ class GoogleOAuthRedirectView(APIView):
 
     @extend_schema(summary="Redirect URL for Google OAuth2 consent page")
     def get(self, request: Request) -> Response:
-
         adapter = GoogleOAuth2Adapter(request)
         callback_url = request.build_absolute_uri("/api/v1/auth/oauth/google/callback")
         client = OAuth2Client(
@@ -159,8 +158,8 @@ class GoogleOAuthCallbackView(APIView):
 # OAuth helpers
 # ---------------------------------------------------------------------------
 
-def _exchange_google_code(request: Request, code: str) -> dict:
 
+def _exchange_google_code(request: Request, code: str) -> dict:
     app = settings.SOCIALACCOUNT_PROVIDERS["google"]["APP"]
     callback_url = request.build_absolute_uri("/api/v1/auth/oauth/google/callback")
 
@@ -180,7 +179,6 @@ def _exchange_google_code(request: Request, code: str) -> dict:
 
 
 def _fetch_google_user_info(access_token: str) -> dict:
-
     resp = http_requests.get(
         "https://www.googleapis.com/oauth2/v3/userinfo",
         headers={"Authorization": f"Bearer {access_token}"},
@@ -191,14 +189,17 @@ def _fetch_google_user_info(access_token: str) -> dict:
 
 
 def _get_or_create_oauth_user(user_info: dict, token_data: dict) -> User:
-
     email = user_info.get("email", "")
     provider_user_id = user_info.get("sub", "")
 
-    conn = OAuthConnection.objects.filter(
-        provider=OAuthConnection.PROVIDER_GOOGLE,
-        provider_user_id=provider_user_id,
-    ).select_related("user").first()
+    conn = (
+        OAuthConnection.objects.filter(
+            provider=OAuthConnection.PROVIDER_GOOGLE,
+            provider_user_id=provider_user_id,
+        )
+        .select_related("user")
+        .first()
+    )
 
     if conn:
         return conn.user
@@ -220,8 +221,7 @@ def _get_or_create_oauth_user(user_info: dict, token_data: dict) -> User:
         access_token=token_data.get("access_token", ""),
         refresh_token=token_data.get("refresh_token", ""),
         expires_at=(
-            timezone.now() + timedelta(seconds=token_data["expires_in"])
-            if "expires_in" in token_data else None
+            timezone.now() + timedelta(seconds=token_data["expires_in"]) if "expires_in" in token_data else None
         ),
     )
 

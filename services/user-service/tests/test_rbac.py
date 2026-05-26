@@ -1,4 +1,5 @@
 """RBAC tests: role assignment, permission enforcement."""
+
 import pytest
 from rest_framework import status
 
@@ -36,6 +37,7 @@ class TestRoleEndpoints:
 class TestUserRoleAssignment:
     def test_assign_role_to_user(self, superadmin_client, registered_user):
         from roles.models import Role
+
         role, _ = Role.objects.get_or_create(name="test_role", defaults={"description": "Test"})
         resp = superadmin_client.patch(
             f"/api/v1/users/{registered_user.id}/roles",
@@ -46,6 +48,7 @@ class TestUserRoleAssignment:
 
     def test_remove_role_from_user(self, superadmin_client, registered_user):
         from roles.models import Role, UserRole
+
         role, _ = Role.objects.get_or_create(name="temp_role", defaults={"description": "Temp"})
         UserRole.objects.get_or_create(user=registered_user, role=role)
 
