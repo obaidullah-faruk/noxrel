@@ -39,7 +39,16 @@ A cloud-native, event-driven video streaming platform built as a microservices m
 
 - Docker Desktop ≥ 4.x
 - `make`
+- Python ≥ 3.12 (for pre-commit and service tooling)
 - AWS CLI (for LocalStack inspection): `brew install awscli`
+
+### First-time setup (after cloning)
+
+```bash
+make install-hooks
+```
+
+This installs [pre-commit](https://pre-commit.com/) hooks that run automatically on every `git commit`. You only need to do this once per clone.
 
 ### Start infrastructure
 
@@ -70,6 +79,54 @@ make logs
 ```bash
 aws --endpoint-url=http://localhost:4566 s3 ls
 ```
+
+## Git Workflow
+
+### Commit message format
+
+All commits must follow [Conventional Commits](https://www.conventionalcommits.org/). The `commit-msg` hook enforces this automatically.
+
+```
+<type>(<scope>): <description>
+
+feat(user-service): add email verification endpoint
+fix(auth-service): refresh token expiry off by one
+docs: update local dev setup in README
+ci: add billing-service to test matrix
+```
+
+**Allowed types:** `feat` `fix` `docs` `style` `refactor` `perf` `test` `build` `ci` `chore` `revert`
+
+**Breaking change:** append `!` before the colon — `feat(auth)!: drop v1 token support`
+
+### What the hooks check on every commit
+
+| Hook | What it does |
+|---|---|
+| `trailing-whitespace` | Strips trailing whitespace |
+| `end-of-file-fixer` | Ensures files end with a newline |
+| `check-yaml` / `check-json` / `check-toml` | Validates config file syntax |
+| `check-merge-conflict` | Blocks accidental merge conflict markers |
+| `detect-private-key` | Blocks accidental secret commits |
+| `check-added-large-files` | Blocks files > 1 MB |
+| `ruff` (with `--fix`) | Lints Python, auto-fixes what it can |
+| `ruff-format` | Formats Python code |
+| `mypy` | Type-checks all services |
+| `commitizen` | Validates conventional commit format |
+
+### Run all checks manually (without committing)
+
+```bash
+make lint
+```
+
+### Bypass hooks in an emergency
+
+```bash
+git commit --no-verify -m "chore: emergency hotfix"
+```
+
+Use sparingly — CI runs the same checks and will catch any bypass.
 
 ## Services
 
