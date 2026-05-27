@@ -4,6 +4,8 @@ from rest_framework.permissions import BasePermission
 from rest_framework.request import Request
 from rest_framework.views import APIView
 
+from core.authentication import JWTUser
+
 logger = structlog.get_logger(__name__)
 
 HEADER_INTERNAL_KEY = "HTTP_X_INTERNAL_KEY"
@@ -26,7 +28,7 @@ class IsAdminJWT(BasePermission):
         has_role = getattr(user, "has_role", None)
         if not callable(has_role):
             return False
-        return user.has_role("admin", "superadmin")
+        return isinstance(user, JWTUser) and user.has_role("admin", "superadmin")
 
 
 class RequirePermission(BasePermission):
@@ -44,6 +46,8 @@ class RequirePermission(BasePermission):
             return False
         has_permission = getattr(user, "has_permission", None)
         if not callable(has_permission):
+            return False
+        if not isinstance(user, JWTUser):
             return False
         allowed = user.has_permission(self.required_permission)
         if not allowed:

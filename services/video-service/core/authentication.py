@@ -4,7 +4,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.request import Request
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
-from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework_simplejwt.tokens import Token
 
 
 @dataclass
@@ -37,7 +37,7 @@ class JWTVerifyOnlyAuthentication(JWTAuthentication):
     On a present but invalid/expired token: raises AuthenticationFailed (401).
     """
 
-    def get_user(self, validated_token: AccessToken) -> JWTUser:  # type: ignore[override]
+    def get_user(self, validated_token: Token) -> JWTUser:  # type: ignore[override]
         user_id = validated_token.get("sub") or validated_token.get("user_id")
         if not user_id:
             raise AuthenticationFailed("Token missing subject claim.")
