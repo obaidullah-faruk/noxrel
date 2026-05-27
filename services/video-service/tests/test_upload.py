@@ -15,7 +15,7 @@ class TestUploadInit:
         client, user_id = authed_client
 
         resp = client.post(
-            "/videos/upload/init/",
+            "/api/v1/videos/upload/init/",
             {"title": "My Video", "file_size_bytes": 10 * 1024 * 1024},
             format="json",
         )
@@ -31,12 +31,12 @@ class TestUploadInit:
 
     def test_init_without_title_returns_400(self, authed_client):
         client, _ = authed_client
-        resp = client.post("/videos/upload/init/", {"file_size_bytes": 5000000}, format="json")
+        resp = client.post("/api/v1/videos/upload/init/", {"file_size_bytes": 5000000}, format="json")
         assert resp.status_code == 400
 
     def test_init_without_file_size_returns_400(self, authed_client):
         client, _ = authed_client
-        resp = client.post("/videos/upload/init/", {"title": "Test"}, format="json")
+        resp = client.post("/api/v1/videos/upload/init/", {"title": "Test"}, format="json")
         assert resp.status_code == 400
 
 
@@ -65,7 +65,7 @@ class TestUploadComplete:
         )
 
         resp = client.post(
-            "/videos/upload/complete/",
+            "/api/v1/videos/upload/complete/",
             {
                 "upload_id": str(multipart.id),
                 "part_etags": [{"part_number": 1, "etag": "abc123"}],
@@ -84,5 +84,5 @@ class TestUploadComplete:
 
     def test_complete_missing_params_returns_400(self, authed_client):
         client, _ = authed_client
-        resp = client.post("/videos/upload/complete/", {}, format="json")
+        resp = client.post("/api/v1/videos/upload/complete/", {}, format="json")
         assert resp.status_code == 400
