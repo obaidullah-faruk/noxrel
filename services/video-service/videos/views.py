@@ -1,8 +1,10 @@
 import structlog
+from django.db.models import Q
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import get_object_or_404
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,6 +15,25 @@ from .models import Video
 from .serializers import VideoSerializer, VideoUpdateSerializer
 
 logger = structlog.get_logger(__name__)
+
+
+class AdminVideoListView(APIView):
+    """GET /api/v1/videos/ — all videos for admins, any status, paginated."""
+
+    permission_classes = [IsJWTAuthenticated, IsAdminJWT]
+
+    def get(self, request: Request) -> Response:
+        qs = Video.objects.filter(deleted_at__isnull=True).order_by("-created_at")
+
+        if search := request.query_params.get("search"):
+            qs = qs.filter(Q(title__icontains=search) | Q(category__icontains=search))
+        if status_filter := request.query_params.get("status"):
+            qs = qs.filter(status=status_filter)
+
+        paginator = PageNumberPagination()
+        paginator.page_size = 20
+        page = paginator.paginate_queryset(qs, request)
+        return paginator.get_paginated_response(VideoSerializer(page, many=True).data)
 
 
 class VideoDetailView(APIView):

@@ -190,6 +190,10 @@ S3_THUMBNAIL_BUCKET = config("S3_THUMBNAIL_BUCKET", default="thumbnails")
 S3_MULTIPART_CHUNK_SIZE_MB = config("S3_MULTIPART_CHUNK_SIZE_MB", default=5, cast=int)
 # Presigned URL TTL: 12 hours for chunked upload
 S3_PRESIGNED_UPLOAD_TTL = config("S3_PRESIGNED_UPLOAD_TTL", default=43200, cast=int)
+# Browser-reachable S3 base URL for presigned URLs (differs from AWS_S3_ENDPOINT_URL
+# when the service runs in Docker but the browser is on the host, e.g. LocalStack).
+# Empty string → use AWS_S3_ENDPOINT_URL unchanged.
+S3_PRESIGNED_URL_BASE = config("S3_PRESIGNED_URL_BASE", default="")
 
 # ---------------------------------------------------------------------------
 # Kafka

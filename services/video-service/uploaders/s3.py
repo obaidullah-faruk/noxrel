@@ -18,6 +18,22 @@ def _client():
     return boto3.client("s3", **kwargs)
 
 
+def _rewrite_presigned_url(url: str) -> str:
+    """
+    Rewrite the host in a presigned URL so browsers can reach it.
+
+    In local dev the service connects to LocalStack via the Docker-internal
+    hostname (e.g. http://localstack:4566), but browsers on the host must use
+    http://localhost:4566.  S3_PRESIGNED_URL_BASE=http://localhost:4566 handles
+    this.  Empty / unset → URL is returned unchanged.
+    """
+    base = getattr(settings, "S3_PRESIGNED_URL_BASE", "").rstrip("/")
+    if not base or not settings.AWS_S3_ENDPOINT_URL:
+        return url
+    internal = settings.AWS_S3_ENDPOINT_URL.rstrip("/")
+    return url.replace(internal, base, 1)
+
+
 def create_multipart_upload(bucket: str, key: str) -> str:
     """Initiate S3 multipart upload. Returns upload_id."""
     resp = _client().create_multipart_upload(Bucket=bucket, Key=key)
@@ -48,7 +64,7 @@ def generate_presigned_part_urls(
             },
             ExpiresIn=ttl,
         )
-        urls.append({"part_number": part_number, "url": url})
+        urls.append({"part_number": part_number, "url": _rewrite_presigned_url(url)})
     return urls
 
 
