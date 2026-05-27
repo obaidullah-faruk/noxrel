@@ -38,7 +38,11 @@ export async function fetchManifestText(videoId: string): Promise<string> {
  * Phase 4B: replace with CloudFront signed URL via @aws-sdk/cloudfront-signer.
  */
 export function buildSegmentUrl(videoId: string, path: string): string {
-  const endpoint =
-    config.AWS_ENDPOINT_URL ?? `https://s3.${config.AWS_REGION}.amazonaws.com`;
-  return `${endpoint}/${config.S3_TRANSCODED_BUCKET}/${videoId}/${path}`;
+  // CDN_BASE_URL takes priority — use it so browsers can reach segments directly.
+  // Falls back to AWS_ENDPOINT_URL (Docker-internal) only for server-side S3 fetches.
+  const base =
+    config.CDN_BASE_URL ??
+    config.AWS_ENDPOINT_URL ??
+    `https://s3.${config.AWS_REGION}.amazonaws.com`;
+  return `${base.replace(/\/$/, '')}/${config.S3_TRANSCODED_BUCKET}/${videoId}/${path}`;
 }

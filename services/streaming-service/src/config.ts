@@ -7,6 +7,7 @@ const schema = z.object({
   AWS_ACCESS_KEY_ID:    z.string().default('test'),
   AWS_SECRET_ACCESS_KEY: z.string().default('test'),
   S3_TRANSCODED_BUCKET: z.string().default('transcoded-videos'),
+  CDN_BASE_URL:         z.string().optional(),
   REDIS_URL:            z.string().default('redis://localhost:6379'),
   KAFKA_BROKERS:        z.string().default('localhost:9092').transform(s => s.split(',')),
   JWT_PUBLIC_KEY:       z.string().optional(),
