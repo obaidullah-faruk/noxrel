@@ -22,19 +22,21 @@ A cloud-native, event-driven video streaming platform built as a microservices m
 
 ## Local Infrastructure
 
-| Service | Port |
-|---|---|
-| PostgreSQL | 5432 |
-| MongoDB | 27017 |
-| Redis | 6379 |
-| Elasticsearch | 9200 |
-| Kafka | 9092 |
-| Kafka UI | 8080 |
-| LocalStack (AWS) | 4566 |
-| Traefik dashboard | 8081 |
-| user-service | 8000 |
-| video-service | 8001 |
-| streaming-service | 3002 |
+| Service | Port | Notes |
+|---|---|---|
+| PostgreSQL | 5432 | |
+| MongoDB | 27017 | |
+| Redis | 6379 | |
+| Elasticsearch | 9200 | |
+| Kafka | 9092 | |
+| Kafka UI | 8080 | |
+| LocalStack (AWS) | 4566 | S3, SQS, SNS, SSM, Secrets Manager |
+| Traefik dashboard | 8081 | |
+| **Kong proxy** | **8100** | **All API traffic goes here** |
+| Kong admin | 8101 | Status, route inspection |
+| user-service | 8000 | Direct access (bypasses Kong) |
+| video-service | 8001 | Direct access (bypasses Kong) |
+| streaming-service | 3002 | Direct access (bypasses Kong) |
 
 ## Quick Start
 
@@ -59,7 +61,7 @@ This installs [pre-commit](https://pre-commit.com/) hooks that run automatically
 make infra-up
 ```
 
-### Start everything
+### Start everything (infrastructure + all services + Kong)
 
 ```bash
 make up
@@ -82,6 +84,24 @@ make logs
 ```bash
 aws --endpoint-url=http://localhost:4566 s3 ls
 ```
+
+### Kong API Gateway
+
+All browser/client API traffic goes through Kong on port 8100:
+
+```
+http://localhost:8100/api/v1/auth/*       → user-service:8000
+http://localhost:8100/api/v1/users/*      → user-service:8000
+http://localhost:8100/api/v1/roles/*      → user-service:8000
+http://localhost:8100/api/v1/permissions/* → user-service:8000
+http://localhost:8100/api/v1/videos/*     → video-service:8001
+http://localhost:8100/api/v1/catalog/*    → video-service:8001
+http://localhost:8100/api/v1/stream/*     → streaming-service:3002
+```
+
+Kong admin API (inspect live config/routes): `http://localhost:8101`
+
+Kong is configured in **DB-less declarative mode** — all config lives in `infrastructure/kong/kong.yml`. Reload after changes with `docker exec infrastructure-kong-1 kong reload`.
 
 ## Git Workflow
 
@@ -139,12 +159,14 @@ Use sparingly — CI runs the same checks and will catch any bypass.
 | video-service | ✅ implemented | [services/video-service/README.md](services/video-service/README.md) |
 | transcode-worker | ✅ implemented | [services/transcode-worker/README.md](services/transcode-worker/README.md) |
 | streaming-service | ✅ implemented | [services/streaming-service/README.md](services/streaming-service/README.md) |
+| web-admin | ✅ implemented | [frontend/web-admin/README.md](frontend/web-admin/README.md) |
 | live-service | planned | — |
 | social-service | planned | — |
 | billing-service | planned | — |
 | search-service | planned | — |
 | notification-service | planned | — |
 | ai-service | planned | — |
+| web-user | planned | — |
 
 ## Repository Layout
 

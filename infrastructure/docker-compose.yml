@@ -36,6 +36,12 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      start_period: 60s
+      retries: 5
     command: >
       sh -c "
         uv run python manage.py collectstatic --noinput &&
@@ -84,6 +90,12 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health/"]
+      interval: 15s
+      timeout: 5s
+      start_period: 45s
+      retries: 5
     command: >
       sh -c "
         uv run python manage.py collectstatic --noinput &&
@@ -108,9 +120,39 @@ services:
       localstack:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3002/health || exit 1"]
-      interval: 15s
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3002/health || exit 1"]
+      interval: 10s
       timeout: 5s
-      start_period: 15s
-      retries: 3
+      start_period: 30s
+      retries: 5
+    restart: unless-stopped
+
+  kong:
+    image: kong:3.9-ubuntu
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /etc/kong/kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001"
+      KONG_PROXY_LISTEN: "0.0.0.0:8000"
+    ports:
+      - "8100:8000"   # Kong proxy  → http://localhost:8100/api/v1/...
+      - "8101:8001"   # Kong admin  → http://localhost:8101 (status/config)
+    volumes:
+      - ./kong/kong.yml:/etc/kong/kong.yml:ro
+    depends_on:
+      user-service:
+        condition: service_healthy
+      video-service:
+        condition: service_healthy
+      streaming-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "kong", "health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
     restart: unless-stopped

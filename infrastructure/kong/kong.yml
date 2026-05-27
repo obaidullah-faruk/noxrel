@@ -1,0 +1,77 @@
+_format_version: "3.0"
+_transform: true
+
+# ---------------------------------------------------------------------------
+# Kong acts as a reverse proxy, CORS handler, and rate limiter.
+# JWT verification is delegated to each service (simplejwt / custom auth).
+# All services expose routes under /api/v1/ — Kong forwards the full path.
+# ---------------------------------------------------------------------------
+
+services:
+  - name: user-service
+    url: http://user-service:8000
+    routes:
+      - name: auth-routes
+        paths:
+          - /api/v1/auth
+        strip_path: false
+        plugins:
+          - name: rate-limiting
+            config:
+              minute: 20
+              policy: local
+
+      - name: user-routes
+        paths:
+          - /api/v1/users
+          - /api/v1/roles
+          - /api/v1/permissions
+        strip_path: false
+
+  - name: video-service
+    url: http://video-service:8001
+    routes:
+      - name: video-routes
+        paths:
+          - /api/v1/videos
+          - /api/v1/catalog
+        strip_path: false
+
+  - name: streaming-service
+    url: http://streaming-service:3002
+    routes:
+      - name: streaming-routes
+        paths:
+          - /api/v1/stream
+        strip_path: false
+
+# ---------------------------------------------------------------------------
+# Global plugins applied to all routes
+# ---------------------------------------------------------------------------
+plugins:
+  - name: cors
+    config:
+      origins:
+        - "http://localhost:3000"
+        - "http://localhost:3001"
+      methods:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+        - OPTIONS
+      headers:
+        - Authorization
+        - Content-Type
+        - X-Request-ID
+      exposed_headers:
+        - X-Request-ID
+      credentials: true
+      max_age: 3600
+
+  - name: correlation-id
+    config:
+      header_name: X-Request-ID
+      generator: uuid
+      echo_downstream: true
