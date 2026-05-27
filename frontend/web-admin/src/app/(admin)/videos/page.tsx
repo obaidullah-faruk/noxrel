@@ -1,9 +1,11 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -17,8 +19,10 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import AddIcon from '@mui/icons-material/Add';
 import { fetchVideos } from '@/lib/api';
 import { getToken } from '@/lib/auth-client';
+import { VideoUploadDialog } from '@/components/VideoUpload/VideoUploadDialog';
 import type { Video, VideoStatus } from '@/types/video';
 
 function statusColor(status: VideoStatus): 'warning' | 'info' | 'success' | 'error' | 'default' {
@@ -34,12 +38,14 @@ function statusColor(status: VideoStatus): 'warning' | 'info' | 'success' | 'err
 const PAGE_SIZE = 20;
 
 export default function VideosPage() {
-  const [videos, setVideos]     = useState<Video[]>([]);
-  const [total, setTotal]       = useState(0);
-  const [page, setPage]         = useState(0);
-  const [search, setSearch]     = useState('');
-  const [loading, setLoading]   = useState(true);
-  const [error, setError]       = useState<string | null>(null);
+  const router = useRouter();
+  const [videos, setVideos]         = useState<Video[]>([]);
+  const [total, setTotal]           = useState(0);
+  const [page, setPage]             = useState(0);
+  const [search, setSearch]         = useState('');
+  const [loading, setLoading]       = useState(true);
+  const [error, setError]           = useState<string | null>(null);
+  const [uploadOpen, setUploadOpen] = useState(false);
 
   const load = useCallback((p: number, q: string) => {
     setLoading(true);
@@ -62,11 +68,24 @@ export default function VideosPage() {
     setPage(0);
   };
 
+  const handleUploaded = (videoId: string) => {
+    router.push(`/videos/${videoId}`);
+  };
+
   return (
     <Box>
-      <Typography variant="h5" fontWeight={700} gutterBottom>
-        Videos
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+        <Typography variant="h5" fontWeight={700}>
+          Videos
+        </Typography>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => setUploadOpen(true)}
+        >
+          Upload Video
+        </Button>
+      </Box>
 
       <Box sx={{ mb: 2 }}>
         <TextField
@@ -78,6 +97,12 @@ export default function VideosPage() {
           placeholder="title, category…"
         />
       </Box>
+
+      <VideoUploadDialog
+        open={uploadOpen}
+        onClose={() => setUploadOpen(false)}
+        onUploaded={handleUploaded}
+      />
 
       {error && <Alert severity="warning" sx={{ mb: 2 }}>Backend unavailable — {error}</Alert>}
 

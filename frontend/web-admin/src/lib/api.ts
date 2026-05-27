@@ -31,7 +31,7 @@ export async function fetchVideos(
   if (params.search) qs.set('search', params.search);
   if (params.status) qs.set('status', params.status);
   const query = qs.toString() ? `?${qs}` : '';
-  return apiFetch<PaginatedVideos>(`${GATEWAY}/api/v1/catalog/${query}`, {
+  return apiFetch<PaginatedVideos>(`${GATEWAY}/api/v1/videos/${query}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
@@ -79,5 +79,83 @@ export async function fetchUsers(
 export async function fetchUser(token: string, userId: string): Promise<User> {
   return apiFetch<User>(`${GATEWAY}/api/v1/users/${userId}`, {
     headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+// ── Upload ────────────────────────────────────────────────────────────────────
+
+export interface UploadInitPayload {
+  title: string;
+  description?: string;
+  category?: string;
+  age_rating?: string;
+  tags?: string[];
+  file_size_bytes: number;
+}
+
+export interface PresignedPart {
+  part_number: number;
+  url: string;
+}
+
+export interface UploadInitResponse {
+  video_id: string;
+  upload_id: string;
+  s3_upload_id: string;
+  presigned_parts: PresignedPart[];
+  total_parts: number;
+}
+
+export interface PartEtag {
+  part_number: number;
+  etag: string;
+}
+
+export async function initUpload(
+  token: string,
+  payload: UploadInitPayload,
+): Promise<UploadInitResponse> {
+  return apiFetch<UploadInitResponse>(`${GATEWAY}/api/v1/videos/upload/init/`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function completeUpload(
+  token: string,
+  upload_id: string,
+  part_etags: PartEtag[],
+): Promise<{ video_id: string }> {
+  return apiFetch<{ video_id: string }>(`${GATEWAY}/api/v1/videos/upload/complete/`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ upload_id, part_etags }),
+  });
+}
+
+export async function uploadPartToS3(
+  presignedUrl: string,
+  chunk: Blob,
+  onProgress?: (loaded: number, total: number) => void,
+): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', presignedUrl);
+    if (onProgress) {
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) onProgress(e.loaded, e.total);
+      };
+    }
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const etag = xhr.getResponseHeader('ETag') ?? '';
+        resolve(etag.replace(/"/g, ''));
+      } else {
+        reject(new Error(`Part upload failed: ${xhr.status}`));
+      }
+    };
+    xhr.onerror = () => reject(new Error('Network error during part upload'));
+    xhr.send(chunk);
   });
 }

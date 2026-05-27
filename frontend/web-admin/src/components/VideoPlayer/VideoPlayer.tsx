@@ -31,13 +31,11 @@ export function VideoPlayer({ videoId, onProgress }: VideoPlayerProps) {
 
     async function init() {
       try {
-        const manifestRes = await fetch(`/api/stream/${videoId}/manifest`);
-        if (!manifestRes.ok) throw new Error(`Manifest fetch failed: ${manifestRes.status}`);
-        const manifestText = await manifestRes.text();
+        const manifestUrl = `/api/stream/${videoId}/manifest`;
 
-        const blobUrl = URL.createObjectURL(
-          new Blob([manifestText], { type: 'application/vnd.apple.mpegurl' }),
-        );
+        // Probe availability before handing to hls.js
+        const probe = await fetch(manifestUrl);
+        if (!probe.ok) throw new Error(`Manifest fetch failed: ${probe.status}`);
 
         const resumeRes = await fetch(`/api/stream/${videoId}/resume`);
         const { position = 0 } = resumeRes.ok ? await resumeRes.json() : {};
@@ -49,7 +47,7 @@ export function VideoPlayer({ videoId, onProgress }: VideoPlayerProps) {
         if (Hls.isSupported()) {
           const hls = new Hls({ maxBufferLength: 30, enableWorker: true });
           hlsRef.current = hls;
-          hls.loadSource(blobUrl);
+          hls.loadSource(manifestUrl);
           hls.attachMedia(video);
           hls.on(Hls.Events.MANIFEST_PARSED, (_, data) => {
             if (cancelled) return;
@@ -62,7 +60,7 @@ export function VideoPlayer({ videoId, onProgress }: VideoPlayerProps) {
             if (data.fatal) setError('Playback error — please refresh.');
           });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          video.src = blobUrl;
+          video.src = manifestUrl;
           video.currentTime = position as number;
           video.play().catch(() => {});
         } else {
