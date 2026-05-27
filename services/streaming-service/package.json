@@ -1,0 +1,36 @@
+{
+  "name": "streaming-service",
+  "version": "1.0.0",
+  "description": "HLS manifest serving, quality gating, and watch position for the video streaming platform",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.798.0",
+    "@aws-sdk/s3-request-presigner": "^3.798.0",
+    "@fastify/jwt": "^9.1.0",
+    "fastify": "^5.3.3",
+    "ioredis": "^5.6.1",
+    "kafkajs": "^2.2.4",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "eslint": "^9.27.0",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.9"
+  }
+}

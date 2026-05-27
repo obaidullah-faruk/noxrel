@@ -34,6 +34,7 @@ A cloud-native, event-driven video streaming platform built as a microservices m
 | Traefik dashboard | 8081 |
 | user-service | 8000 |
 | video-service | 8001 |
+| streaming-service | 3002 |
 
 ## Quick Start
 
@@ -137,7 +138,7 @@ Use sparingly — CI runs the same checks and will catch any bypass.
 | user-service | ✅ implemented | [services/user-service/README.md](services/user-service/README.md) |
 | video-service | ✅ implemented | [services/video-service/README.md](services/video-service/README.md) |
 | transcode-worker | ✅ implemented | [services/transcode-worker/README.md](services/transcode-worker/README.md) |
-| streaming-service | planned | — |
+| streaming-service | ✅ implemented | [services/streaming-service/README.md](services/streaming-service/README.md) |
 | live-service | planned | — |
 | social-service | planned | — |
 | billing-service | planned | — |
