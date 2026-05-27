@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 
+from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.request import Request
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -62,3 +63,21 @@ class JWTVerifyOnlyAuthentication(JWTAuthentication):
             raise AuthenticationFailed(str(exc)) from exc  # 401, not silent
 
         return self.get_user(validated_token), validated_token
+
+
+class GatewayHeaderAuthentication(BaseAuthentication):
+    """
+    Authenticates requests using headers injected by the API gateway.
+
+    Only enabled in test_settings — production always goes through the JWT path.
+    Headers: X-User-Id, X-User-Roles (comma-separated), X-User-Permissions (comma-separated).
+    """
+
+    def authenticate(self, request: Request):
+        user_id = request.META.get("HTTP_X_USER_ID")
+        if not user_id:
+            return None
+        roles = [r for r in request.META.get("HTTP_X_USER_ROLES", "").split(",") if r]
+        permissions = [p for p in request.META.get("HTTP_X_USER_PERMISSIONS", "").split(",") if p]
+        user = JWTUser(id=user_id, roles=roles, permissions=permissions)
+        return user, None
