@@ -6,54 +6,67 @@ from rest_framework.views import APIView
 
 logger = structlog.get_logger(__name__)
 
-# Header names forwarded by the API Gateway after JWT validation
-HEADER_USER_ID = "HTTP_X_USER_ID"
-HEADER_ROLES = "HTTP_X_USER_ROLES"
-HEADER_PERMISSIONS = "HTTP_X_USER_PERMISSIONS"
+HEADER_INTERNAL_KEY = "HTTP_X_INTERNAL_KEY"
 
 
-def get_gateway_user_id(request: Request) -> str | None:
-    """Extract user_id forwarded by API Gateway."""
-    return request.META.get(HEADER_USER_ID)
+class IsJWTAuthenticated(BasePermission):
+    """Allow any request that carries a valid, verified JWT."""
+
+    def has_permission(self, request: Request, view: APIView) -> bool:
+        return bool(request.user and request.user.is_authenticated)
 
 
-def get_gateway_permissions(request: Request) -> list[str]:
-    """Extract comma-separated permissions forwarded by API Gateway."""
-    raw = request.META.get(HEADER_PERMISSIONS, "")
-    return [p.strip() for p in raw.split(",") if p.strip()]
+class IsAdminJWT(BasePermission):
+    """Allow only JWT bearers whose token claims include the admin or superadmin role."""
+
+    def has_permission(self, request: Request, view: APIView) -> bool:
+        user = request.user
+        if not (user and user.is_authenticated):
+            return False
+        has_role = getattr(user, "has_role", None)
+        if not callable(has_role):
+            return False
+        return user.has_role("admin", "superadmin")
 
 
-class HasGatewayPermission(BasePermission):
+class RequirePermission(BasePermission):
     """
-    Checks permission forwarded in X-User-Permissions header by the API Gateway.
-    Usage: permission_classes = [require_permission("video:watch")]
+    Checks that the JWT bearer has a specific permission claim.
+
+    Subclass or use the `require_permission` factory — do not instantiate directly.
     """
 
     required_permission: str = ""
 
     def has_permission(self, request: Request, view: APIView) -> bool:
-        user_id = get_gateway_user_id(request)
-        if not user_id:
+        user = request.user
+        if not (user and user.is_authenticated):
             return False
-        permissions = get_gateway_permissions(request)
-        allowed = self.required_permission in permissions
+        has_permission = getattr(user, "has_permission", None)
+        if not callable(has_permission):
+            return False
+        allowed = user.has_permission(self.required_permission)
         if not allowed:
-            logger.warning("rbac_denied", user_id=user_id, required=self.required_permission)
+            logger.warning(
+                "rbac_denied",
+                user_id=getattr(user, "id", None),
+                required=self.required_permission,
+            )
         return allowed
 
 
 def require_permission(permission: str) -> type:
-    """Factory returning a HasGatewayPermission subclass for a specific permission."""
+    """Factory: returns a RequirePermission subclass locked to `permission`."""
     return type(
-        f"HasPermission_{permission.replace(':', '_')}",
-        (HasGatewayPermission,),
+        f"RequirePermission_{permission.replace(':', '_')}",
+        (RequirePermission,),
         {"required_permission": permission},
     )
 
 
 class IsInternalCall(BasePermission):
-    """Allow requests from internal services (no JWT, just X-Internal-Key header)."""
+    """Allow requests from internal services identified by X-Internal-Key header."""
 
     def has_permission(self, request: Request, view: APIView) -> bool:
-        key = request.headers.get("X-Internal-Key", "")
-        return key == getattr(settings, "INTERNAL_API_KEY", "")
+        key = request.META.get(HEADER_INTERNAL_KEY, "")
+        return bool(key and key == getattr(settings, "INTERNAL_API_KEY", ""))

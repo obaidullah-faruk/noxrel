@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from core.kafka import publish
-from core.permissions import get_gateway_user_id, require_permission
+from core.permissions import IsJWTAuthenticated, require_permission
 from videos.models import TranscodeJob, Video
 
 from . import s3
@@ -25,10 +25,10 @@ class UploadInitView(APIView):
     Returns: { upload_id, video_id, presigned_parts: [{part_number, url}] }
     """
 
-    permission_classes = [require_permission("video:upload")]
+    permission_classes = [IsJWTAuthenticated, require_permission("video:upload")]
 
     def post(self, request: Request) -> Response:
-        user_id = get_gateway_user_id(request)
+        user_id = str(request.user.id)
         file_size_bytes = request.data.get("file_size_bytes")
         title = request.data.get("title", "").strip()
 
@@ -105,7 +105,7 @@ class UploadCompleteView(APIView):
     Returns: { video_id }
     """
 
-    permission_classes = [require_permission("video:upload")]
+    permission_classes = [IsJWTAuthenticated, require_permission("video:upload")]
 
     def post(self, request: Request) -> Response:
         upload_id = request.data.get("upload_id")

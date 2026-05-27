@@ -7,10 +7,10 @@ urlpatterns = [
     path("health/", include("core.urls")),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path("docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
-    # App routes
-    path("videos/upload/", include("uploaders.urls")),
-    path("videos/", include("videos.urls")),
-    path("catalog/", include("catalog.urls")),
-    # Internal — called by other services
+    # App routes — prefixed with api/v1/ to match Kong proxy paths
+    path("api/v1/videos/upload/", include("uploaders.urls")),
+    path("api/v1/videos/", include("videos.urls")),
+    path("api/v1/catalog/", include("catalog.urls")),
+    # Internal — called by other services (no gateway, no prefix)
     path("internal/", include("videos.internal_urls")),
 ]
