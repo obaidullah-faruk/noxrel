@@ -1,8 +1,9 @@
 import structlog
 from django.contrib.auth import get_user_model
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import generics, status
 from rest_framework.exceptions import NotFound
+from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -20,6 +21,24 @@ from .serializers import (
 
 User = get_user_model()
 logger = structlog.get_logger(__name__)
+
+
+@extend_schema(tags=["Admin — Users"])
+class AdminUserListView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated, IsAdminRole]
+    serializer_class = AdminUserDetailSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ["username", "email", "display_name"]
+
+    def get_queryset(self):
+        return User.objects.select_related("profile").order_by("-created_at")
+
+    @extend_schema(
+        summary="[Admin] List all users with optional search",
+        parameters=[OpenApiParameter("search", str, description="Filter by username, email, or display name")],
+    )
+    def get(self, request: Request, *args, **kwargs) -> Response:
+        return super().get(request, *args, **kwargs)
 
 
 @extend_schema(tags=["Users"])
