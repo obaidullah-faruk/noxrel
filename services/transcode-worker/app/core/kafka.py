@@ -59,6 +59,11 @@ def make_consumer(topics: list[str]) -> Consumer:
             "group.id": config.KAFKA_CONSUMER_GROUP,
             "auto.offset.reset": "earliest",
             "enable.auto.commit": False,
+            # Transcode jobs can take >5 min for 4K. Give 2 hours before
+            # Kafka considers the consumer dead and triggers rebalance.
+            "max.poll.interval.ms": 7_200_000,
+            "session.timeout.ms": 60_000,
+            "heartbeat.interval.ms": 20_000,
         }
     )
     consumer.subscribe(topics)

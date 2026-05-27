@@ -100,8 +100,22 @@ services:
       sh -c "
         uv run python manage.py collectstatic --noinput &&
         uv run python manage.py migrate --noinput &&
+        uv run python manage.py consume_transcode_events &
         uv run gunicorn config.wsgi:application --bind 0.0.0.0:8001 --workers 4 --timeout 60 --access-logfile -
       "
+    restart: unless-stopped
+
+  transcode-worker:
+    build:
+      context: ../services/transcode-worker
+      dockerfile: Dockerfile
+    env_file:
+      - ../services/transcode-worker/.env
+    depends_on:
+      kafka:
+        condition: service_healthy
+      localstack:
+        condition: service_healthy
     restart: unless-stopped
 
   streaming-service:

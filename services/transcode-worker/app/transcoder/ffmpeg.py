@@ -24,8 +24,6 @@ def transcode_hls(input_path: Path, output_dir: Path, profile: QualityProfile) -
     """Transcode input to HLS for a single quality profile. Returns path to the index.m3u8."""
     quality_dir = output_dir / profile.name
     quality_dir.mkdir(parents=True, exist_ok=True)
-    segments_dir = quality_dir / "segments"
-    segments_dir.mkdir(exist_ok=True)
 
     manifest = quality_dir / "index.m3u8"
     maxrate = profile.video_bitrate
@@ -61,7 +59,7 @@ def transcode_hls(input_path: Path, output_dir: Path, profile: QualityProfile) -
         "-hls_playlist_type",
         "vod",
         "-hls_segment_filename",
-        str(segments_dir / "%03d.ts"),
+        str(quality_dir / "%03d.ts"),
         "-hls_flags",
         "independent_segments",
         str(manifest),
