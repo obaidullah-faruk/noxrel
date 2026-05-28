@@ -21,7 +21,8 @@ awslocal s3api put-bucket-cors --bucket transcoded-videos --cors-configuration '
     "AllowedOrigins": ["http://localhost:3000", "http://localhost:3001"],
     "AllowedMethods": ["GET","HEAD"],
     "AllowedHeaders": ["*"],
-    "MaxAgeSeconds": 3000
+    "ExposeHeaders": ["ETag"],
+    "MaxAgeSeconds": 3600
   }]
 }'
 

@@ -1,31 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from '@/lib/auth';
+import { streamingHeaders, STREAMING_SERVICE_URL } from '@/lib/streaming';
 
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ videoId: string }> },
 ) {
   const { videoId } = await params;
 
-  const session = await getServerSession();
-  const authHeader = session
-    ? `Bearer ${session.accessToken}`
-    : req.headers.get('Authorization') ?? '';
+  const upstream = await fetch(
+    `${STREAMING_SERVICE_URL}/api/v1/stream/${videoId}/manifest`,
+    { headers: await streamingHeaders() },
+  );
 
-  const streamingUrl = process.env.STREAMING_SERVICE_URL ?? 'http://localhost:3002';
-
-  const upstream = await fetch(`${streamingUrl}/stream/${videoId}/manifest`, {
-    headers: {
-      Authorization: authHeader,
-      'x-user-id':   session?.userId ?? 'admin',
-      'x-user-tier': 'admin',
-      'x-request-id': req.headers.get('x-request-id') ?? crypto.randomUUID(),
-    },
-  });
+  if (!upstream.ok) {
+    const body = await upstream.text();
+    return new NextResponse(body, {
+      status: upstream.status,
+      headers: { 'Content-Type': upstream.headers.get('Content-Type') ?? 'application/json' },
+    });
+  }
 
   const text = await upstream.text();
   return new NextResponse(text, {
-    status: upstream.status,
-    headers: { 'Content-Type': 'application/vnd.apple.mpegurl' },
+    status: 200,
+    headers: { 'Content-Type': 'application/vnd.apple.mpegurl', 'Cache-Control': 'no-store' },
   });
 }

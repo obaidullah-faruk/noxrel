@@ -10,9 +10,10 @@ import CircularProgress from '@mui/material/CircularProgress';
 interface VideoPlayerProps {
   videoId: string;
   onProgress?: (positionSeconds: number) => void;
+  initialBandwidthEstimate?: number;
 }
 
-export function VideoPlayer({ videoId, onProgress }: VideoPlayerProps) {
+export function VideoPlayer({ videoId, onProgress, initialBandwidthEstimate }: VideoPlayerProps) {
   const videoRef     = useRef<HTMLVideoElement>(null);
   const hlsRef       = useRef<Hls | null>(null);
   const heartbeatRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -33,10 +34,6 @@ export function VideoPlayer({ videoId, onProgress }: VideoPlayerProps) {
       try {
         const manifestUrl = `/api/stream/${videoId}/manifest`;
 
-        // Probe availability before handing to hls.js
-        const probe = await fetch(manifestUrl);
-        if (!probe.ok) throw new Error(`Manifest fetch failed: ${probe.status}`);
-
         const resumeRes = await fetch(`/api/stream/${videoId}/resume`);
         const { position = 0 } = resumeRes.ok ? await resumeRes.json() : {};
 
@@ -45,7 +42,11 @@ export function VideoPlayer({ videoId, onProgress }: VideoPlayerProps) {
         setLoading(false);
 
         if (Hls.isSupported()) {
-          const hls = new Hls({ maxBufferLength: 30, enableWorker: true });
+          const hlsConfig: Partial<Hls['config']> = { maxBufferLength: 30, enableWorker: true };
+          if (initialBandwidthEstimate !== undefined) {
+            (hlsConfig as Record<string, unknown>).abrEwmaDefaultEstimate = initialBandwidthEstimate;
+          }
+          const hls = new Hls(hlsConfig);
           hlsRef.current = hls;
           hls.loadSource(manifestUrl);
           hls.attachMedia(video);
@@ -128,7 +129,7 @@ export function VideoPlayer({ videoId, onProgress }: VideoPlayerProps) {
               variant={currentLevel === i ? 'contained' : 'outlined'}
               onClick={() => setQuality(i)}
             >
-              {level.height}p
+              {level.height > 0 ? `${level.height}p` : `Q${i + 1}`}
             </Button>
           ))}
         </ButtonGroup>

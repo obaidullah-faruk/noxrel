@@ -1,21 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from '@/lib/auth';
+import { streamingHeaders, STREAMING_SERVICE_URL } from '@/lib/streaming';
 
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ videoId: string }> },
 ) {
   const { videoId } = await params;
-  const session = await getServerSession();
-  const streamingUrl = process.env.STREAMING_SERVICE_URL ?? 'http://localhost:3002';
 
-  const upstream = await fetch(`${streamingUrl}/stream/${videoId}/resume`, {
-    headers: {
-      'x-user-id':   session?.userId ?? 'admin',
-      'x-user-tier': 'admin',
-    },
-  });
+  const upstream = await fetch(
+    `${STREAMING_SERVICE_URL}/api/v1/stream/${videoId}/resume`,
+    { headers: await streamingHeaders() },
+  );
+
+  if (!upstream.ok) {
+    return NextResponse.json({ position: 0 }, { status: 200 });
+  }
 
   const json = await upstream.json();
-  return NextResponse.json(json, { status: upstream.status });
+  return NextResponse.json(json, { status: 200 });
 }

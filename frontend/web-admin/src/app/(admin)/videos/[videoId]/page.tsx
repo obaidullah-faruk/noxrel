@@ -147,10 +147,15 @@ export default function VideoDetailPage({ params }: { params: Promise<{ videoId:
           <Card>
             <CardContent>
               <Typography variant="subtitle1" fontWeight={600} gutterBottom>
-                Preview (admin — 4K quality)
+                Preview
+                {video.available_qualities.length > 0 && (
+                  <Typography component="span" variant="caption" color="text.secondary" sx={{ ml: 1 }}>
+                    ({video.available_qualities.join(', ')})
+                  </Typography>
+                )}
               </Typography>
               {video.status === 'ready' ? (
-                <VideoPlayer videoId={video.id} />
+                <VideoPlayer videoId={video.id} initialBandwidthEstimate={50_000_000} />
               ) : (
                 <Alert severity="info">
                   Video is not ready for playback yet (status: {video.status})
