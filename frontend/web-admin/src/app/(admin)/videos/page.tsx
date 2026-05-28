@@ -6,23 +6,18 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
+import Card from '@mui/material/Card';
 import { alpha, useTheme } from '@mui/material/styles';
+import { DataGrid, type GridColDef, type GridPaginationModel } from '@mui/x-data-grid';
 import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import VideoFileRoundedIcon from '@mui/icons-material/VideoFileRounded';
 import { fetchVideos } from '@/lib/api';
 import { getToken } from '@/lib/auth-client';
 import { VideoUploadDialog } from '@/components/VideoUpload/VideoUploadDialog';
-import { PaginatedTable } from '@/components/DataTable/PaginatedTable';
 import type { Video, VideoStatus } from '@/types/video';
 
 const DEFAULT_PAGE_SIZE = 20;
@@ -72,19 +67,44 @@ function StatusBadge({ status }: { status: VideoStatus | string }) {
   );
 }
 
+function PublishedBadge({ published }: { published: boolean }) {
+  return (
+    <Box
+      sx={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        px: 1,
+        py: 0.25,
+        borderRadius: 1.5,
+        bgcolor: published ? 'rgba(16,185,129,0.1)' : 'rgba(100,116,139,0.08)',
+      }}
+    >
+      <Typography
+        variant="caption"
+        sx={{
+          fontWeight: 600,
+          color: published ? '#10B981' : 'text.secondary',
+          fontSize: '0.72rem',
+        }}
+      >
+        {published ? 'Live' : 'Draft'}
+      </Typography>
+    </Box>
+  );
+}
+
 function VideosPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const theme = useTheme();
-  const isDark = theme.palette.mode === 'dark';
 
   const rawPage     = Number(searchParams.get('page') ?? '0');
   const rawPageSize = Number(searchParams.get('page_size') ?? String(DEFAULT_PAGE_SIZE));
   const page     = Number.isFinite(rawPage) && rawPage >= 0 ? rawPage : 0;
-  const pageSize = VALID_PAGE_SIZES.includes(rawPageSize as typeof VALID_PAGE_SIZES[number])
+  const pageSize = VALID_PAGE_SIZES.includes(rawPageSize as (typeof VALID_PAGE_SIZES)[number])
     ? rawPageSize
     : DEFAULT_PAGE_SIZE;
-  const search   = searchParams.get('search') ?? '';
+  const search = searchParams.get('search') ?? '';
 
   const [videos, setVideos]         = useState<Video[]>([]);
   const [total, setTotal]           = useState(0);
@@ -103,6 +123,10 @@ function VideosPageInner() {
     const q = e.target.value;
     if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
     searchDebounceRef.current = setTimeout(() => navigate(0, pageSize, q), SEARCH_DEBOUNCE_MS);
+  }
+
+  function handlePaginationChange(model: GridPaginationModel) {
+    navigate(model.page, model.pageSize, search);
   }
 
   const load = useCallback((p: number, ps: number, q: string) => {
@@ -125,6 +149,85 @@ function VideosPageInner() {
     router.push(`/videos/${videoId}`);
   };
 
+  const columns: GridColDef<Video>[] = [
+    {
+      field: 'title',
+      headerName: 'Title',
+      flex: 2,
+      minWidth: 200,
+      renderCell: ({ value }) => (
+        <Typography variant="body2" sx={{ fontWeight: 500 }} noWrap>
+          {value || '(untitled)'}
+        </Typography>
+      ),
+    },
+    {
+      field: 'status',
+      headerName: 'Status',
+      width: 130,
+      renderCell: ({ value }) => <StatusBadge status={value} />,
+    },
+    {
+      field: 'category',
+      headerName: 'Category',
+      width: 140,
+      renderCell: ({ value }) => (
+        <Typography variant="body2" color="text.secondary">
+          {value || '—'}
+        </Typography>
+      ),
+    },
+    {
+      field: 'view_count',
+      headerName: 'Views',
+      width: 100,
+      align: 'right',
+      headerAlign: 'right',
+      type: 'number',
+      renderCell: ({ value }) => (
+        <Typography variant="body2" sx={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}>
+          {(value as number).toLocaleString()}
+        </Typography>
+      ),
+    },
+    {
+      field: 'is_published',
+      headerName: 'Published',
+      width: 110,
+      renderCell: ({ value }) => <PublishedBadge published={Boolean(value)} />,
+    },
+    {
+      field: 'created_at',
+      headerName: 'Created',
+      width: 140,
+      renderCell: ({ value }) => (
+        <Typography variant="body2" color="text.secondary">
+          {new Date(value as string).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+        </Typography>
+      ),
+    },
+    {
+      field: 'actions',
+      headerName: '',
+      width: 56,
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: ({ row }) => (
+        <IconButton
+          size="small"
+          component={Link}
+          href={`/videos/${row.id}`}
+          sx={{
+            color: 'text.secondary',
+            '&:hover': { color: 'primary.main', bgcolor: alpha(theme.palette.primary.main, 0.08) },
+          }}
+        >
+          <OpenInNewRoundedIcon sx={{ fontSize: 16 }} />
+        </IconButton>
+      ),
+    },
+  ];
+
   return (
     <Box>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
@@ -142,9 +245,7 @@ function VideosPageInner() {
           onClick={() => setUploadOpen(true)}
           sx={{
             background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-            '&:hover': {
-              background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
-            },
+            '&:hover': { background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)' },
           }}
         >
           Upload Video
@@ -183,125 +284,45 @@ function VideosPageInner() {
         </Alert>
       )}
 
-      <PaginatedTable
-        count={total}
-        page={page}
-        pageSize={pageSize}
-        onPageChange={(p) => navigate(p, pageSize, search)}
-        onPageSizeChange={(ps) => navigate(0, ps, search)}
-      >
-        <TableHead>
-          <TableRow>
-            <TableCell>Title</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Category</TableCell>
-            <TableCell align="right">Views</TableCell>
-            <TableCell>Published</TableCell>
-            <TableCell>Created</TableCell>
-            <TableCell align="right" sx={{ width: 52 }} />
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {loading && (
-            <TableRow>
-              <TableCell colSpan={7}>
-                <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
-                  <CircularProgress size={28} thickness={3} />
-                </Box>
-              </TableCell>
-            </TableRow>
-          )}
-          {!loading && videos.length === 0 && (
-            <TableRow>
-              <TableCell colSpan={7}>
-                <Box sx={{ textAlign: 'center', py: 6 }}>
-                  <VideoFileRoundedIcon sx={{ fontSize: 48, color: 'text.secondary', opacity: 0.3, mb: 1.5 }} />
-                  <Typography variant="body1" color="text.secondary" gutterBottom>
-                    No videos found
-                  </Typography>
-                  {search && (
-                    <Typography variant="body2" color="text.secondary">
-                      Try adjusting your search
-                    </Typography>
-                  )}
-                </Box>
-              </TableCell>
-            </TableRow>
-          )}
-          {!loading && videos.map(v => (
-            <TableRow key={v.id}>
-              <TableCell
-                sx={{
-                  maxWidth: 260,
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  fontWeight: 500,
-                }}
-              >
-                {v.title || '(untitled)'}
-              </TableCell>
-              <TableCell>
-                <StatusBadge status={v.status} />
-              </TableCell>
-              <TableCell>
-                <Typography variant="body2" color="text.secondary">
-                  {v.category || '—'}
-                </Typography>
-              </TableCell>
-              <TableCell align="right">
-                <Typography variant="body2" sx={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}>
-                  {v.view_count.toLocaleString()}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Box
-                  sx={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    px: 1,
-                    py: 0.25,
-                    borderRadius: 1.5,
-                    bgcolor: v.is_published ? 'rgba(16,185,129,0.1)' : isDark ? 'rgba(148,163,184,0.1)' : 'rgba(100,116,139,0.08)',
-                  }}
-                >
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      fontWeight: 600,
-                      color: v.is_published ? '#10B981' : 'text.secondary',
-                      fontSize: '0.72rem',
-                    }}
-                  >
-                    {v.is_published ? 'Live' : 'Draft'}
-                  </Typography>
-                </Box>
-              </TableCell>
-              <TableCell>
-                <Typography variant="body2" color="text.secondary">
-                  {new Date(v.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                </Typography>
-              </TableCell>
-              <TableCell align="right">
-                <IconButton
-                  size="small"
-                  component={Link}
-                  href={`/videos/${v.id}`}
-                  sx={{
-                    color: 'text.secondary',
-                    '&:hover': {
-                      color: 'primary.main',
-                      bgcolor: alpha(theme.palette.primary.main, 0.08),
-                    },
-                  }}
-                >
-                  <OpenInNewRoundedIcon sx={{ fontSize: 16 }} />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </PaginatedTable>
+      <Card sx={{ borderRadius: 2 }}>
+        <DataGrid
+          rows={videos}
+          columns={columns}
+          loading={loading}
+          rowCount={total}
+          paginationMode="server"
+          paginationModel={{ page, pageSize }}
+          onPaginationModelChange={handlePaginationChange}
+          pageSizeOptions={VALID_PAGE_SIZES}
+          disableRowSelectionOnClick
+          autoHeight
+          sx={{
+            border: 'none',
+            '--DataGrid-overlayHeight': '300px',
+            '& .MuiDataGrid-columnHeaders': {
+              bgcolor: theme.palette.mode === 'dark' ? alpha('#94A3B8', 0.04) : '#F8FAFC',
+              borderBottom: `1px solid ${theme.palette.mode === 'dark' ? alpha('#94A3B8', 0.1) : '#E2E8F0'}`,
+            },
+            '& .MuiDataGrid-columnHeaderTitle': {
+              fontWeight: 600,
+              fontSize: '0.75rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+              color: 'text.secondary',
+            },
+            '& .MuiDataGrid-cell': {
+              borderColor: theme.palette.mode === 'dark' ? alpha('#94A3B8', 0.06) : '#F1F5F9',
+              alignItems: 'center',
+            },
+            '& .MuiDataGrid-row:hover': {
+              bgcolor: theme.palette.mode === 'dark' ? alpha('#6366F1', 0.06) : alpha('#6366F1', 0.03),
+            },
+            '& .MuiDataGrid-footerContainer': {
+              borderTop: `1px solid ${theme.palette.mode === 'dark' ? alpha('#94A3B8', 0.08) : '#F1F5F9'}`,
+            },
+          }}
+        />
+      </Card>
     </Box>
   );
 }
