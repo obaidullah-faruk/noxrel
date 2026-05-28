@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { decodePayload, secondsUntilExpiry, setTokenCookies } from '@/lib/jwt-cookies';
 
 const GATEWAY = process.env.API_GATEWAY_URL ?? 'http://localhost:8100';
 
@@ -23,20 +24,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ detail: 'Cannot reach auth service.' }, { status: 502 });
   }
 
-  const res = NextResponse.json({ ok: true });
+  // Decode once — reuse for both userId and maxAge.
+  const accessPayload = decodePayload(data.access);
+  const userId = accessPayload.user_id ?? accessPayload.sub ?? '';
 
-  // httpOnly so JS cannot read it — middleware reads it server-side
-  res.cookies.set('admin_access_token', data.access, {
+  const res = NextResponse.json({ ok: true });
+  setTokenCookies(res, data);
+  res.cookies.set('admin_user_id', userId, {
     httpOnly: true,
     sameSite: 'lax',
     path: '/',
-    maxAge: 60 * 15, // 15 min — matches JWT lifetime
-  });
-  res.cookies.set('admin_refresh_token', data.refresh, {
-    httpOnly: true,
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 60 * 60 * 24 * 30, // 30 days
+    maxAge: secondsUntilExpiry(data.refresh, 60 * 60 * 24 * 30),
   });
 
   return res;

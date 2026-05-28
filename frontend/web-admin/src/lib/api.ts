@@ -5,7 +5,33 @@ import type { PaginatedUsers, User } from '@/types/user';
 // Kong routes /api/v1/* to the appropriate upstream service.
 const GATEWAY = process.env.NEXT_PUBLIC_API_GATEWAY_URL ?? 'http://localhost:8100';
 
-async function apiFetch<T>(url: string, options: RequestInit = {}): Promise<T> {
+// Single in-flight refresh promise shared across all concurrent callers.
+// Prevents thundering-herd token rotation burns when multiple requests expire simultaneously.
+let refreshInFlight: Promise<string | null> | null = null;
+
+async function silentRefresh(): Promise<string | null> {
+  if (refreshInFlight) return refreshInFlight;
+
+  refreshInFlight = fetch('/api/auth/refresh', { method: 'POST', cache: 'no-store' })
+    .then(async res => {
+      if (!res.ok) return null;
+      const body = await res.json() as { token?: string };
+      return body.token ?? null;
+    })
+    .catch(() => null)
+    .finally(() => { refreshInFlight = null; });
+
+  return refreshInFlight;
+}
+
+function redirectToLogin(): never {
+  if (typeof window !== 'undefined') {
+    window.location.href = `/login?next=${encodeURIComponent(window.location.pathname)}`;
+  }
+  throw new Error('Session expired.');
+}
+
+async function apiFetch<T>(url: string, options: RequestInit = {}, retry = true): Promise<T> {
   const res = await fetch(url, {
     ...options,
     headers: {
@@ -13,6 +39,23 @@ async function apiFetch<T>(url: string, options: RequestInit = {}): Promise<T> {
       ...options.headers,
     },
   });
+
+  // On 401, attempt one silent token refresh then replay the original request.
+  if (res.status === 401 && retry) {
+    const newToken = await silentRefresh();
+    if (!newToken) {
+      redirectToLogin();
+    }
+    return apiFetch<T>(url, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+        Authorization: `Bearer ${newToken}`,
+      },
+    }, false);
+  }
+
   if (!res.ok) {
     const text = await res.text().catch(() => res.statusText);
     throw new Error(`${res.status}: ${text}`);
