@@ -4,11 +4,11 @@ from django.utils import timezone
 from rest_framework import status
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import get_object_or_404
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from core.pagination import StandardPageNumberPagination
 from core.permissions import IsAdminJWT, IsJWTAuthenticated
 
 from .models import Video
@@ -30,8 +30,7 @@ class AdminVideoListView(APIView):
         if status_filter := request.query_params.get("status"):
             qs = qs.filter(status=status_filter)
 
-        paginator = PageNumberPagination()
-        paginator.page_size = 20
+        paginator = StandardPageNumberPagination()
         page = paginator.paginate_queryset(qs, request)
         return paginator.get_paginated_response(VideoSerializer(page, many=True).data)
 

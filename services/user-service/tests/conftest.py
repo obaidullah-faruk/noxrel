@@ -5,6 +5,7 @@ from rest_framework.test import APIClient
 
 from auth_api import views as auth_views
 from auth_api.tokens import UserRefreshToken
+from core import views as core_views
 from roles.models import Role, UserRole
 
 User = get_user_model()
@@ -25,6 +26,9 @@ def disable_throttling(settings, monkeypatch):
     }
     monkeypatch.setattr(auth_views.RegisterView, "throttle_classes", [])
     monkeypatch.setattr(auth_views.LoginView, "throttle_classes", [])
+    monkeypatch.setattr(auth_views.RefreshView, "throttle_classes", [])
+    monkeypatch.setattr(auth_views.LogoutView, "throttle_classes", [])
+    monkeypatch.setattr(core_views.HealthCheckView, "throttle_classes", [])
 
 
 @pytest.fixture

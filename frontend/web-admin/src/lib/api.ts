@@ -67,12 +67,13 @@ async function apiFetch<T>(url: string, options: RequestInit = {}, retry = true)
 
 export async function fetchVideos(
   token: string,
-  params: { page?: number; search?: string; status?: string } = {},
+  params: { page?: number; page_size?: number; search?: string; status?: string } = {},
 ): Promise<PaginatedVideos> {
   const qs = new URLSearchParams();
-  if (params.page)   qs.set('page', String(params.page));
-  if (params.search) qs.set('search', params.search);
-  if (params.status) qs.set('status', params.status);
+  if (params.page)      qs.set('page', String(params.page));
+  if (params.page_size) qs.set('page_size', String(params.page_size));
+  if (params.search)    qs.set('search', params.search);
+  if (params.status)    qs.set('status', params.status);
   const query = qs.toString() ? `?${qs}` : '';
   return apiFetch<PaginatedVideos>(`${GATEWAY}/api/v1/videos/${query}`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -108,11 +109,12 @@ export async function publishVideo(token: string, videoId: string): Promise<void
 
 export async function fetchUsers(
   token: string,
-  params: { page?: number; search?: string } = {},
+  params: { page?: number; page_size?: number; search?: string } = {},
 ): Promise<PaginatedUsers> {
   const qs = new URLSearchParams();
-  if (params.page)   qs.set('page', String(params.page));
-  if (params.search) qs.set('search', params.search);
+  if (params.page)      qs.set('page', String(params.page));
+  if (params.page_size) qs.set('page_size', String(params.page_size));
+  if (params.search)    qs.set('search', params.search);
   const query = qs.toString() ? `?${qs}` : '';
   return apiFetch<PaginatedUsers>(`${GATEWAY}/api/v1/users${query}`, {
     headers: { Authorization: `Bearer ${token}` },

@@ -25,6 +25,7 @@ class RoleListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated, IsAdminRole]
     serializer_class = RoleSerializer
     queryset = Role.objects.prefetch_related("permissions").all()
+    pagination_class = None
 
     @extend_schema(summary="[Admin] List all roles")
     def get(self, request: Request, *args, **kwargs) -> Response:
@@ -89,6 +90,7 @@ class PermissionListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated, IsAdminRole]
     serializer_class = PermissionSerializer
     queryset = Permission.objects.all()
+    pagination_class = None
 
     @extend_schema(summary="[Admin] List all permissions")
     def get(self, request: Request, *args, **kwargs) -> Response:

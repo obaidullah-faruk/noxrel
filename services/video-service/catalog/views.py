@@ -1,9 +1,9 @@
 import structlog
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from core.pagination import StandardPageNumberPagination
 from core.permissions import IsJWTAuthenticated, require_permission
 from videos.models import Video
 from videos.serializers import VideoSerializer
@@ -28,8 +28,7 @@ class VideoListView(APIView):
         if tag := request.query_params.get("tag"):
             qs = qs.filter(tags__contains=[tag])
 
-        paginator = PageNumberPagination()
-        paginator.page_size = 20
+        paginator = StandardPageNumberPagination()
         page = paginator.paginate_queryset(qs, request)
         return paginator.get_paginated_response(VideoSerializer(page, many=True).data)
 
