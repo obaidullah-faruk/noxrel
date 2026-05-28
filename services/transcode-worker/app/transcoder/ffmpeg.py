@@ -119,25 +119,47 @@ def extract_sprite(input_path: Path, output_dir: Path) -> Path:
     return sprite
 
 
-def probe_duration(input_path: Path) -> float | None:
-    """Return video duration in seconds using ffprobe, or None on failure."""
+def probe_video_info(input_path: Path) -> tuple[float | None, int | None]:
+    """Return (duration_seconds, height_px) from a single ffprobe call.
+
+    Either value is None when ffprobe cannot parse it.
+    """
     cmd = [
         "ffprobe",
         "-v",
         "error",
+        "-select_streams",
+        "v:0",
         "-show_entries",
-        "format=duration",
+        "format=duration:stream=height",
         "-of",
         "default=noprint_wrappers=1:nokey=1",
         str(input_path),
     ]
     result = subprocess.run(cmd, capture_output=True, text=True)
-    if result.returncode == 0:
-        try:
-            return float(result.stdout.strip())
-        except ValueError:
-            pass
-    return None
+    if result.returncode != 0:
+        return None, None
+
+    # ffprobe outputs stream entries before format entries.
+    # Height is always an integer; duration is always a float with a decimal point.
+    # Parse by type rather than position to be order-independent.
+    duration: float | None = None
+    height: int | None = None
+    for v in result.stdout.strip().splitlines():
+        v = v.strip()
+        if not v or v == "N/A":
+            continue
+        if "." in v:
+            try:
+                duration = float(v)
+            except ValueError:
+                pass
+        else:
+            try:
+                height = int(v)
+            except ValueError:
+                pass
+    return duration, height
 
 
 def _double_bitrate(bitrate: str) -> str:

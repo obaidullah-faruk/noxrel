@@ -21,7 +21,7 @@ SAMPLE_EVENT = {
 @patch("app.transcoder.pipeline.ffmpeg.extract_thumbnail")
 @patch("app.transcoder.pipeline.ffmpeg.write_master_manifest")
 @patch("app.transcoder.pipeline.ffmpeg.transcode_hls")
-@patch("app.transcoder.pipeline.ffmpeg.probe_duration", return_value=120.5)
+@patch("app.transcoder.pipeline.ffmpeg.probe_video_info", return_value=(120.5, 1080))
 @patch("app.transcoder.pipeline.s3.download_file")
 def test_run_happy_path(
     mock_download,
@@ -40,7 +40,8 @@ def test_run_happy_path(
 
     mock_download.assert_called_once()
     mock_probe.assert_called_once()
-    assert mock_hls.call_count == 5  # one per quality profile
+    # 1080p source → 240p, 480p, 720p, 1080p (4 profiles, not 4K)
+    assert mock_hls.call_count == 4
     mock_manifest.assert_called_once()
     mock_thumb.assert_called_once()
     mock_sprite.assert_called_once()
@@ -51,13 +52,50 @@ def test_run_happy_path(
     assert published_payload["video_id"] == SAMPLE_EVENT["video_id"]
     assert published_payload["duration_seconds"] == 120.5
     assert "240p" in published_payload["available_qualities"]
+    assert "4K" not in published_payload["available_qualities"]
     mock_flush.assert_called_once()
 
 
 @patch("app.transcoder.pipeline.kafka.flush")
 @patch("app.transcoder.pipeline.kafka.publish")
+@patch("app.transcoder.pipeline.s3.upload_directory", return_value=["vid/master.m3u8"])
+@patch("app.transcoder.pipeline.ffmpeg.extract_sprite")
+@patch("app.transcoder.pipeline.ffmpeg.extract_thumbnail")
+@patch("app.transcoder.pipeline.ffmpeg.write_master_manifest")
+@patch("app.transcoder.pipeline.ffmpeg.transcode_hls")
+@patch("app.transcoder.pipeline.ffmpeg.probe_video_info", return_value=(60.0, 720))
+@patch("app.transcoder.pipeline.s3.download_file")
+def test_720p_source_excludes_higher_profiles(
+    mock_download,
+    mock_probe,
+    mock_hls,
+    mock_manifest,
+    mock_thumb,
+    mock_sprite,
+    mock_upload_dir,
+    mock_publish,
+    mock_flush,
+):
+    from app.transcoder.pipeline import run
+
+    run(SAMPLE_EVENT)
+
+    # 720p source → 240p, 480p, 720p only
+    assert mock_hls.call_count == 3
+    published_payload = mock_publish.call_args[1]["payload"]
+    qualities = published_payload["available_qualities"]
+    assert "240p" in qualities
+    assert "480p" in qualities
+    assert "720p" in qualities
+    assert "1080p" not in qualities
+    assert "4K" not in qualities
+
+
+@patch("app.transcoder.pipeline.kafka.flush")
+@patch("app.transcoder.pipeline.kafka.publish")
+@patch("app.transcoder.pipeline.ffmpeg.probe_video_info", return_value=(None, None))
 @patch("app.transcoder.pipeline.s3.download_file", side_effect=Exception("S3 error"))
-def test_run_with_retry_publishes_failure(mock_download, mock_publish, mock_flush):
+def test_run_with_retry_publishes_failure(mock_download, mock_probe, mock_publish, mock_flush):
     from app.transcoder.pipeline import run_with_retry
 
     with pytest.raises(Exception, match="S3 error"):
@@ -78,7 +116,7 @@ def test_run_with_retry_publishes_failure(mock_download, mock_publish, mock_flus
 @patch("app.transcoder.pipeline.ffmpeg.extract_thumbnail")
 @patch("app.transcoder.pipeline.ffmpeg.write_master_manifest")
 @patch("app.transcoder.pipeline.ffmpeg.transcode_hls")
-@patch("app.transcoder.pipeline.ffmpeg.probe_duration", return_value=60.0)
+@patch("app.transcoder.pipeline.ffmpeg.probe_video_info", return_value=(60.0, 1080))
 @patch("app.transcoder.pipeline.s3.download_file")
 def test_thumbnail_failure_does_not_abort_pipeline(
     mock_download,

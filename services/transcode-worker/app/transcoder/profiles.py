@@ -19,3 +19,16 @@ QUALITY_PROFILES: list[QualityProfile] = [
     QualityProfile("1080p", 1920, 1080, "5000k", "192k", 5_000_000, "avc1.640028,mp4a.40.2"),
     QualityProfile("4K", 3840, 2160, "15000k", "192k", 15_000_000, "avc1.640033,mp4a.40.2"),
 ]
+
+
+def select_profiles(source_height: int | None) -> list[QualityProfile]:
+    """Return profiles whose height does not exceed source_height.
+
+    Never returns an empty list — falls back to the lowest profile when
+    source_height is unknown or below the minimum profile height.
+    """
+    if source_height is None:
+        return list(QUALITY_PROFILES)
+
+    eligible = [p for p in QUALITY_PROFILES if p.height <= source_height]
+    return eligible if eligible else [QUALITY_PROFILES[0]]

@@ -5,8 +5,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from app.transcoder.ffmpeg import _double_bitrate, write_master_manifest
-from app.transcoder.profiles import QUALITY_PROFILES
+from app.transcoder.ffmpeg import _double_bitrate, probe_video_info, write_master_manifest
+from app.transcoder.profiles import QUALITY_PROFILES, select_profiles
 
 
 class TestDoubleBitrate:
@@ -76,17 +76,54 @@ class TestTranscodeHLS:
             transcode_hls(input_path, tmp_path / "output", profile)
 
 
-class TestProbeDuration:
+class TestProbeVideoInfo:
     @patch("app.transcoder.ffmpeg.subprocess.run")
-    def test_returns_float(self, mock_run):
-        mock_run.return_value = MagicMock(returncode=0, stdout="123.45\n")
-        from app.transcoder.ffmpeg import probe_duration
-
-        assert probe_duration(Path("fake.mp4")) == pytest.approx(123.45)
+    def test_returns_duration_and_height(self, mock_run):
+        mock_run.return_value = MagicMock(returncode=0, stdout="1080\n120.5\n")
+        duration, height = probe_video_info(Path("fake.mp4"))
+        assert height == 1080
+        assert duration == pytest.approx(120.5)
 
     @patch("app.transcoder.ffmpeg.subprocess.run")
-    def test_returns_none_on_failure(self, mock_run):
+    def test_returns_nones_on_ffprobe_failure(self, mock_run):
         mock_run.return_value = MagicMock(returncode=1, stdout="")
-        from app.transcoder.ffmpeg import probe_duration
+        duration, height = probe_video_info(Path("fake.mp4"))
+        assert duration is None
+        assert height is None
 
-        assert probe_duration(Path("fake.mp4")) is None
+    @patch("app.transcoder.ffmpeg.subprocess.run")
+    def test_tolerates_na_values(self, mock_run):
+        mock_run.return_value = MagicMock(returncode=0, stdout="N/A\nN/A\n")
+        duration, height = probe_video_info(Path("fake.mp4"))
+        assert duration is None
+        assert height is None
+
+
+class TestSelectProfiles:
+    def test_480p_source_excludes_higher(self):
+        profiles = select_profiles(480)
+        names = [p.name for p in profiles]
+        assert names == ["240p", "480p"]
+
+    def test_720p_source(self):
+        profiles = select_profiles(720)
+        names = [p.name for p in profiles]
+        assert names == ["240p", "480p", "720p"]
+
+    def test_1080p_source(self):
+        profiles = select_profiles(1080)
+        names = [p.name for p in profiles]
+        assert names == ["240p", "480p", "720p", "1080p"]
+
+    def test_4k_source_includes_all(self):
+        profiles = select_profiles(2160)
+        assert len(profiles) == len(QUALITY_PROFILES)
+
+    def test_none_source_returns_all(self):
+        profiles = select_profiles(None)
+        assert profiles == QUALITY_PROFILES
+
+    def test_very_low_resolution_falls_back_to_minimum(self):
+        profiles = select_profiles(100)
+        assert len(profiles) == 1
+        assert profiles[0].name == "240p"

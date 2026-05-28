@@ -8,7 +8,7 @@ from tenacity import retry, stop_after_attempt, wait_exponential
 
 from app.core import config, kafka, s3
 from app.transcoder import ffmpeg
-from app.transcoder.profiles import QUALITY_PROFILES
+from app.transcoder.profiles import select_profiles
 
 logger = structlog.get_logger(__name__)
 
@@ -33,11 +33,14 @@ def run(event: dict) -> None:
 
         _download_raw(raw_bucket, raw_key, input_path, log)
 
-        duration = ffmpeg.probe_duration(input_path)
-        log.info("video_probed", duration_seconds=duration)
+        duration, source_height = ffmpeg.probe_video_info(input_path)
+        log.info("video_probed", duration_seconds=duration, source_height=source_height)
 
-        _transcode_all_profiles(input_path, output_dir, log)
-        ffmpeg.write_master_manifest(output_dir, QUALITY_PROFILES)
+        profiles = select_profiles(source_height)
+        log.info("profiles_selected", profiles=[p.name for p in profiles])
+
+        _transcode_all_profiles(input_path, output_dir, profiles, log)
+        ffmpeg.write_master_manifest(output_dir, profiles)
 
         _extract_thumbnails(input_path, thumb_dir, log)
 
@@ -55,7 +58,7 @@ def run(event: dict) -> None:
     sprite_key = f"{video_id}/thumbnails/sprite.jpg"
     sprite_url = s3.public_url(config.S3_TRANSCODED_BUCKET, sprite_key)
 
-    available_qualities = [p.name for p in QUALITY_PROFILES]
+    available_qualities = [p.name for p in profiles]
 
     kafka.publish(
         topic=config.KAFKA_TOPIC_VIDEO_TRANSCODED,
@@ -114,8 +117,8 @@ def _download_raw(bucket: str, key: str, dest: Path, log) -> None:  # noqa: ANN0
     s3.download_file(bucket, key, dest)
 
 
-def _transcode_all_profiles(input_path: Path, output_dir: Path, log) -> None:  # noqa: ANN001
-    for profile in QUALITY_PROFILES:
+def _transcode_all_profiles(input_path: Path, output_dir: Path, profiles: list, log) -> None:  # noqa: ANN001
+    for profile in profiles:
         log.info("transcoding_profile", profile=profile.name)
         ffmpeg.transcode_hls(input_path, output_dir, profile)
         log.info("profile_done", profile=profile.name)
