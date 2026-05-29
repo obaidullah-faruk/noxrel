@@ -31,7 +31,7 @@ A cloud-native, event-driven video streaming platform built as a microservices m
 | Kafka | 9092 | |
 | Kafka UI | 8080 | |
 | LocalStack (AWS) | 4566 | S3, SQS, SNS, SSM, Secrets Manager |
-| Traefik dashboard | 8081 | |
+| Kong admin | 8101 | Kong config/status |
 | **Kong proxy** | **8100** | **All API traffic goes here** |
 | Kong admin | 8101 | Status, route inspection |
 | user-service | 8000 | Direct access (bypasses Kong) |
