@@ -259,7 +259,7 @@ export default function VideoDetailPage({ params }: { params: Promise<{ videoId:
 
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
                 <MetaStat icon={<RemoveRedEyeRoundedIcon sx={{ fontSize: 15 }} />} label="Views" value={video.view_count.toLocaleString()} />
-                <MetaStat icon={<AccessTimeRoundedIcon sx={{ fontSize: 15 }} />} label="Duration" value={video.duration_seconds ? `${Math.round(video.duration_seconds / 60)}m ${video.duration_seconds % 60}s` : 'N/A'} />
+                <MetaStat icon={<AccessTimeRoundedIcon sx={{ fontSize: 15 }} />} label="Duration" value={video.duration_seconds ? `${Math.floor(video.duration_seconds / 60)}m ${Math.floor(video.duration_seconds % 60)}s` : 'N/A'} />
                 <MetaStat icon={<CalendarTodayRoundedIcon sx={{ fontSize: 15 }} />} label="Created" value={new Date(video.created_at).toLocaleString()} />
               </Box>
             </CardContent>

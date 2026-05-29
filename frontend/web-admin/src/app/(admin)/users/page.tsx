@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useRef, useState, Suspense } from 'react';
+import { useCallback, useEffect, useRef, useState, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Box from '@mui/material/Box';
@@ -91,7 +91,7 @@ function UsersPageInner() {
 
   useEffect(() => { load(page, pageSize, search); }, [load, page, pageSize, search]);
 
-  const columns: GridColDef<User>[] = [
+  const columns = useMemo<GridColDef<User>[]>(() => [
     {
       field: 'display_name',
       headerName: 'User',
@@ -207,7 +207,8 @@ function UsersPageInner() {
         </IconButton>
       ),
     },
-  ];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ], [theme, isDark]);
 
   return (
     <Box>

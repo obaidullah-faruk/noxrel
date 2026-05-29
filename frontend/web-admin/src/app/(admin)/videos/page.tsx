@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useState, useRef, Suspense } from 'react';
+import { useCallback, useEffect, useState, useRef, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Box from '@mui/material/Box';
@@ -149,7 +149,7 @@ function VideosPageInner() {
     router.push(`/videos/${videoId}`);
   };
 
-  const columns: GridColDef<Video>[] = [
+  const columns = useMemo<GridColDef<Video>[]>(() => [
     {
       field: 'title',
       headerName: 'Title',
@@ -226,7 +226,8 @@ function VideosPageInner() {
         </IconButton>
       ),
     },
-  ];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ], [theme]);
 
   return (
     <Box>
