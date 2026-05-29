@@ -166,7 +166,7 @@ Use sparingly — CI runs the same checks and will catch any bypass.
 | search-service | planned | — |
 | notification-service | planned | — |
 | ai-service | planned | — |
-| web-user | planned | — |
+| web-user | ✅ implemented | [frontend/web-user/README.md](frontend/web-user/README.md) |
 
 ## Repository Layout
 

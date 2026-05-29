@@ -30,6 +30,7 @@ node_modules/
 .next/
 .nuxt/
 out/
+*.tsbuildinfo
 
 # Test & lint caches
 .pytest_cache/
