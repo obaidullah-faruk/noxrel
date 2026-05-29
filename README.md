@@ -1,4 +1,4 @@
-# Video Streaming Platform
+# Noxrel: Video Streaming Platform
 
 A cloud-native, event-driven video streaming platform built as a microservices monorepo.
 
@@ -55,6 +55,26 @@ make install-hooks
 
 This installs [pre-commit](https://pre-commit.com/) hooks that run automatically on every `git commit`. You only need to do this once per clone.
 
+### Environment files
+
+Each service and frontend ships an `.env.example`. Copy it to the appropriate local file before starting anything:
+
+```bash
+# Backend services (copy to .env)
+cp services/user-service/.env.example      services/user-service/.env
+cp services/video-service/.env.example     services/video-service/.env
+cp services/transcode-worker/.env.example  services/transcode-worker/.env
+cp services/streaming-service/.env.example services/streaming-service/.env
+
+# Frontends (copy to .env.local)
+cp frontend/web-user/.env.example  frontend/web-user/.env.local
+cp frontend/web-admin/.env.example frontend/web-admin/.env.local
+```
+
+Edit each file to fill in secrets (JWT keys, etc.) before the first run.
+
+
+
 ### Start infrastructure
 
 ```bash
@@ -66,6 +86,14 @@ make infra-up
 ```bash
 make up
 ```
+
+### Install frontend dependencies
+
+```bash
+make frontend-install
+```
+
+This runs `npm install` for both `web-user` and `web-admin`. Run once after cloning, and again after pulling changes that add or update frontend packages.
 
 ### Stop
 
