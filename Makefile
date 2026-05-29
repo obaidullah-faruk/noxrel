@@ -1,4 +1,4 @@
-.PHONY: up down logs ps infra-up infra-down install-hooks lint
+.PHONY: up down logs ps infra-up infra-down install-hooks lint frontend-install frontend-dev frontend-build
 
 # Start infrastructure + all services
 up:
@@ -33,3 +33,18 @@ install-hooks:
 # Run all linters across the repo manually
 lint:
 	pre-commit run --all-files
+
+# Install frontend dependencies (run once after cloning)
+frontend-install:
+	cd frontend/web-user && npm install
+	cd frontend/web-admin && npm install
+
+# Start both frontends in dev mode (web-user: 3000, web-admin: 3001)
+frontend-dev:
+	cd frontend/web-user && npm run dev &
+	cd frontend/web-admin && npm run dev
+
+# Build both frontends for production
+frontend-build:
+	cd frontend/web-user && npm run build
+	cd frontend/web-admin && npm run build
