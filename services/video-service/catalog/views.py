@@ -1,4 +1,7 @@
+import uuid
+
 import structlog
+from django.shortcuts import get_object_or_404
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,6 +16,16 @@ logger = structlog.get_logger(__name__)
 _PUBLISHED_BASE = dict(status=Video.STATUS_READY, is_published=True, deleted_at__isnull=True)
 
 _CanWatch = require_permission("video:watch")
+
+
+class VideoDetailView(APIView):
+    """GET /api/v1/catalog/<video_id>/ — single published video."""
+
+    permission_classes = [IsJWTAuthenticated, _CanWatch]
+
+    def get(self, request: Request, video_id: uuid.UUID) -> Response:
+        video = get_object_or_404(Video, id=video_id, **_PUBLISHED_BASE)
+        return Response(VideoSerializer(video).data)
 
 
 class VideoListView(APIView):
@@ -48,9 +61,7 @@ class RelatedVideoView(APIView):
 
     permission_classes = [IsJWTAuthenticated, _CanWatch]
 
-    def get(self, request: Request, video_id: str) -> Response:
-        from django.shortcuts import get_object_or_404
-
+    def get(self, request: Request, video_id: uuid.UUID) -> Response:
         video = get_object_or_404(Video, id=video_id, deleted_at__isnull=True)
         qs = (
             Video.objects.filter(**_PUBLISHED_BASE, category=video.category)

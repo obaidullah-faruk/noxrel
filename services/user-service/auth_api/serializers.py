@@ -1,12 +1,14 @@
 import structlog
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
+from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from accounts.models import UserProfile
+from roles.models import Role, UserRole
 
 from .tokens import UserRefreshToken
 
@@ -28,13 +30,21 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data: dict) -> User:
-        user = User.objects.create_user(
-            email=validated_data["email"],
-            username=validated_data["username"],
-            display_name=validated_data.get("display_name", ""),
-            password=validated_data["password"],
-        )
-        UserProfile.objects.create(user=user)
+        with transaction.atomic():
+            user = User.objects.create_user(
+                email=validated_data["email"],
+                username=validated_data["username"],
+                display_name=validated_data.get("display_name", ""),
+                password=validated_data["password"],
+            )
+            UserProfile.objects.create(user=user)
+
+            try:
+                free_trial_role = Role.objects.get(name="free_trial")
+                UserRole.objects.create(user=user, role=free_trial_role)
+            except Role.DoesNotExist:
+                logger.warning("free_trial_role_missing", user_id=str(user.id))
+
         logger.info("user_registered", user_id=str(user.id), email=user.email)
         return user
 
