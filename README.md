@@ -213,3 +213,7 @@ docs/              # Architecture docs and per-phase implementation guides
 - Config via environment variables — never commit secrets.
 - DB migrations: Alembic (FastAPI), Django migrations (Django).
 - Cross-service async communication via Kafka; every consumer has a DLQ.
+
+## License
+
+MIT License — see [LICENSE](LICENSE) for details.
