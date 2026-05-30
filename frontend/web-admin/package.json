@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3001",
+    "dev": "NODE_OPTIONS=\"--require ./scripts/silence-dep0205.cjs\" next dev --port 3001",
     "build": "next build",
     "start": "next start --port 3001",
     "lint": "eslint"
@@ -17,7 +17,7 @@
     "@mui/material": "^6.5.0",
     "@mui/x-data-grid": "^7.29.13",
     "hls.js": "^1.6.16",
-    "next": "16.2.6",
+    "next": "^15.3.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.76.1",
@@ -31,7 +31,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.6",
+    "eslint-config-next": "^15.3.9",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
