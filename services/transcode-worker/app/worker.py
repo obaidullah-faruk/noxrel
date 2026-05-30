@@ -54,7 +54,7 @@ def main() -> None:
 
                 with tracer.start_as_current_span(
                     "transcode_job",
-                    attributes={"video_id": video_id, "kafka.topic": msg.topic()},
+                    attributes={"video_id": str(video_id), "kafka.topic": str(msg.topic())},
                 ):
                     run_with_retry(event)
 
