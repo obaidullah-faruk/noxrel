@@ -22,6 +22,8 @@ CLOUDFRONT_BASE_URL: str = config("CLOUDFRONT_BASE_URL", default="")
 DEBUG: bool = config("DEBUG", default=False, cast=bool)
 LOG_LEVEL: str = config("LOG_LEVEL", default="INFO")
 SERVICE_NAME: str = "transcode-worker"
+OTEL_EXPORTER_OTLP_ENDPOINT: str = config("OTEL_EXPORTER_OTLP_ENDPOINT", default="http://otel-collector:4317")
+LIVENESS_FILE: str = config("LIVENESS_FILE", default="/tmp/worker_alive")
 
 FFMPEG_PRESET: str = config("FFMPEG_PRESET", default="fast")
 FFMPEG_CRF: int = config("FFMPEG_CRF", default=23, cast=int)

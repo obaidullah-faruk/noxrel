@@ -2,16 +2,21 @@
 
 import json
 import signal
+from pathlib import Path
 
 import structlog
 from confluent_kafka import KafkaError
+from opentelemetry import trace
 
 from app.core import config, kafka
 from app.core.logging import configure
+from app.core.telemetry import setup_telemetry
 from app.transcoder.pipeline import run_with_retry
 
 configure()
+setup_telemetry()
 logger = structlog.get_logger(__name__)
+tracer = trace.get_tracer(config.SERVICE_NAME)
 
 _running = True
 
@@ -47,9 +52,14 @@ def main() -> None:
                 video_id = event.get("video_id", "?")
                 logger.info("event_received", video_id=video_id, topic=msg.topic(), partition=msg.partition())
 
-                run_with_retry(event)
+                with tracer.start_as_current_span(
+                    "transcode_job",
+                    attributes={"video_id": video_id, "kafka.topic": msg.topic()},
+                ):
+                    run_with_retry(event)
 
                 consumer.commit(message=msg)
+                Path(config.LIVENESS_FILE).touch()
                 logger.info("event_committed", video_id=video_id)
 
             except Exception as exc:

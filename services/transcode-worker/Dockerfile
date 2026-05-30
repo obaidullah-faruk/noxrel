@@ -19,8 +19,8 @@ FROM base AS production
 RUN uv sync --frozen --no-dev
 COPY . .
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-    CMD pgrep -f "python.*worker" || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+    CMD test -f /tmp/worker_alive || exit 1
 
 CMD ["uv", "run", "python", "-m", "app.worker"]
 
