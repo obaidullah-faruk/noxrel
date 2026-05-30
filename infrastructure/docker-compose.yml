@@ -31,6 +31,8 @@ services:
       - "8000:8000"
     env_file:
       - ../services/user-service/.env
+    volumes:
+      - ../services/user-service:/app
     depends_on:
       postgres:
         condition: service_healthy
@@ -50,6 +52,7 @@ services:
         tag: user-service
     command: >
       sh -c "
+        uv sync --frozen --no-dev &&
         uv run python manage.py collectstatic --noinput &&
         uv run python manage.py migrate --noinput &&
         uv run python manage.py seed_rbac &&
@@ -87,6 +90,8 @@ services:
       - "8001:8001"
     env_file:
       - ../services/video-service/.env
+    volumes:
+      - ../services/video-service:/app
     depends_on:
       postgres:
         condition: service_healthy
@@ -110,6 +115,7 @@ services:
         tag: video-service
     command: >
       sh -c "
+        uv sync --frozen --no-dev &&
         uv run python manage.py collectstatic --noinput &&
         uv run python manage.py migrate --noinput &&
         uv run python manage.py consume_transcode_events &
@@ -124,6 +130,13 @@ services:
       target: production
     env_file:
       - ../services/transcode-worker/.env
+    volumes:
+      - ../services/transcode-worker:/app
+    command: >
+      sh -c "
+        uv sync --frozen --no-dev &&
+        uv run python -m app.worker
+      "
     depends_on:
       kafka:
         condition: service_healthy
@@ -145,6 +158,9 @@ services:
       - "3002:3002"
     env_file:
       - ../services/streaming-service/.env
+    volumes:
+      - ../services/streaming-service/src:/app/src
+    command: ["node_modules/.bin/tsx", "--import", "src/instrumentation.ts", "watch", "src/index.ts"]
     depends_on:
       redis:
         condition: service_healthy
