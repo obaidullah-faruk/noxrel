@@ -38,8 +38,15 @@ async function apiFetch<T>(url: string, options: RequestInit = {}, retry = true)
     }, false);
   }
   if (!res.ok) {
-    const text = await res.text().catch(() => res.statusText);
-    throw new Error(`${res.status}: ${text}`);
+    const contentType = res.headers.get('content-type') ?? '';
+    let message: string;
+    if (contentType.includes('application/json')) {
+      const body = await res.json().catch(() => ({})) as Record<string, unknown>;
+      message = (body.detail as string) ?? (body.message as string) ?? res.statusText;
+    } else {
+      message = res.statusText || `Request failed`;
+    }
+    throw new Error(`${res.status}: ${message}`);
   }
   return res.json() as Promise<T>;
 }

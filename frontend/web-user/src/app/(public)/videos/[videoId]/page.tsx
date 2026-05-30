@@ -49,7 +49,8 @@ export default function VideoWatchPage({ params }: { params: Promise<{ videoId: 
       if (videoRes.status === 'fulfilled') {
         setVideo(videoRes.value);
       } else {
-        setError(String(videoRes.reason));
+        const msg = String(videoRes.reason);
+        setError(msg.startsWith('404:') ? 'This video is no longer available.' : 'Failed to load video. Please try again.');
       }
       if (relatedRes.status === 'fulfilled') {
         setRelated(relatedRes.value.results.filter((v: Video) => v.id !== videoId).slice(0, 6));
