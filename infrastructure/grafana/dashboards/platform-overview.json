@@ -1,0 +1,309 @@
+{
+  "title": "Platform Overview",
+  "uid": "platform-overview",
+  "schemaVersion": 38,
+  "version": 2,
+  "refresh": "30s",
+  "time": { "from": "now-1h", "to": "now" },
+  "tags": ["platform"],
+  "panels": [
+    {
+      "type": "row",
+      "title": "Row 1: Health",
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 1 },
+      "collapsed": false,
+      "id": 100
+    },
+    {
+      "type": "stat",
+      "title": "Error Rate (5xx/min)",
+      "id": 1,
+      "gridPos": { "x": 0, "y": 1, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "sum(rate(http_requests_total{status=~\"5..\"}[5m])) * 60",
+          "legendFormat": "5xx/min"
+        }
+      ],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background" },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 1 },
+              { "color": "red", "value": 5 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "p50 Latency (ms)",
+      "id": 2,
+      "gridPos": { "x": 6, "y": 1, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "histogram_quantile(0.50, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) * 1000",
+          "legendFormat": "p50"
+        }
+      ],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": { "defaults": { "unit": "ms" } }
+    },
+    {
+      "type": "stat",
+      "title": "p95 Latency (ms)",
+      "id": 3,
+      "gridPos": { "x": 12, "y": 1, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) * 1000",
+          "legendFormat": "p95"
+        }
+      ],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 200 },
+              { "color": "red", "value": 500 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "p99 Latency (ms)",
+      "id": 4,
+      "gridPos": { "x": 18, "y": 1, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) * 1000",
+          "legendFormat": "p99"
+        }
+      ],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "fieldConfig": { "defaults": { "unit": "ms" } }
+    },
+    {
+      "type": "timeseries",
+      "title": "Request Rate by Service (req/s)",
+      "id": 5,
+      "gridPos": { "x": 0, "y": 5, "w": 12, "h": 5 },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "sum(rate(http_requests_total[5m])) by (service)",
+          "legendFormat": "{{ service }}"
+        }
+      ],
+      "fieldConfig": { "defaults": { "unit": "reqps" } }
+    },
+    {
+      "type": "timeseries",
+      "title": "Service Up",
+      "id": 6,
+      "gridPos": { "x": 12, "y": 5, "w": 12, "h": 5 },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "up{job=~\"user-service|video-service|streaming-service\"}",
+          "legendFormat": "{{ job }}"
+        }
+      ],
+      "fieldConfig": { "defaults": { "min": 0, "max": 1 } }
+    },
+    {
+      "type": "row",
+      "title": "Row 2: Video Pipeline",
+      "gridPos": { "x": 0, "y": 10, "w": 24, "h": 1 },
+      "collapsed": false,
+      "id": 101
+    },
+    {
+      "type": "stat",
+      "title": "Uploads / Hour",
+      "id": 10,
+      "gridPos": { "x": 0, "y": 11, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "sum(increase(http_requests_total{service=\"video-service\", route=~\".*upload/complete.*\", status=\"200\"}[1h]))",
+          "legendFormat": "uploads"
+        }
+      ],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] } }
+    },
+    {
+      "type": "stat",
+      "title": "Transcode Queue Depth (video.uploaded lag)",
+      "id": 11,
+      "gridPos": { "x": 6, "y": 11, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "sum(kafka_consumergroup_lag{topic=\"video.uploaded\"})",
+          "legendFormat": "queue depth"
+        }
+      ],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background" },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 10 },
+              { "color": "red", "value": 100 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "video-service Request Latency p95 (ms) by Route",
+      "id": 12,
+      "gridPos": { "x": 12, "y": 11, "w": 12, "h": 4 },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{service=\"video-service\"}[10m])) by (le, route)) * 1000",
+          "legendFormat": "{{ route }}"
+        }
+      ],
+      "fieldConfig": { "defaults": { "unit": "ms" } }
+    },
+    {
+      "type": "row",
+      "title": "Row 3: Streaming",
+      "gridPos": { "x": 0, "y": 15, "w": 24, "h": 1 },
+      "collapsed": false,
+      "id": 102
+    },
+    {
+      "type": "stat",
+      "title": "Active Connections (streaming)",
+      "id": 20,
+      "gridPos": { "x": 0, "y": 16, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "sum(active_connections{service=\"streaming-service\"})",
+          "legendFormat": "connections"
+        }
+      ],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] } }
+    },
+    {
+      "type": "timeseries",
+      "title": "Bandwidth Served (bytes/s) by Tier",
+      "id": 21,
+      "gridPos": { "x": 6, "y": 16, "w": 18, "h": 4 },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "sum(rate(bandwidth_bytes_total{service=\"streaming-service\"}[5m])) by (user_tier)",
+          "legendFormat": "{{ user_tier }}"
+        }
+      ],
+      "fieldConfig": { "defaults": { "unit": "Bps" } }
+    },
+    {
+      "type": "row",
+      "title": "Row 4: Business [DEFERRED — billing-service not yet implemented]",
+      "gridPos": { "x": 0, "y": 20, "w": 24, "h": 1 },
+      "collapsed": true,
+      "id": 103,
+      "panels": [
+        {
+          "type": "text",
+          "title": "Deferred",
+          "id": 30,
+          "gridPos": { "x": 0, "y": 21, "w": 24, "h": 3 },
+          "options": {
+            "content": "Business metrics (active trials, subscriptions, churn, failed payments) will be added when **billing-service** is implemented in Phase 07.",
+            "mode": "markdown"
+          }
+        }
+      ]
+    },
+    {
+      "type": "row",
+      "title": "Row 5: Infrastructure",
+      "gridPos": { "x": 0, "y": 21, "w": 24, "h": 1 },
+      "collapsed": false,
+      "id": 104
+    },
+    {
+      "type": "timeseries",
+      "title": "Kafka Consumer Lag by Topic",
+      "id": 40,
+      "gridPos": { "x": 0, "y": 22, "w": 12, "h": 5 },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "sum(kafka_consumergroup_lag) by (topic)",
+          "legendFormat": "{{ topic }}"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Redis Memory Usage",
+      "id": 41,
+      "gridPos": { "x": 12, "y": 22, "w": 12, "h": 5 },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "redis_memory_used_bytes / clamp_min(redis_memory_max_bytes, 1) * 100",
+          "legendFormat": "used %"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 70 },
+              { "color": "red", "value": 90 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "row",
+      "title": "Row 6: Live Streaming [DEFERRED — live-service not yet implemented]",
+      "gridPos": { "x": 0, "y": 27, "w": 24, "h": 1 },
+      "collapsed": true,
+      "id": 105,
+      "panels": [
+        {
+          "type": "text",
+          "title": "Deferred",
+          "id": 50,
+          "gridPos": { "x": 0, "y": 28, "w": 24, "h": 3 },
+          "options": {
+            "content": "Live streaming metrics (active viewers, RTMP sessions, segment latency) will be added when **live-service** is implemented in Phase 05.",
+            "mode": "markdown"
+          }
+        }
+      ]
+    }
+  ]
+}
