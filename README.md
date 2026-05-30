@@ -27,16 +27,54 @@ A cloud-native, event-driven video streaming platform built as a microservices m
 | PostgreSQL | 5432 | |
 | MongoDB | 27017 | |
 | Redis | 6379 | |
-| Elasticsearch | 9200 | |
+| Elasticsearch | 9200 | Log storage, APM data |
 | Kafka | 9092 | |
-| Kafka UI | 8080 | |
 | LocalStack (AWS) | 4566 | S3, SQS, SNS, SSM, Secrets Manager |
-| Kong admin | 8101 | Kong config/status |
+| OTel Collector | 4317 / 4318 | gRPC / HTTP — services send traces here |
+| APM Server | 8200 | Elastic APM — services send APM data here |
+| Fluent Bit | 24224 | Centralized log collector (fluentd protocol) |
+| Redis exporter | 9121 | Redis metrics for Prometheus |
+| Kafka exporter | 9308 | Kafka consumer-lag metrics for Prometheus |
 | **Kong proxy** | **8100** | **All API traffic goes here** |
 | Kong admin | 8101 | Status, route inspection |
 | user-service | 8000 | Direct access (bypasses Kong) |
 | video-service | 8001 | Direct access (bypasses Kong) |
 | streaming-service | 3002 | Direct access (bypasses Kong) |
+
+## Local UIs
+
+All browser-accessible endpoints in one place:
+
+| UI | URL | Credentials | Description |
+|---|---|---|---|
+| **web-user** | `http://localhost:3000` | — | Viewer-facing frontend |
+| **web-admin** | `http://localhost:3001` | — | Admin dashboard frontend |
+| **Kafka UI** | `http://localhost:8080` | — | Browse topics, messages, consumer groups |
+| **Jaeger** | `http://localhost:16686` | — | Distributed traces across services |
+| **Grafana** | `http://localhost:3003` | `admin` / `admin` | Platform Overview dashboard (auto-provisioned) |
+| **Kibana → Discover** | `http://localhost:5601` | — | Structured JSON logs, filterable by `trace_id` / `service` |
+| **Kibana → APM** | `http://localhost:5601/app/apm` | — | Latency, error rate, throughput per service |
+| **Prometheus** | `http://localhost:9090` | — | Raw metrics, ad-hoc PromQL queries |
+| **Kong admin** | `http://localhost:8101` | — | Inspect live routes and Kong config |
+| **user-service Django admin** | `http://localhost:8000/admin/` | `admin` / `admin1234` | Manage users, roles, permissions |
+| **video-service Django admin** | `http://localhost:8001/admin/` | *(create via manage.py)* | Manage video metadata |
+
+> **user-service admin credentials** are set by `DEV_ADMIN_EMAIL`, `DEV_ADMIN_USERNAME`, and `DEV_ADMIN_PASSWORD` in `services/user-service/.env`. Defaults from `.env.example`: username `admin`, password `admin1234`. Create the account once with:
+> ```bash
+> docker exec -it noxrel-user-service-1 python manage.py create_dev_admin
+> ```
+
+## Observability
+
+All four implemented services are instrumented with OpenTelemetry. Traces, logs, and metrics flow through a central collector.
+
+| What you see | Where |
+|---|---|
+| Distributed traces (follow a request across services) | Jaeger `http://localhost:16686` |
+| Platform health, video pipeline, streaming, infra metrics | Grafana `http://localhost:3003` |
+| Structured JSON logs, filter by `trace_id` / `service` | Kibana Discover `http://localhost:5601` |
+| Latency, error rate, throughput per service | Kibana APM `http://localhost:5601/app/apm` |
+| Raw PromQL queries | Prometheus `http://localhost:9090` |
 
 ## Quick Start
 
@@ -44,18 +82,19 @@ A cloud-native, event-driven video streaming platform built as a microservices m
 
 - Docker Desktop ≥ 4.x
 - `make`
+- Node.js ≥ 20 (for frontend development)
 - Python ≥ 3.12 (for pre-commit and service tooling)
 - AWS CLI (for LocalStack inspection): `brew install awscli`
 
-### First-time setup (after cloning)
+### 1. Install git hooks (once per clone)
 
 ```bash
 make install-hooks
 ```
 
-This installs [pre-commit](https://pre-commit.com/) hooks that run automatically on every `git commit`. You only need to do this once per clone.
+This installs [pre-commit](https://pre-commit.com/) hooks that run automatically on every `git commit`.
 
-### Environment files
+### 2. Copy environment files
 
 Each service and frontend ships an `.env.example`. Copy it to the appropriate local file before starting anything:
 
@@ -73,31 +112,31 @@ cp frontend/web-admin/.env.example frontend/web-admin/.env.local
 
 Edit each file to fill in secrets (JWT keys, etc.) before the first run.
 
-
-
-### Start infrastructure
-
-```bash
-make infra-up
-```
-
-### Start everything (infrastructure + all services + Kong)
+### 3. Start everything (infrastructure + all services + Kong)
 
 ```bash
 make up
 ```
 
-### Install frontend dependencies
+### 4. Install and start the frontends
 
 ```bash
+# Install npm dependencies (once after cloning, or after package changes)
 make frontend-install
+
+# Start both frontend dev servers (web-user: 3000, web-admin: 3001)
+make frontend-start
 ```
 
-This runs `npm install` for both `web-user` and `web-admin`. Run once after cloning, and again after pulling changes that add or update frontend packages.
+`frontend-start` is equivalent to `frontend-install` + `frontend-dev`. Use `make frontend-dev` to skip the install step on subsequent runs.
 
 ### Stop
 
 ```bash
+# Stop frontends
+make frontend-stop
+
+# Stop all backend services and infrastructure
 make down
 ```
 

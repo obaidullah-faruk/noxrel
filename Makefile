@@ -1,4 +1,4 @@
-.PHONY: up down logs ps infra-up infra-down install-hooks lint frontend-install frontend-dev frontend-build
+.PHONY: up down logs ps infra-up infra-down install-hooks lint frontend-install frontend-dev frontend-build frontend-start frontend-stop
 
 # Start infrastructure + all services
 up:
@@ -48,3 +48,11 @@ frontend-dev:
 frontend-build:
 	cd frontend/web-user && npm run build
 	cd frontend/web-admin && npm run build
+
+# Install deps and start both frontends in dev mode
+frontend-start: frontend-install frontend-dev
+
+# Kill both frontend dev servers
+frontend-stop:
+	@pkill -f "next dev" 2>/dev/null || true
+	@echo "Frontend dev servers stopped"
