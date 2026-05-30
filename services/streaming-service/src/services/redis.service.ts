@@ -31,6 +31,10 @@ export async function getPosition(
   return val !== null ? parseFloat(val) : 0;
 }
 
+export function getRedisClient(): Redis {
+  return redis;
+}
+
 export async function closeRedis(): Promise<void> {
   await redis.quit();
 }

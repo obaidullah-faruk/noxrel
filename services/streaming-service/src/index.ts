@@ -2,6 +2,7 @@ import Fastify from 'fastify';
 import { config } from './config.js';
 import { loggerConfig } from './core/logging.js';
 import { registerHealthRoute } from './core/health.js';
+import { registerMetrics } from './core/metrics.js';
 import { streamRoutes } from './routes/stream.routes.js';
 import { closeRedis } from './services/redis.service.js';
 import { closeKafka } from './services/kafka.service.js';
@@ -15,6 +16,9 @@ app.setErrorHandler(async (error: Error & { statusCode?: number }, _req, reply) 
     .status(error.statusCode ?? 500)
     .send({ error: error.message ?? 'Internal server error' });
 });
+
+// Metrics hooks must be registered before routes so they observe every request
+registerMetrics(app);
 
 // Routes
 registerHealthRoute(app);

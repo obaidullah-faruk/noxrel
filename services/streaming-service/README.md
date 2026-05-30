@@ -15,7 +15,7 @@ See [docs/phase-04-streaming.md](../../docs/phase-04-streaming.md) for the full 
 
 | Method | Path | Auth (headers) | Description |
 |--------|------|----------------|-------------|
-| `GET` | `/health` | none | Liveness probe → `{ status, service, ts }` |
+| `GET` | `/health` | none | Liveness probe → `{ status, service, checks: { redis, kafka } }` — 503 if any check fails |
 | `GET` | `/stream/:videoId/manifest` | `x-user-id`, `x-user-tier` | Returns quality-filtered `master.m3u8` text |
 | `POST` | `/stream/:videoId/heartbeat` | `x-user-id` | Body `{ position: number }` — saves watch position to Redis |
 | `GET` | `/stream/:videoId/resume` | `x-user-id` | Returns `{ position: number }` (0 if no history) |
@@ -92,6 +92,8 @@ npm run build
 | `JWT_PUBLIC_KEY` | — | RS256 PEM public key (matches `user-service`) |
 | `NODE_ENV` | `development` | `development` \| `test` \| `production` |
 | `LOG_LEVEL` | `info` | `trace` \| `debug` \| `info` \| `warn` \| `error` \| `fatal` |
+| `SERVICE_NAME` | `streaming-service` | Reported in traces and health response |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | `http://otel-collector:4317` | OTel Collector gRPC endpoint |
 
 ---
 

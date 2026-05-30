@@ -1,4 +1,4 @@
-import { Kafka, Producer, logLevel } from 'kafkajs';
+import { Admin, Kafka, Producer, logLevel } from 'kafkajs';
 import { config } from '../config.js';
 
 const kafka = new Kafka({
@@ -6,6 +6,15 @@ const kafka = new Kafka({
   brokers: config.KAFKA_BROKERS,
   logLevel: logLevel.WARN,
 });
+
+let admin: Admin | null = null;
+
+export function getKafkaAdmin(): Admin {
+  if (!admin) {
+    admin = kafka.admin();
+  }
+  return admin;
+}
 
 let producer: Producer | null = null;
 let connecting = false;
@@ -55,5 +64,9 @@ export async function closeKafka(): Promise<void> {
   if (producer) {
     await producer.disconnect();
     producer = null;
+  }
+  if (admin) {
+    await admin.disconnect();
+    admin = null;
   }
 }

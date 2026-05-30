@@ -17,4 +17,4 @@ COPY package.json .
 EXPOSE 3002
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=5 \
   CMD wget -qO- http://127.0.0.1:3002/health || exit 1
-CMD ["node", "dist/index.js"]
+CMD ["node", "--import", "./dist/instrumentation.js", "dist/index.js"]
