@@ -154,13 +154,14 @@ services:
     build:
       context: ../services/streaming-service
       dockerfile: Dockerfile
+      target: dev
     ports:
       - "3002:3002"
     env_file:
       - ../services/streaming-service/.env
     volumes:
       - ../services/streaming-service/src:/app/src
-    command: ["node_modules/.bin/tsx", "--import", "src/instrumentation.ts", "watch", "src/index.ts"]
+    command: ["npm", "run", "dev"]
     depends_on:
       redis:
         condition: service_healthy

@@ -3,6 +3,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --omit=dev
 
+FROM base AS dev
+RUN npm ci
+
 FROM base AS build
 RUN npm ci
 COPY tsconfig.json .
