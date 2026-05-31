@@ -2,83 +2,6 @@
 
 A cloud-native, event-driven video streaming platform built as a microservices monorepo.
 
-## Architecture
-
-| Service | Tech | DB | Description |
-|---|---|---|---|
-| auth-service | FastAPI | PostgreSQL + Redis | RS256 JWT issuance, login, token refresh |
-| user-service | Django REST | PostgreSQL + Redis | Profiles, RBAC, trial tracking |
-| video-service | Django REST | PostgreSQL + S3 | Multipart upload orchestration, video catalog, transcode trigger |
-| transcode-worker | Python + FFmpeg | S3 | Async video transcoding |
-| streaming-service | Node.js | Redis | HLS/DASH manifest serving |
-| live-service | Node.js + nginx-rtmp | Redis | RTMP ingest + live HLS |
-| social-service | FastAPI | MongoDB | Comments, likes, follows |
-| billing-service | Django REST | PostgreSQL | Subscriptions, payments |
-| search-service | FastAPI | Elasticsearch | Full-text video/channel search |
-| notification-service | FastAPI | — | Email, push, in-app notifications |
-| ai-service | FastAPI + Claude API | PostgreSQL + Redis | AI-powered features |
-| web-user | Next.js | — | Viewer-facing app (port 3000) |
-| web-admin | Next.js | — | Admin dashboard (port 3001) |
-
-## Local Infrastructure
-
-| Service | Port | Notes |
-|---|---|---|
-| PostgreSQL | 5432 | |
-| MongoDB | 27017 | |
-| Redis | 6379 | |
-| Elasticsearch | 9200 | Log storage, APM data |
-| Kafka | 9092 | |
-| LocalStack (AWS) | 4566 | S3, SQS, SNS, SSM, Secrets Manager |
-| OTel Collector | 4317 / 4318 | gRPC / HTTP — services send traces here |
-| APM Server | 8200 | Elastic APM — services send APM data here |
-| Fluent Bit | 24224 | Centralized log collector (fluentd protocol) |
-| Redis exporter | 9121 | Redis metrics for Prometheus |
-| Kafka exporter | 9308 | Kafka consumer-lag metrics for Prometheus |
-| **Kong proxy** | **8100** | **All API traffic goes here** |
-| Kong admin | 8101 | Status, route inspection |
-| user-service | 8000 | Direct access (bypasses Kong) |
-| video-service | 8001 | Direct access (bypasses Kong) |
-| streaming-service | 3002 | Direct access (bypasses Kong) |
-
-## Local UIs
-
-All browser-accessible endpoints in one place:
-
-| UI | URL | Credentials | Description |
-|---|---|---|---|
-| **web-user** | `http://localhost:3000` | — | Viewer-facing frontend |
-| **web-admin** | `http://localhost:3001` | — | Admin dashboard frontend |
-| **Kafka UI** | `http://localhost:8080` | — | Browse topics, messages, consumer groups |
-| **Jaeger** | `http://localhost:16686` | — | Distributed traces across services |
-| **Grafana** | `http://localhost:3003` | `admin` / `admin` | Platform Overview dashboard (auto-provisioned) |
-| **Kibana → Discover** | `http://localhost:5601` | `elastic` / `platform_dev` | Structured JSON logs, filterable by `trace_id` / `service` |
-| **Kibana → APM** | `http://localhost:5601/app/apm` | `elastic` / `platform_dev` | Latency, error rate, throughput per service |
-| **Prometheus** | `http://localhost:9090` | — | Raw metrics, ad-hoc PromQL queries |
-| **Elasticsearch** | `http://localhost:9200` | `elastic` / `platform_dev` | Raw ES API (log/APM indices) |
-| **Kong admin** | `http://localhost:8101` | — | Inspect live routes and Kong config |
-| **user-service Django admin** | `http://localhost:8000/admin/` | `admin` / `admin1234` | Manage users, roles, permissions |
-| **video-service Django admin** | `http://localhost:8001/admin/` | *(create via manage.py)* | Manage video metadata |
-
-> **user-service admin credentials** are set by `DEV_ADMIN_EMAIL`, `DEV_ADMIN_USERNAME`, and `DEV_ADMIN_PASSWORD` in `services/user-service/.env`. Defaults from `.env.example`: username `admin`, password `admin1234`. Create the account once with:
-> ```bash
-> docker exec -it noxrel-user-service-1 python manage.py create_dev_admin
-> ```
-
-> **Elasticsearch / Kibana credentials** — Elasticsearch security is enabled so Kibana can install the Fleet APM integration (required for the APM service inventory to populate). The dev-only superuser is `elastic` / `platform_dev`; Kibana authenticates internally as `kibana_system` / `platform_dev`. The password is sourced from `ELASTIC_PASSWORD` in `infrastructure/.env` (copied from `infrastructure/.env.example`, see Quick Start step 2) — for local dev only; rotate via AWS Secrets Manager in production.
-
-## Observability
-
-All four implemented services are instrumented with OpenTelemetry. Traces, logs, and metrics flow through a central collector.
-
-| What you see | Where |
-|---|---|
-| Distributed traces (follow a request across services) | Jaeger `http://localhost:16686` |
-| Platform health, video pipeline, streaming, infra metrics | Grafana `http://localhost:3003` (`admin` / `admin`) |
-| Structured JSON logs, filter by `trace_id` / `service` | Kibana Discover `http://localhost:5601` (`elastic` / `platform_dev`) |
-| Latency, error rate, throughput per service | Kibana APM `http://localhost:5601/app/apm` (`elastic` / `platform_dev`) |
-| Raw PromQL queries | Prometheus `http://localhost:9090` |
-
 ## Quick Start
 
 ### Prerequisites
@@ -175,6 +98,83 @@ http://localhost:8100/api/v1/stream/*     → streaming-service:3002
 Kong admin API (inspect live config/routes): `http://localhost:8101`
 
 Kong is configured in **DB-less declarative mode** — all config lives in `infrastructure/kong/kong.yml`. Reload after changes with `docker exec infrastructure-kong-1 kong reload`.
+
+## Architecture
+
+| Service | Tech | DB | Description |
+|---|---|---|---|
+| auth-service | FastAPI | PostgreSQL + Redis | RS256 JWT issuance, login, token refresh |
+| user-service | Django REST | PostgreSQL + Redis | Profiles, RBAC, trial tracking |
+| video-service | Django REST | PostgreSQL + S3 | Multipart upload orchestration, video catalog, transcode trigger |
+| transcode-worker | Python + FFmpeg | S3 | Async video transcoding |
+| streaming-service | Fastify (Node.js) | Redis | HLS/DASH manifest serving |
+| live-service | Node.js + nginx-rtmp | Redis | RTMP ingest + live HLS |
+| social-service | FastAPI | MongoDB | Comments, likes, follows |
+| billing-service | Django REST | PostgreSQL | Subscriptions, payments |
+| search-service | FastAPI | Elasticsearch | Full-text video/channel search |
+| notification-service | FastAPI | — | Email, push, in-app notifications |
+| ai-service | FastAPI + Claude API | PostgreSQL + Redis | AI-powered features |
+| web-user | Next.js | — | Viewer-facing app (port 3000) |
+| web-admin | Next.js | — | Admin dashboard (port 3001) |
+
+## Local Infrastructure
+
+| Service | Port | Notes |
+|---|---|---|
+| PostgreSQL | 5432 | |
+| MongoDB | 27017 | |
+| Redis | 6379 | |
+| Elasticsearch | 9200 | Log storage, APM data |
+| Kafka | 9092 | |
+| LocalStack (AWS) | 4566 | S3, SQS, SNS, SSM, Secrets Manager |
+| OTel Collector | 4317 / 4318 | gRPC / HTTP — services send traces here |
+| APM Server | 8200 | Elastic APM — services send APM data here |
+| Fluent Bit | 24224 | Centralized log collector (fluentd protocol) |
+| Redis exporter | 9121 | Redis metrics for Prometheus |
+| Kafka exporter | 9308 | Kafka consumer-lag metrics for Prometheus |
+| **Kong proxy** | **8100** | **All API traffic goes here** |
+| Kong admin | 8101 | Status, route inspection |
+| user-service | 8000 | Direct access (bypasses Kong) |
+| video-service | 8001 | Direct access (bypasses Kong) |
+| streaming-service | 3002 | Direct access (bypasses Kong) |
+
+## Local UIs
+
+All browser-accessible endpoints in one place:
+
+| UI | URL | Credentials | Description |
+|---|---|---|---|
+| **web-user** | `http://localhost:3000` | — | Viewer-facing frontend |
+| **web-admin** | `http://localhost:3001` | — | Admin dashboard frontend |
+| **Kafka UI** | `http://localhost:8080` | — | Browse topics, messages, consumer groups |
+| **Jaeger** | `http://localhost:16686` | — | Distributed traces across services |
+| **Grafana** | `http://localhost:3003` | `admin` / `admin` | Platform Overview dashboard (auto-provisioned) |
+| **Kibana → Discover** | `http://localhost:5601` | `elastic` / `platform_dev` | Structured JSON logs, filterable by `trace_id` / `service` |
+| **Kibana → APM** | `http://localhost:5601/app/apm` | `elastic` / `platform_dev` | Latency, error rate, throughput per service |
+| **Prometheus** | `http://localhost:9090` | — | Raw metrics, ad-hoc PromQL queries |
+| **Elasticsearch** | `http://localhost:9200` | `elastic` / `platform_dev` | Raw ES API (log/APM indices) |
+| **Kong admin** | `http://localhost:8101` | — | Inspect live routes and Kong config |
+| **user-service Django admin** | `http://localhost:8000/admin/` | `admin` / `admin1234` | Manage users, roles, permissions |
+| **video-service Django admin** | `http://localhost:8001/admin/` | *(create via manage.py)* | Manage video metadata |
+
+> **user-service admin credentials** are set by `DEV_ADMIN_EMAIL`, `DEV_ADMIN_USERNAME`, and `DEV_ADMIN_PASSWORD` in `services/user-service/.env`. Defaults from `.env.example`: username `admin`, password `admin1234`. Create the account once with:
+> ```bash
+> docker exec -it noxrel-user-service-1 python manage.py create_dev_admin
+> ```
+
+> **Elasticsearch / Kibana credentials** — Elasticsearch security is enabled so Kibana can install the Fleet APM integration (required for the APM service inventory to populate). The dev-only superuser is `elastic` / `platform_dev`; Kibana authenticates internally as `kibana_system` / `platform_dev`. The password is sourced from `ELASTIC_PASSWORD` in `infrastructure/.env` (copied from `infrastructure/.env.example`, see Quick Start step 2) — for local dev only; rotate via AWS Secrets Manager in production.
+
+## Observability
+
+All four implemented services are instrumented with OpenTelemetry. Traces, logs, and metrics flow through a central collector.
+
+| What you see | Where |
+|---|---|
+| Distributed traces (follow a request across services) | Jaeger `http://localhost:16686` |
+| Platform health, video pipeline, streaming, infra metrics | Grafana `http://localhost:3003` (`admin` / `admin`) |
+| Structured JSON logs, filter by `trace_id` / `service` | Kibana Discover `http://localhost:5601` (`elastic` / `platform_dev`) |
+| Latency, error rate, throughput per service | Kibana APM `http://localhost:5601/app/apm` (`elastic` / `platform_dev`) |
+| Raw PromQL queries | Prometheus `http://localhost:9090` |
 
 ## Git Workflow
 
