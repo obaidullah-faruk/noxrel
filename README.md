@@ -52,9 +52,10 @@ All browser-accessible endpoints in one place:
 | **Kafka UI** | `http://localhost:8080` | — | Browse topics, messages, consumer groups |
 | **Jaeger** | `http://localhost:16686` | — | Distributed traces across services |
 | **Grafana** | `http://localhost:3003` | `admin` / `admin` | Platform Overview dashboard (auto-provisioned) |
-| **Kibana → Discover** | `http://localhost:5601` | — | Structured JSON logs, filterable by `trace_id` / `service` |
-| **Kibana → APM** | `http://localhost:5601/app/apm` | — | Latency, error rate, throughput per service |
+| **Kibana → Discover** | `http://localhost:5601` | `elastic` / `platform_dev` | Structured JSON logs, filterable by `trace_id` / `service` |
+| **Kibana → APM** | `http://localhost:5601/app/apm` | `elastic` / `platform_dev` | Latency, error rate, throughput per service |
 | **Prometheus** | `http://localhost:9090` | — | Raw metrics, ad-hoc PromQL queries |
+| **Elasticsearch** | `http://localhost:9200` | `elastic` / `platform_dev` | Raw ES API (log/APM indices) |
 | **Kong admin** | `http://localhost:8101` | — | Inspect live routes and Kong config |
 | **user-service Django admin** | `http://localhost:8000/admin/` | `admin` / `admin1234` | Manage users, roles, permissions |
 | **video-service Django admin** | `http://localhost:8001/admin/` | *(create via manage.py)* | Manage video metadata |
@@ -64,6 +65,8 @@ All browser-accessible endpoints in one place:
 > docker exec -it noxrel-user-service-1 python manage.py create_dev_admin
 > ```
 
+> **Elasticsearch / Kibana credentials** — Elasticsearch security is enabled so Kibana can install the Fleet APM integration (required for the APM service inventory to populate). The dev-only superuser is `elastic` / `platform_dev`; Kibana authenticates internally as `kibana_system` / `platform_dev`. The password is sourced from `ELASTIC_PASSWORD` in `infrastructure/.env` (copied from `infrastructure/.env.example`, see Quick Start step 2) — for local dev only; rotate via AWS Secrets Manager in production.
+
 ## Observability
 
 All four implemented services are instrumented with OpenTelemetry. Traces, logs, and metrics flow through a central collector.
@@ -71,9 +74,9 @@ All four implemented services are instrumented with OpenTelemetry. Traces, logs,
 | What you see | Where |
 |---|---|
 | Distributed traces (follow a request across services) | Jaeger `http://localhost:16686` |
-| Platform health, video pipeline, streaming, infra metrics | Grafana `http://localhost:3003` |
-| Structured JSON logs, filter by `trace_id` / `service` | Kibana Discover `http://localhost:5601` |
-| Latency, error rate, throughput per service | Kibana APM `http://localhost:5601/app/apm` |
+| Platform health, video pipeline, streaming, infra metrics | Grafana `http://localhost:3003` (`admin` / `admin`) |
+| Structured JSON logs, filter by `trace_id` / `service` | Kibana Discover `http://localhost:5601` (`elastic` / `platform_dev`) |
+| Latency, error rate, throughput per service | Kibana APM `http://localhost:5601/app/apm` (`elastic` / `platform_dev`) |
 | Raw PromQL queries | Prometheus `http://localhost:9090` |
 
 ## Quick Start
@@ -96,9 +99,12 @@ This installs [pre-commit](https://pre-commit.com/) hooks that run automatically
 
 ### 2. Copy environment files
 
-Each service and frontend ships an `.env.example`. Copy it to the appropriate local file before starting anything:
+Each service, frontend, and the infrastructure stack ships an `.env.example`. Copy it to the appropriate local file before starting anything:
 
 ```bash
+# Infrastructure stack (Elasticsearch/Kibana/Postgres/Grafana dev credentials)
+cp infrastructure/.env.example infrastructure/.env
+
 # Backend services (copy to .env)
 cp services/user-service/.env.example      services/user-service/.env
 cp services/video-service/.env.example     services/video-service/.env

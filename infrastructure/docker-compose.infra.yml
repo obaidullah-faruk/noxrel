@@ -3,7 +3,7 @@ services:
     image: postgres:18-alpine
     environment:
       POSTGRES_USER: platform
-      POSTGRES_PASSWORD: platform_dev
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: platform
     ports:
       - "5432:5432"
@@ -43,14 +43,17 @@ services:
     image: elasticsearch:8.12.0
     environment:
       discovery.type: single-node
-      xpack.security.enabled: "false"
+      # Security enabled so Kibana Fleet can install the APM integration index
+      # templates (traces-apm/metrics-apm/logs-apm). Dev-only credentials.
+      xpack.security.enabled: "true"
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
     ports:
       - "9200:9200"
     volumes:
       - es_data:/usr/share/elasticsearch/data
     healthcheck:
-      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -q '\"status\":\"green\"\\|\"status\":\"yellow\"'"]
+      test: ["CMD-SHELL", "curl -s -u elastic:$$ELASTIC_PASSWORD http://localhost:9200/_cluster/health | grep -q '\"status\":\"green\"\\|\"status\":\"yellow\"'"]
       interval: 15s
       timeout: 10s
       retries: 10
@@ -108,26 +111,57 @@ services:
       timeout: 10s
       retries: 10
 
+  # One-shot: set the kibana_system password and enable the built-in user, so
+  # Kibana can authenticate to a security-enabled Elasticsearch. Idempotent.
+  es-setup:
+    image: elasticsearch:8.12.0
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+    entrypoint: ["bash", "-c"]
+    command:
+      - >
+        until curl -s -u elastic:$$ELASTIC_PASSWORD http://elasticsearch:9200/_security/user/kibana_system/_password
+        -H 'Content-Type: application/json' -d "{\"password\":\"$$ELASTIC_PASSWORD\"}" | grep -q '{}'; do
+          echo 'waiting for elasticsearch security to be ready...'; sleep 3;
+        done;
+        echo 'kibana_system password set.'
+    restart: "no"
+
   kibana:
     image: kibana:8.12.0
     environment:
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ELASTICSEARCH_USERNAME: kibana_system
+      ELASTICSEARCH_PASSWORD: ${ELASTIC_PASSWORD}
+      # Fixed 32-char encryption keys so Fleet/saved-object secrets survive
+      # restarts (dev-only; rotate for production).
+      XPACK_SECURITY_ENCRYPTIONKEY: "platform_dev_security_encryptionkey32"
+      XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY: "platform_dev_savedobjects_encryptionk32"
+      XPACK_REPORTING_ENCRYPTIONKEY: "platform_dev_reporting_encryptionkey_32"
+      # Tell Fleet where APM/agents should send data.
+      XPACK_FLEET_PACKAGES: '[{"name":"apm","version":"latest"}]'
     ports:
       - "5601:5601"
     depends_on:
       elasticsearch:
         condition: service_healthy
+      es-setup:
+        condition: service_completed_successfully
     healthcheck:
       test: ["CMD-SHELL", "curl -s http://localhost:5601/api/status | grep -q '\"level\":\"available\"'"]
       interval: 20s
       timeout: 10s
-      retries: 10
+      retries: 15
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.153.0
     command: ["--config=/etc/otel/otel-collector-config.yaml"]
     environment:
       ENVIRONMENT: development
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
     volumes:
       - ./otel/otel-collector-config.yaml:/etc/otel/otel-collector-config.yaml:ro
     ports:
@@ -166,8 +200,10 @@ services:
     image: grafana/grafana:13.0.1
     environment:
       GF_SECURITY_ADMIN_USER: admin
-      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
       GF_AUTH_ANONYMOUS_ENABLED: "false"
+      # Exposed to the provisioned Elasticsearch datasource via $__env{ELASTIC_PASSWORD}.
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
       - ./grafana/dashboards:/etc/grafana/dashboards:ro
@@ -201,28 +237,36 @@ services:
 
   apm-server:
     image: elastic/apm-server:8.12.0
-    # Self-managed mode: apm-server installs its own index templates and data
-    # streams instead of waiting for the Fleet-managed "APM integration" to be
-    # provisioned via Kibana. Without wait_for_integration=false the server stays
-    # stuck in waitReady (traces-apm / metrics-apm templates 404) and never
-    # publishes, leaving the APM UI empty.
+    # Fleet-managed mode: Kibana installs the APM integration (XPACK_FLEET_PACKAGES),
+    # which creates the traces-apm/metrics-apm/logs-apm index templates with correct
+    # mappings. apm-server waits for that integration, then publishes into the proper
+    # data streams — so processor.event is mapped and the Kibana APM UI lists services.
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
     command: >
       apm-server -e
         -E apm-server.rum.enabled=true
-        -E apm-server.data_streams.wait_for_integration=false
         -E apm-server.kibana.enabled=true
         -E apm-server.kibana.host=kibana:5601
+        -E apm-server.kibana.username=elastic
+        -E apm-server.kibana.password=$$ELASTIC_PASSWORD
         -E setup.template.settings.index.number_of_replicas=0
         -E output.elasticsearch.hosts=["elasticsearch:9200"]
+        -E output.elasticsearch.username=elastic
+        -E output.elasticsearch.password=$$ELASTIC_PASSWORD
     ports:
       - "8200:8200"
     depends_on:
       elasticsearch:
         condition: service_healthy
+      kibana:
+        condition: service_healthy
     restart: unless-stopped
 
   fluent-bit:
     image: fluent/fluent-bit:5.0.6
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
     volumes:
       - ./fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
       - ./fluent-bit/parsers.conf:/fluent-bit/etc/parsers.conf:ro

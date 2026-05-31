@@ -1,8 +1,21 @@
+import os
 from pathlib import Path
 
 from decouple import Csv, config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# prometheus_client multiprocess mode. Gunicorn runs multiple workers, each with
+# its own in-memory metrics registry. Without a shared multiproc dir, a Prometheus
+# scrape lands on one random worker and sees only that worker's counters, so
+# sparse metrics (e.g. uploads) flap between their real value and 0. Setting this
+# env var before any metric is created makes prometheus_client write per-process
+# files into the dir, which the /metrics view aggregates across all workers.
+# Single-process commands (manage.py, pytest) leave the var unset and run normally.
+PROMETHEUS_MULTIPROC_DIR = config("PROMETHEUS_MULTIPROC_DIR", default="")
+if PROMETHEUS_MULTIPROC_DIR:
+    os.environ["PROMETHEUS_MULTIPROC_DIR"] = PROMETHEUS_MULTIPROC_DIR
+    os.makedirs(PROMETHEUS_MULTIPROC_DIR, exist_ok=True)
 
 SECRET_KEY = config("SECRET_KEY", default="dev-secret-key-change-in-production")
 DEBUG = config("DEBUG", default=True, cast=bool)

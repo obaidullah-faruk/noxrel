@@ -15,6 +15,10 @@ datasources:
     access: proxy
     url: http://elasticsearch:9200
     database: platform-logs-*
+    basicAuth: true
+    basicAuthUser: elastic
+    secureJsonData:
+      basicAuthPassword: $__env{ELASTIC_PASSWORD}
     jsonData:
       timeField: ts
       esVersion: "8.0.0"

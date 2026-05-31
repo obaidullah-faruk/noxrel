@@ -1,8 +1,17 @@
+import os
 import time
 
 from django.conf import settings
 from django.http import HttpRequest, HttpResponse
-from prometheus_client import Counter, Histogram
+from prometheus_client import (
+    CONTENT_TYPE_LATEST,
+    REGISTRY,
+    CollectorRegistry,
+    Counter,
+    Histogram,
+    generate_latest,
+    multiprocess,
+)
 
 # Unified, cross-service HTTP metrics. The names and label schema match
 # streaming-service (src/core/metrics.ts) so the Grafana platform-overview
@@ -59,3 +68,19 @@ class PlatformMetricsMiddleware:
         if match is not None and match.route:
             return f"/{match.route}"
         return request.path
+
+
+def metrics_view(request: HttpRequest) -> HttpResponse:
+    """Expose Prometheus metrics, aggregating across gunicorn workers.
+
+    In multiprocess mode (PROMETHEUS_MULTIPROC_DIR set) the default per-process
+    registry only holds the metrics of the worker that happened to serve the
+    scrape, so a MultiProcessCollector reads every worker's files and merges
+    them. Without the env var we fall back to the default in-process registry.
+    """
+    if os.environ.get("PROMETHEUS_MULTIPROC_DIR"):
+        registry = CollectorRegistry()
+        multiprocess.MultiProcessCollector(registry)
+    else:
+        registry = REGISTRY
+    return HttpResponse(generate_latest(registry), content_type=CONTENT_TYPE_LATEST)

@@ -12,6 +12,10 @@ from rest_framework.views import APIView
 class HealthCheckView(APIView):
     authentication_classes = []
     permission_classes = [AllowAny]
+    # Exempt from the global AnonRateThrottle: infra probes hit /health every
+    # 15s (~5760/day), which would otherwise blow past the 100/day anon limit
+    # and 429 the healthcheck, marking a healthy container unhealthy.
+    throttle_classes: list = []
 
     def get(self, request: Request) -> Response:
         checks = {"database": False, "redis": False, "kafka": False}

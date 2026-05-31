@@ -2,8 +2,12 @@ from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+from core.metrics import metrics_view
+
 urlpatterns = [
-    path("", include("django_prometheus.urls")),
+    # Multiprocess-aware /metrics — aggregates all gunicorn workers. Replaces
+    # django_prometheus.urls, whose view only reports the worker serving the scrape.
+    path("metrics", metrics_view, name="prometheus-django-metrics"),
     path("admin/", admin.site.urls),
     path("health/", include("core.urls")),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
