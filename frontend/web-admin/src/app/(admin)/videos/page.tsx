@@ -185,7 +185,7 @@ function VideosPageInner() {
       headerAlign: 'right',
       type: 'number',
       renderCell: ({ value }) => (
-        <Typography variant="body2" sx={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}>
+        <Typography variant="body2" sx={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums', width: '100%', textAlign: 'right' }}>
           {(value as number).toLocaleString()}
         </Typography>
       ),
@@ -299,6 +299,7 @@ function VideosPageInner() {
           pageSizeOptions={VALID_PAGE_SIZES}
           disableRowSelectionOnClick
           autoHeight
+          rowHeight={52}
           sx={{
             border: 'none',
             '--DataGrid-overlayHeight': '300px',
@@ -315,6 +316,7 @@ function VideosPageInner() {
             },
             '& .MuiDataGrid-cell': {
               borderColor: theme.palette.mode === 'dark' ? alpha('#94A3B8', 0.06) : '#F1F5F9',
+              display: 'flex',
               alignItems: 'center',
             },
             '& .MuiDataGrid-row:hover': {

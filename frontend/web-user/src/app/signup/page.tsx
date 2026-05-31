@@ -116,7 +116,7 @@ function SignupForm() {
           </Box>
           <Box>
             <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '1.1rem', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
-              StreamVid
+              noxrel
             </Typography>
             <Typography sx={{ color: alpha('#fff', 0.4), fontSize: '0.7rem', letterSpacing: '0.06em' }}>
               PLATFORM
@@ -126,7 +126,7 @@ function SignupForm() {
 
         <Box sx={{ position: 'relative', zIndex: 1 }}>
           <Typography variant="h3" sx={{ color: '#fff', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, mb: 2 }}>
-            Join StreamVid
+            Join noxrel
             <Box component="span" sx={{ display: 'block', background: 'linear-gradient(135deg, #818CF8, #C084FC)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               for free today
             </Box>
@@ -171,7 +171,7 @@ function SignupForm() {
             >
               <PlayCircleFilledRoundedIcon sx={{ fontSize: 20, color: '#fff' }} />
             </Box>
-            <Typography sx={{ color: '#fff', fontWeight: 700, fontSize: '1rem' }}>StreamVid</Typography>
+            <Typography sx={{ color: '#fff', fontWeight: 700, fontSize: '1rem' }}>noxrel</Typography>
           </Box>
 
           <Typography variant="h5" sx={{ fontWeight: 800, color: '#F1F5F9', mb: 0.75, letterSpacing: '-0.02em' }}>
@@ -319,7 +319,7 @@ function SignupForm() {
           </Box>
 
           <Typography variant="caption" sx={{ display: 'block', textAlign: 'center', mt: 3, color: alpha('#fff', 0.2) }}>
-            StreamVid — your video streaming destination
+            noxrel — your video streaming destination
           </Typography>
         </Box>
       </Box>

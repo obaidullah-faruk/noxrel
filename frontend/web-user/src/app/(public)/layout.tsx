@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { lightTheme, darkTheme } from '@/lib/theme';
 import { ThemeContextProvider, useThemeMode } from '@/components/ThemeToggle/ThemeContext';
 import { AppHeader } from '@/components/Layout/AppHeader';
+import { AppFooter } from '@/components/Layout/AppFooter';
 import { AuthProvider } from '@/components/Auth/AuthContext';
 
 function AppShell({ children }: { children: React.ReactNode }) {
@@ -22,9 +23,12 @@ function AppShell({ children }: { children: React.ReactNode }) {
         sx={{
           minHeight: 'calc(100vh - 64px)',
           bgcolor: 'background.default',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
-        {children}
+        <Box sx={{ flex: 1 }}>{children}</Box>
+        <AppFooter />
       </Box>
     </ThemeProvider>
   );

@@ -7,6 +7,7 @@ import { lightTheme, darkTheme } from '@/lib/theme';
 import { ThemeContextProvider, useThemeMode } from '@/components/ThemeToggle/ThemeContext';
 import { AdminSidebar, DRAWER_WIDTH } from '@/components/Layout/AdminSidebar';
 import { AdminHeader } from '@/components/Layout/AdminHeader';
+import { AdminFooter } from '@/components/Layout/AdminFooter';
 import { AuthProvider } from '@/components/Auth/AuthContext';
 
 function AppShell({ children }: { children: React.ReactNode }) {
@@ -39,6 +40,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
           >
             {children}
           </Box>
+          <AdminFooter />
         </Box>
       </Box>
     </ThemeProvider>

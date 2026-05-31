@@ -61,7 +61,7 @@ export function AppHeader() {
               display: { xs: 'none', sm: 'block' },
             }}
           >
-            StreamVid
+            noxrel
           </Typography>
         </Box>
 

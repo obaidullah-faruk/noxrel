@@ -125,7 +125,7 @@ function LoginForm() {
           </Box>
           <Box>
             <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '1.1rem', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
-              StreamVid
+              noxrel
             </Typography>
             <Typography sx={{ color: alpha('#fff', 0.4), fontSize: '0.7rem', letterSpacing: '0.06em' }}>
               PLATFORM
@@ -224,7 +224,7 @@ function LoginForm() {
               <PlayCircleFilledRoundedIcon sx={{ fontSize: 20, color: '#fff' }} />
             </Box>
             <Typography sx={{ color: '#fff', fontWeight: 700, fontSize: '1rem' }}>
-              StreamVid
+              noxrel
             </Typography>
           </Box>
 
@@ -359,7 +359,7 @@ function LoginForm() {
               color: alpha('#fff', 0.2),
             }}
           >
-            StreamVid — your video streaming destination
+            noxrel — your video streaming destination
           </Typography>
         </Box>
       </Box>

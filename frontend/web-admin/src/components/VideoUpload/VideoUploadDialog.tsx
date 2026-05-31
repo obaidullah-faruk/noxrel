@@ -260,12 +260,12 @@ export function VideoUploadDialog({ open, onClose, onUploaded }: Props) {
             >
               <input ref={fileInputRef} type="file" accept="video/*" style={{ display: 'none' }} onChange={handleFileChange} disabled={isSubmitting} />
               {file ? (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}>
-                  <Box sx={{ width: 44, height: 44, borderRadius: 2, bgcolor: 'rgba(16,185,129,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center', minWidth: 0 }}>
+                  <Box sx={{ width: 44, height: 44, borderRadius: 2, bgcolor: 'rgba(16,185,129,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <InsertDriveFileRoundedIcon sx={{ fontSize: 22, color: '#10B981' }} />
                   </Box>
-                  <Box sx={{ textAlign: 'left' }}>
-                    <Typography variant="body2" sx={{ fontWeight: 600, color: '#10B981' }}>{file.name}</Typography>
+                  <Box sx={{ textAlign: 'left', minWidth: 0, overflow: 'hidden' }}>
+                    <Typography variant="body2" sx={{ fontWeight: 600, color: '#10B981', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{file.name}</Typography>
                     <Typography variant="caption" color="text.secondary">{formatBytes(file.size)}</Typography>
                   </Box>
                 </Box>

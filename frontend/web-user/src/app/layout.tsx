@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'StreamVid — Watch Videos',
+  title: 'noxrel — Watch Videos',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

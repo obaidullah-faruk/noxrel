@@ -58,3 +58,5 @@ infrastructure/terraform/*.tfvars
 
 # Docker
 *.log
+
+sample_video/

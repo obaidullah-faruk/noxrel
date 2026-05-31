@@ -105,7 +105,7 @@ export function AdminSidebar({ collapsed = false }: Props) {
                 letterSpacing: '-0.01em',
               }}
             >
-              StreamAdmin
+              noxrel
             </Typography>
             <Typography
               variant="caption"
@@ -209,23 +209,6 @@ export function AdminSidebar({ collapsed = false }: Props) {
         ))}
       </Box>
 
-      {/* Bottom version badge */}
-      {!collapsed && (
-        <Box
-          sx={{
-            px: 2.5,
-            py: 2,
-            borderTop: `1px solid ${alpha('#ffffff', 0.07)}`,
-          }}
-        >
-          <Typography
-            variant="caption"
-            sx={{ color: alpha('#ffffff', 0.25), fontSize: '0.7rem' }}
-          >
-            v1.0.0 · Admin Panel
-          </Typography>
-        </Box>
-      )}
     </Drawer>
   );
 }

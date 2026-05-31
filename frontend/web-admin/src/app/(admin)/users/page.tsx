@@ -98,7 +98,7 @@ function UsersPageInner() {
       flex: 2,
       minWidth: 220,
       renderCell: ({ row }) => (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, width: '100%', overflow: 'hidden' }}>
           <Avatar
             src={row.avatar_url ?? undefined}
             sx={{
@@ -106,16 +106,17 @@ function UsersPageInner() {
               height: 32,
               fontSize: '0.75rem',
               fontWeight: 700,
+              flexShrink: 0,
               bgcolor: avatarColor(row.username),
             }}
           >
             {initials(row)}
           </Avatar>
-          <Box>
-            <Typography variant="body2" sx={{ fontWeight: 600, lineHeight: 1.3 }}>
+          <Box sx={{ overflow: 'hidden', minWidth: 0 }}>
+            <Typography variant="body2" sx={{ fontWeight: 600, lineHeight: 1.3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {row.display_name || row.username}
             </Typography>
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant="caption" color="text.secondary" sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'block' }}>
               @{row.username}
             </Typography>
           </Box>
@@ -261,6 +262,7 @@ function UsersPageInner() {
           pageSizeOptions={VALID_PAGE_SIZES}
           disableRowSelectionOnClick
           autoHeight
+          rowHeight={56}
           sx={{
             border: 'none',
             '--DataGrid-overlayHeight': '300px',
@@ -277,6 +279,7 @@ function UsersPageInner() {
             },
             '& .MuiDataGrid-cell': {
               borderColor: isDark ? alpha('#94A3B8', 0.06) : '#F1F5F9',
+              display: 'flex',
               alignItems: 'center',
             },
             '& .MuiDataGrid-row:hover': {
