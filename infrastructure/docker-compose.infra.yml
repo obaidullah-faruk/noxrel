@@ -156,6 +156,22 @@ services:
       timeout: 10s
       retries: 15
 
+  # One-shot: creates the Platform Logs data view and dashboard in Kibana so
+  # Discover and Dashboards work on first boot without manual setup. Idempotent.
+  kibana-init:
+    image: curlimages/curl:8.7.1
+    depends_on:
+      kibana:
+        condition: service_healthy
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+    volumes:
+      - ./kibana/init.sh:/kibana/init.sh:ro
+      - ./kibana/data_view.json:/kibana/data_view.json:ro
+      - ./kibana/dashboard.json:/kibana/dashboard.json:ro
+    entrypoint: ["sh", "/kibana/init.sh"]
+    restart: "no"
+
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.153.0
     command: ["--config=/etc/otel/otel-collector-config.yaml"]
