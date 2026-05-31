@@ -1,7 +1,7 @@
 {
   "data_view": {
-    "title": "platform-logs-*",
-    "name": "Platform Logs",
+    "title": "noxrel-logs-*",
+    "name": "Noxrel Logs",
     "timeFieldName": "@timestamp"
   }
 }

@@ -34,7 +34,7 @@ exporters:
       - http://elasticsearch:9200
     user: elastic
     password: ${env:ELASTIC_PASSWORD}
-    logs_index: platform-logs
+    logs_index: noxrel-logs
 
 service:
   pipelines:

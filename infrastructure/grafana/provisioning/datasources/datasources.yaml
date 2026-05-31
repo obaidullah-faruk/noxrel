@@ -14,7 +14,7 @@ datasources:
     type: elasticsearch
     access: proxy
     url: http://elasticsearch:9200
-    database: platform-logs-*
+    database: noxrel-logs-*
     basicAuth: true
     basicAuthUser: elastic
     secureJsonData:

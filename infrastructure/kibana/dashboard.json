@@ -1,7 +1,7 @@
 {
   "attributes": {
-    "title": "Platform Logs Overview",
-    "description": "Log volume and container breakdown for all platform services.",
+    "title": "Noxrel Logs Overview",
+    "description": "Log volume and container breakdown for all noxrel services.",
     "timeRestore": false,
     "kibanaSavedObjectMeta": {
       "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[]}"

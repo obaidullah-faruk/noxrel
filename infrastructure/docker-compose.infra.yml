@@ -2,16 +2,16 @@ services:
   postgres:
     image: postgres:18-alpine
     environment:
-      POSTGRES_USER: platform
+      POSTGRES_USER: noxrel
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: platform
+      POSTGRES_DB: noxrel
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql
       - ./postgres/init-databases.sh:/docker-entrypoint-initdb.d/init-databases.sh:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U platform"]
+      test: ["CMD-SHELL", "pg_isready -U noxrel"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -138,9 +138,9 @@ services:
       ELASTICSEARCH_PASSWORD: ${ELASTIC_PASSWORD}
       # Fixed 32-char encryption keys so Fleet/saved-object secrets survive
       # restarts (dev-only; rotate for production).
-      XPACK_SECURITY_ENCRYPTIONKEY: "platform_dev_security_encryptionkey32"
-      XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY: "platform_dev_savedobjects_encryptionk32"
-      XPACK_REPORTING_ENCRYPTIONKEY: "platform_dev_reporting_encryptionkey_32"
+      XPACK_SECURITY_ENCRYPTIONKEY: "noxrel_dev_security_encryptionkey_32__"
+      XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY: "noxrel_dev_savedobjects_encryptionk_32"
+      XPACK_REPORTING_ENCRYPTIONKEY: "noxrel_dev_reporting_encryptionkey__32"
       # Tell Fleet where APM/agents should send data.
       XPACK_FLEET_PACKAGES: '[{"name":"apm","version":"latest"}]'
     ports:
@@ -156,7 +156,7 @@ services:
       timeout: 10s
       retries: 15
 
-  # One-shot: creates the Platform Logs data view and dashboard in Kibana so
+  # One-shot: creates the Noxrel Logs data view and dashboard in Kibana so
   # Discover and Dashboards work on first boot without manual setup. Idempotent.
   kibana-init:
     image: curlimages/curl:8.7.1
