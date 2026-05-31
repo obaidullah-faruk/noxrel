@@ -262,12 +262,14 @@ function LoginForm() {
               required
               autoFocus
               autoComplete="email"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <EmailRoundedIcon sx={{ fontSize: 18, color: '#4B5563' }} />
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <EmailRoundedIcon sx={{ fontSize: 18, color: '#4B5563' }} />
+                    </InputAdornment>
+                  ),
+                },
               }}
               sx={{
                 '& .MuiOutlinedInput-root': {
@@ -288,24 +290,26 @@ function LoginForm() {
               fullWidth
               required
               autoComplete="current-password"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockRoundedIcon sx={{ fontSize: 18, color: '#4B5563' }} />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      size="small"
-                      onClick={() => setShowPass(p => !p)}
-                      edge="end"
-                      sx={{ color: '#4B5563' }}
-                    >
-                      {showPass ? <VisibilityOffRoundedIcon fontSize="small" /> : <VisibilityRoundedIcon fontSize="small" />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockRoundedIcon sx={{ fontSize: 18, color: '#4B5563' }} />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setShowPass(p => !p)}
+                        edge="end"
+                        sx={{ color: '#4B5563' }}
+                      >
+                        {showPass ? <VisibilityOffRoundedIcon fontSize="small" /> : <VisibilityRoundedIcon fontSize="small" />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
               }}
               sx={{
                 '& .MuiOutlinedInput-root': {

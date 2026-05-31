@@ -114,7 +114,7 @@ interface Props {
 export function StatsCards({ totalVideos, totalUsers, videosReady, videosProcessing }: Props) {
   return (
     <Grid container spacing={2.5}>
-      <Grid item xs={12} sm={6} xl={3}>
+      <Grid size={{ xs: 12, sm: 6, xl: 3 }}>
         <StatCard
           label="Total Videos"
           value={totalVideos}
@@ -122,7 +122,7 @@ export function StatsCards({ totalVideos, totalUsers, videosReady, videosProcess
           color="#6366F1"
         />
       </Grid>
-      <Grid item xs={12} sm={6} xl={3}>
+      <Grid size={{ xs: 12, sm: 6, xl: 3 }}>
         <StatCard
           label="Total Users"
           value={totalUsers}
@@ -130,7 +130,7 @@ export function StatsCards({ totalVideos, totalUsers, videosReady, videosProcess
           color="#10B981"
         />
       </Grid>
-      <Grid item xs={12} sm={6} xl={3}>
+      <Grid size={{ xs: 12, sm: 6, xl: 3 }}>
         <StatCard
           label="Videos Ready"
           value={videosReady}
@@ -138,7 +138,7 @@ export function StatsCards({ totalVideos, totalUsers, videosReady, videosProcess
           color="#0284C7"
         />
       </Grid>
-      <Grid item xs={12} sm={6} xl={3}>
+      <Grid size={{ xs: 12, sm: 6, xl: 3 }}>
         <StatCard
           label="Processing"
           value={videosProcessing}

@@ -117,11 +117,11 @@ export default function DashboardPage() {
       {loading ? (
         <Grid container spacing={2.5}>
           {[0, 1, 2, 3].map(i => (
-            <Grid item xs={12} sm={6} xl={3} key={i}>
+            <Grid key={i} size={{ xs: 12, sm: 6, xl: 3 }}>
               <SkeletonCard />
             </Grid>
           ))}
-          <Grid item xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Card>
               <CardContent sx={{ p: '20px !important' }}>
                 <Skeleton variant="text" width="30%" sx={{ mb: 2 }} />
@@ -129,7 +129,7 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card>
               <CardContent sx={{ p: '20px !important' }}>
                 <Skeleton variant="text" width="40%" sx={{ mb: 2 }} />
@@ -140,7 +140,7 @@ export default function DashboardPage() {
         </Grid>
       ) : (
         <Grid container spacing={2.5}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <StatsCards
               totalVideos={total}
               totalUsers={0}
@@ -148,13 +148,13 @@ export default function DashboardPage() {
               videosProcessing={videosProcessing}
             />
           </Grid>
-          <Grid item xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <ViewsChart data={buildViewsSeed()} />
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <SignupsChart data={buildSignupsSeed()} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TranscodeQueueTable rows={videos.slice(0, 10)} />
           </Grid>
         </Grid>

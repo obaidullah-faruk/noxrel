@@ -228,12 +228,14 @@ function UsersPageInner() {
           placeholder="Search by username or email…"
           size="small"
           sx={{ width: { xs: '100%', sm: 360 } }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchRoundedIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchRoundedIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
+                </InputAdornment>
+              ),
+            },
           }}
         />
       </Box>

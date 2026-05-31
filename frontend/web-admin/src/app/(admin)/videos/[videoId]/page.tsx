@@ -170,10 +170,10 @@ export default function VideoDetailPage({ params }: { params: Promise<{ videoId:
       <Box>
         <Skeleton variant="rectangular" width={120} height={32} sx={{ borderRadius: 2, mb: 3 }} />
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Card><CardContent><Skeleton variant="rectangular" height={320} sx={{ borderRadius: 2 }} /></CardContent></Card>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Card>
               <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 {[1, 2, 3, 4, 5].map(i => <Skeleton key={i} variant="rectangular" height={40} sx={{ borderRadius: 2 }} />)}
@@ -232,7 +232,7 @@ export default function VideoDetailPage({ params }: { params: Promise<{ videoId:
 
       <Grid container spacing={3}>
         {/* Player */}
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Card>
             <CardContent sx={{ p: '20px !important' }}>
               <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1.5 }}>Preview</Typography>
@@ -267,7 +267,7 @@ export default function VideoDetailPage({ params }: { params: Promise<{ videoId:
         </Grid>
 
         {/* Edit Form */}
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ p: '20px !important' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>

@@ -69,14 +69,14 @@ export default function UserDetailPage({ params }: { params: Promise<{ userId: s
       <Box>
         <Skeleton variant="rectangular" width={120} height={32} sx={{ borderRadius: 2, mb: 3 }} />
         <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card><CardContent sx={{ textAlign: 'center', pt: 3 }}>
               <Skeleton variant="circular" width={80} height={80} sx={{ mx: 'auto', mb: 2 }} />
               <Skeleton variant="text" width="60%" sx={{ mx: 'auto', mb: 1 }} />
               <Skeleton variant="text" width="40%" sx={{ mx: 'auto' }} />
             </CardContent></Card>
           </Grid>
-          <Grid item xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Card><CardContent>
               {[1, 2, 3, 4].map(i => <Skeleton key={i} variant="rectangular" height={56} sx={{ borderRadius: 2, mb: 1.5 }} />)}
             </CardContent></Card>
@@ -120,7 +120,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ userId: s
 
       <Grid container spacing={3}>
         {/* Profile card */}
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Card>
             <CardContent sx={{ p: '24px !important' }}>
               {/* Avatar with glow */}
@@ -277,7 +277,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ userId: s
         </Grid>
 
         {/* Activity */}
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <Card>
             <CardContent sx={{ p: '20px !important' }}>
               <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 2 }}>
