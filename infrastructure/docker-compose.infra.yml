@@ -243,8 +243,13 @@ services:
     # data streams — so processor.event is mapped and the Kibana APM UI lists services.
     environment:
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-    command: >
-      apm-server -e
+    # Run through a shell so $ELASTIC_PASSWORD expands at runtime. apm-server's
+    # default entrypoint execs its args directly (no shell), so a bare command
+    # would pass the literal string "$ELASTIC_PASSWORD" and ES auth would 401.
+    entrypoint: ["sh", "-c"]
+    command:
+      - >
+        apm-server -e
         -E apm-server.rum.enabled=true
         -E apm-server.kibana.enabled=true
         -E apm-server.kibana.host=kibana:5601
