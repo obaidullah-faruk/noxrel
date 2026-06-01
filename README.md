@@ -176,6 +176,35 @@ All four implemented services are instrumented with OpenTelemetry. Traces, logs,
 | Latency, error rate, throughput per service | Kibana APM `http://localhost:5601/app/apm` (`elastic` / `noxrel_dev`) |
 | Raw PromQL queries | Prometheus `http://localhost:9090` |
 
+## Screenshots
+
+### Frontends
+
+<table>
+<tr>
+<td align="center" width="50%"><b>User App — Browse</b><br/><img src="images/user-home-page.png" alt="User home page"/></td>
+<td align="center" width="50%"><b>User App — Video Playback</b><br/><img src="images/user-ui-video-watching.png" alt="Video watching"/></td>
+</tr>
+<tr>
+<td align="center" colspan="2"><b>Admin Dashboard</b><br/><img src="images/admin-dashboard.png" alt="Admin dashboard" width="75%"/></td>
+</tr>
+</table>
+
+### Observability
+
+<table>
+<tr>
+<td align="center" width="50%"><b>Kibana APM — All Services</b><br/><img src="images/apm_services.png" alt="APM services inventory"/></td>
+<td align="center" width="50%"><b>Kibana APM — user-service Detail</b><br/><img src="images/apm_user_service.png" alt="APM user-service"/></td>
+</tr>
+<tr>
+<td align="center" width="50%"><b>Grafana — Noxrel Overview</b><br/><img src="images/grafana.png" alt="Grafana platform overview"/></td>
+<td align="center" width="50%"><b>Kafka UI — Topics</b><br/><img src="images/apache_kafka.png" alt="Apache Kafka topics"/></td>
+</tr>
+</table>
+
+---
+
 ## Git Workflow
 
 ### Commit message format
