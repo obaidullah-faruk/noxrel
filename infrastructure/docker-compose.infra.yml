@@ -2,6 +2,7 @@ services:
   postgres:
     image: postgres:18-alpine
     environment:
+      # User/DB the Django services connect as (services/*/.env: DB_USER=noxrel).
       POSTGRES_USER: noxrel
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: noxrel

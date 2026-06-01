@@ -1,28 +1,32 @@
 .PHONY: up down logs ps infra-up infra-down install-hooks lint frontend-install frontend-dev frontend-build frontend-start frontend-stop
 
+ENV_FILE = infrastructure/.env
+COMPOSE_BASE = docker compose --env-file $(ENV_FILE) -f infrastructure/docker-compose.infra.yml
+COMPOSE      = $(COMPOSE_BASE) -f infrastructure/docker-compose.yml
+
 # Start infrastructure + all services
 up:
-	docker compose -f infrastructure/docker-compose.infra.yml -f infrastructure/docker-compose.yml up -d
+	$(COMPOSE) up -d
 
 # Start infrastructure only
 infra-up:
-	docker compose -f infrastructure/docker-compose.infra.yml up -d
+	$(COMPOSE_BASE) up -d
 
 # Stop everything
 down:
-	docker compose -f infrastructure/docker-compose.infra.yml -f infrastructure/docker-compose.yml down
+	$(COMPOSE) down
 
 # Stop infrastructure only
 infra-down:
-	docker compose -f infrastructure/docker-compose.infra.yml down
+	$(COMPOSE_BASE) down
 
 # Tail logs
 logs:
-	docker compose -f infrastructure/docker-compose.infra.yml -f infrastructure/docker-compose.yml logs -f
+	$(COMPOSE) logs -f
 
 # Show running containers
 ps:
-	docker compose -f infrastructure/docker-compose.infra.yml -f infrastructure/docker-compose.yml ps
+	$(COMPOSE) ps
 
 # Install pre-commit hooks (run once after cloning)
 install-hooks:
