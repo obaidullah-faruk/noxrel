@@ -154,12 +154,12 @@ All browser-accessible endpoints in one place:
 | **Prometheus** | `http://localhost:9090` | — | Raw metrics, ad-hoc PromQL queries |
 | **Elasticsearch** | `http://localhost:9200` | `elastic` / `noxrel_dev` | Raw ES API (log/APM indices) |
 | **Kong admin** | `http://localhost:8101` | — | Inspect live routes and Kong config |
-| **user-service Django admin** | `http://localhost:8000/admin/` | `admin` / `admin1234` | Manage users, roles, permissions |
+| **user-service Django admin** | `http://localhost:8000/admin/` | `admin@admin.com` / `admin1234` | Manage users, roles, permissions |
 | **video-service Django admin** | `http://localhost:8001/admin/` | *(create via manage.py)* | Manage video metadata |
 
-> **user-service admin credentials** are set by `DEV_ADMIN_EMAIL`, `DEV_ADMIN_USERNAME`, and `DEV_ADMIN_PASSWORD` in `services/user-service/.env`. Defaults from `.env.example`: username `admin`, password `admin1234`. Create the account once with:
+> **user-service admin credentials** are set by `DEV_ADMIN_EMAIL`, `DEV_ADMIN_USERNAME`, and `DEV_ADMIN_PASSWORD` in `services/user-service/.env`. Defaults: email `admin@admin.com`, password `admin1234`. The account is created automatically on first boot, or manually with:
 > ```bash
-> docker exec -it noxrel-user-service-1 python manage.py create_dev_admin
+> docker exec -it infrastructure-user-service-1 uv run python manage.py create_dev_admin
 > ```
 
 > **Elasticsearch / Kibana credentials** — Elasticsearch security is enabled so Kibana can install the Fleet APM integration (required for the APM service inventory to populate). The dev-only superuser is `elastic` / `noxrel_dev`; Kibana authenticates internally as `kibana_system` / `noxrel_dev`. The password is sourced from `ELASTIC_PASSWORD` in `infrastructure/.env` (copied from `infrastructure/.env.example`, see Quick Start step 2) — for local dev only; rotate via AWS Secrets Manager in production.

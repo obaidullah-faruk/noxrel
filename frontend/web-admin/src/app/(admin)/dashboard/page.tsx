@@ -12,7 +12,7 @@ import { StatsCards } from '@/components/Dashboard/StatsCards';
 import { ViewsChart, type DailyViews } from '@/components/Dashboard/ViewsChart';
 import { SignupsChart, type DailySignups } from '@/components/Dashboard/SignupsChart';
 import { TranscodeQueueTable } from '@/components/Dashboard/TranscodeQueueTable';
-import { fetchVideos } from '@/lib/api';
+import { fetchVideos, fetchUsers } from '@/lib/api';
 import { getToken } from '@/lib/auth-client';
 import type { Video } from '@/types/video';
 import WavingHandRoundedIcon from '@mui/icons-material/WavingHandRounded';
@@ -49,19 +49,24 @@ function SkeletonCard() {
 }
 
 export default function DashboardPage() {
-  const [videos, setVideos]   = useState<Video[]>([]);
-  const [total, setTotal]     = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState<string | null>(null);
+  const [videos, setVideos]       = useState<Video[]>([]);
+  const [total, setTotal]         = useState(0);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [loading, setLoading]     = useState(true);
+  const [error, setError]         = useState<string | null>(null);
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
 
   useEffect(() => {
     getToken().then(token =>
-      fetchVideos(token, { page: 1, page_size: 100 })
-        .then(data => {
-          setVideos(data.results);
-          setTotal(data.count);
+      Promise.all([
+        fetchVideos(token, { page: 1, page_size: 100 }),
+        fetchUsers(token, { page_size: 1 }),
+      ])
+        .then(([videoData, userData]) => {
+          setVideos(videoData.results);
+          setTotal(videoData.count);
+          setTotalUsers(userData.count);
         })
         .catch(err => setError(String(err)))
         .finally(() => setLoading(false))
@@ -143,7 +148,7 @@ export default function DashboardPage() {
           <Grid size={12}>
             <StatsCards
               totalVideos={total}
-              totalUsers={0}
+              totalUsers={totalUsers}
               videosReady={videosReady}
               videosProcessing={videosProcessing}
             />
