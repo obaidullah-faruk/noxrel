@@ -27,8 +27,8 @@ exporters:
     endpoint: apm-server:8200
     tls:
       insecure: true
-  prometheus:
-    endpoint: "0.0.0.0:8889"
+  prometheusremotewrite:
+    endpoint: "http://prometheus:9090/api/v1/write"
   elasticsearch:
     endpoints:
       - http://elasticsearch:9200
@@ -45,7 +45,7 @@ service:
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [prometheus]
+      exporters: [prometheusremotewrite]
     logs:
       receivers: [otlp]
       processors: [batch]

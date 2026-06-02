@@ -174,23 +174,6 @@ services:
     entrypoint: ["sh", "/kibana/init.sh"]
     restart: "no"
 
-  otel-collector:
-    image: otel/opentelemetry-collector-contrib:0.153.0
-    command: ["--config=/etc/otel/otel-collector-config.yaml"]
-    environment:
-      ENVIRONMENT: development
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-    volumes:
-      - ./otel/otel-collector-config.yaml:/etc/otel/otel-collector-config.yaml:ro
-    ports:
-      - "4317:4317"   # OTLP gRPC
-      - "4318:4318"   # OTLP HTTP
-      - "8889:8889"   # Prometheus metrics exporter
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    restart: unless-stopped
-
   jaeger:
     image: jaegertracing/all-in-one:1.62.0
     environment:
@@ -206,6 +189,7 @@ services:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
       - "--web.enable-lifecycle"
+      - "--web.enable-remote-write-receiver"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./prometheus/alerts.yaml:/etc/prometheus/alerts.yaml:ro
@@ -283,21 +267,6 @@ services:
       elasticsearch:
         condition: service_healthy
       kibana:
-        condition: service_healthy
-    restart: unless-stopped
-
-  fluent-bit:
-    image: fluent/fluent-bit:5.0.6
-    environment:
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-    volumes:
-      - ./fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
-      - ./fluent-bit/parsers.conf:/fluent-bit/etc/parsers.conf:ro
-    ports:
-      - "24224:24224"   # fluentd protocol — services send logs here
-      - "24224:24224/udp"
-    depends_on:
-      elasticsearch:
         condition: service_healthy
     restart: unless-stopped
 

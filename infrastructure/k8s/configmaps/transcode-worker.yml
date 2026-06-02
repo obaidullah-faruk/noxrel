@@ -19,3 +19,5 @@ data:
   FFMPEG_CRF: "23"
   HLS_SEGMENT_DURATION: "6"
   TRANSCODE_MAX_RETRIES: "3"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.platform.svc.cluster.local:4317"
+  OTEL_SERVICE_NAME: "transcode-worker"

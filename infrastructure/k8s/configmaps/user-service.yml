@@ -16,5 +16,7 @@ data:
   KAFKA_BOOTSTRAP_SERVERS: "host.docker.internal:9094"
   KAFKA_SECURITY_PROTOCOL: "PLAINTEXT"
   PROMETHEUS_MULTIPROC_DIR: "/tmp/prometheus_multiproc"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.platform.svc.cluster.local:4317"
+  OTEL_SERVICE_NAME: "user-service"
   DEV_ADMIN_EMAIL: "admin@admin.com"
   DEV_ADMIN_USERNAME: "admin"

@@ -80,19 +80,21 @@ k8s-build:
 	  docker build --target production -t transcode-worker:local   services/transcode-worker/
 	@echo "All images built inside minikube."
 
-# Apply namespace, configmaps, secrets, and all service manifests
+# Apply namespace, configmaps, secrets, observability, and all service manifests
 k8s-up:
 	kubectl apply -f $(K8S_DIR)/namespaces.yml
 	kubectl apply -f $(K8S_DIR)/configmaps/
 	kubectl apply -f $(K8S_DIR)/secrets/
+	kubectl apply -f $(K8S_DIR)/observability/
 	kubectl apply -f $(K8S_DIR)/services/
 	@echo "Applied. Watch pods with: make k8s-status"
 
 # Delete all resources in the platform namespace (leaves the namespace itself)
 k8s-down:
-	kubectl delete -f $(K8S_DIR)/services/   --ignore-not-found
-	kubectl delete -f $(K8S_DIR)/secrets/    --ignore-not-found
-	kubectl delete -f $(K8S_DIR)/configmaps/ --ignore-not-found
+	kubectl delete -f $(K8S_DIR)/services/      --ignore-not-found
+	kubectl delete -f $(K8S_DIR)/observability/ --ignore-not-found
+	kubectl delete -f $(K8S_DIR)/secrets/       --ignore-not-found
+	kubectl delete -f $(K8S_DIR)/configmaps/    --ignore-not-found
 
 # Show pod status
 k8s-status:

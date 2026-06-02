@@ -14,6 +14,8 @@ data:
   KAFKA_BOOTSTRAP_SERVERS: "host.docker.internal:9094"
   KAFKA_SECURITY_PROTOCOL: "PLAINTEXT"
   PROMETHEUS_MULTIPROC_DIR: "/tmp/prometheus_multiproc"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.platform.svc.cluster.local:4317"
+  OTEL_SERVICE_NAME: "video-service"
   AWS_REGION: "us-east-1"
   AWS_S3_ENDPOINT_URL: "http://host.docker.internal:4566"
   # Browser-reachable presigned URL base — host machine LocalStack

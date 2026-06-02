@@ -14,3 +14,5 @@ data:
   S3_TRANSCODED_BUCKET: "transcoded-videos"
   # Browser-reachable CDN base — host machine LocalStack
   CDN_BASE_URL: "http://localhost:4566"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.platform.svc.cluster.local:4317"
+  OTEL_SERVICE_NAME: "streaming-service"
