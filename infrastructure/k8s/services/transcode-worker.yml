@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transcode-worker
+  namespace: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transcode-worker
+  template:
+    metadata:
+      labels:
+        app: transcode-worker
+    spec:
+      containers:
+        - name: transcode-worker
+          image: transcode-worker:local
+          imagePullPolicy: Never
+          envFrom:
+            - configMapRef:
+                name: transcode-worker-config
+            - secretRef:
+                name: transcode-worker-secrets
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "2Gi"
+          # No HTTP endpoint — Kafka consumer only, no probes needed

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-service-config
+  namespace: platform
+data:
+  DEBUG: "False"
+  ALLOWED_HOSTS: "*"
+  LOG_LEVEL: "INFO"
+  # Infra runs in Docker Compose — reached via host.docker.internal from minikube pods
+  DB_HOST: "host.docker.internal"
+  DB_PORT: "5432"
+  DB_NAME: "noxrel"
+  REDIS_URL: "redis://host.docker.internal:6379/0"
+  # HOST listener on 9094 — the only listener minikube pods can reach
+  KAFKA_BOOTSTRAP_SERVERS: "host.docker.internal:9094"
+  KAFKA_SECURITY_PROTOCOL: "PLAINTEXT"
+  PROMETHEUS_MULTIPROC_DIR: "/tmp/prometheus_multiproc"
+  DEV_ADMIN_EMAIL: "admin@admin.com"
+  DEV_ADMIN_USERNAME: "admin"

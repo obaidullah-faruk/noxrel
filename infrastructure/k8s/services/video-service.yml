@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: video-service
+  namespace: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: video-service
+  template:
+    metadata:
+      labels:
+        app: video-service
+    spec:
+      initContainers:
+        - name: migrate
+          image: video-service:local
+          imagePullPolicy: Never
+          command:
+            - sh
+            - -c
+            - uv run python manage.py migrate --noinput
+          envFrom:
+            - configMapRef:
+                name: video-service-config
+            - secretRef:
+                name: video-service-secrets
+      containers:
+        - name: video-service
+          image: video-service:local
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8001
+          envFrom:
+            - configMapRef:
+                name: video-service-config
+            - secretRef:
+                name: video-service-secrets
+          volumeMounts:
+            - mountPath: /tmp/prometheus_multiproc
+              name: prometheus-multiproc
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /health/
+              port: 8001
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /health/
+              port: 8001
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            failureThreshold: 3
+      volumes:
+        - name: prometheus-multiproc
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: video-service
+  namespace: platform
+spec:
+  selector:
+    app: video-service
+  ports:
+    - port: 8001
+      targetPort: 8001
+  type: ClusterIP

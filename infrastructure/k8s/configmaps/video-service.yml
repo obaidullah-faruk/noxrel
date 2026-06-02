@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: video-service-config
+  namespace: platform
+data:
+  DEBUG: "False"
+  ALLOWED_HOSTS: "*"
+  LOG_LEVEL: "INFO"
+  DB_HOST: "host.docker.internal"
+  DB_PORT: "5432"
+  DB_NAME: "video_service"
+  REDIS_URL: "redis://host.docker.internal:6379/1"
+  KAFKA_BOOTSTRAP_SERVERS: "host.docker.internal:9094"
+  KAFKA_SECURITY_PROTOCOL: "PLAINTEXT"
+  PROMETHEUS_MULTIPROC_DIR: "/tmp/prometheus_multiproc"
+  AWS_REGION: "us-east-1"
+  AWS_S3_ENDPOINT_URL: "http://host.docker.internal:4566"
+  # Browser-reachable presigned URL base — host machine LocalStack
+  S3_PRESIGNED_URL_BASE: "http://localhost:4566"
+  S3_RAW_BUCKET: "raw-videos"
+  S3_TRANSCODED_BUCKET: "transcoded-videos"
+  S3_THUMBNAIL_BUCKET: "thumbnails"
+  INTERNAL_API_KEY: "dev-internal-key"
