@@ -4,15 +4,24 @@ A cloud-native, event-driven video streaming platform built as a microservices m
 
 ## Quick Start
 
-### Prerequisites
+Choose one of two ways to run the backend services:
 
-- Docker Desktop ≥ 4.x
-- `make`
-- Node.js ≥ 20 (for frontend development)
-- Python ≥ 3.12 (for pre-commit and service tooling)
-- AWS CLI (for LocalStack inspection): `brew install awscli`
+| | [Option A — Docker Compose](#option-a--docker-compose) | [Option B — Kubernetes (minikube)](#option-b--kubernetes-minikube) |
+|---|---|---|
+| **Best for** | Simple local dev, first-time setup | Learning K8s with real services |
+| **What runs in Docker** | Everything | Infrastructure only (Postgres, Redis, Kafka, LocalStack, observability) |
+| **What runs in K8s** | — | App services + Kong |
+| **Extra tools needed** | Docker Desktop | Docker Desktop + kubectl + minikube |
 
-### 1. Install git hooks (once per clone)
+Frontend dev servers (`web-user`, `web-admin`) are the same for both options — see [Frontend](#frontend) below.
+
+---
+
+### Common setup (both options)
+
+Complete these steps before following either Option A or Option B.
+
+#### 1. Install git hooks (once per clone)
 
 ```bash
 make install-hooks
@@ -20,7 +29,7 @@ make install-hooks
 
 This installs [pre-commit](https://pre-commit.com/) hooks that run automatically on every `git commit`.
 
-### 2. Copy environment files
+#### 2. Copy environment files
 
 Each service, frontend, and the infrastructure stack ships an `.env.example`. Copy it to the appropriate local file before starting anything:
 
@@ -41,13 +50,182 @@ cp frontend/web-admin/.env.example frontend/web-admin/.env.local
 
 Edit each file to fill in secrets (JWT keys, etc.) before the first run.
 
-### 3. Start everything (infrastructure + all services + Kong)
+Once done, continue with **[Option A](#option-a--docker-compose)** or **[Option B](#option-b--kubernetes-minikube)**.
+
+---
+
+### Option A — Docker Compose
+
+Everything (infrastructure + all services + Kong) runs in Docker Compose. Kong is available at `localhost:8100` — the frontend `.env.local` files already point there by default.
+
+#### 3a. Start everything
 
 ```bash
 make up
 ```
 
-### 4. Install and start the frontends
+#### Stop (Docker)
+
+```bash
+make down
+```
+
+---
+
+### Option B — Kubernetes (minikube)
+
+Infrastructure stays in Docker Compose. The four app services and Kong run as pods in a local minikube cluster.
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  Your local machine                                      │
+│                                                          │
+│  Docker Compose (make infra-up)                          │
+│    postgres:5432   redis:6379   kafka:9092/9094           │
+│    localstack:4566  elasticsearch:9200                   │
+│    prometheus  grafana  kibana  jaeger                   │
+│                                                          │
+│  Minikube cluster                                        │
+│    user-service      ─┐                                  │
+│    video-service      ├─→ host.docker.internal (infra)   │
+│    streaming-service  │                                  │
+│    transcode-worker  ─┘                                  │
+│    kong  (NodePort 30100) ← browser / curl / frontend    │
+└──────────────────────────────────────────────────────────┘
+```
+
+#### Prerequisites
+
+Install kubectl, minikube, and k9s (optional TUI for cluster browsing):
+
+```bash
+# macOS
+brew install kubectl minikube k9s
+
+# Linux
+curl -LO "https://dl.k8s.io/release/$(curl -sL https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+```
+
+#### 3b. Start minikube
+
+```bash
+minikube start --cpus=3 --memory=4096 --driver=docker
+```
+
+#### 4b. Start infrastructure (Docker Compose)
+
+```bash
+make infra-up
+```
+
+Verify all infra containers are healthy:
+
+```bash
+make ps
+```
+
+#### 5b. Build service images inside minikube
+
+```bash
+make k8s-build
+```
+
+This points the Docker CLI at minikube's internal daemon and builds all four service images there. The images never touch Docker Hub.
+
+#### 6b. Deploy to the cluster
+
+```bash
+make k8s-up
+```
+
+Watch pods start (Django services run DB migrations in an init container first):
+
+```bash
+make k8s-status
+# or live:
+kubectl get pods -n platform -w
+```
+
+All pods should reach `Running` / `READY 1/1` within ~2 minutes.
+
+#### 7b. Point the frontends at minikube Kong
+
+In Kubernetes mode Kong is exposed at `<minikube-ip>:30100`, not `localhost:8100`. Update both frontend env files:
+
+```bash
+MINIKUBE_IP=$(minikube ip)
+
+# web-user
+sed -i.bak "s|http://localhost:8100|http://$MINIKUBE_IP:30100|g" frontend/web-user/.env.local
+
+# web-admin
+sed -i.bak "s|http://localhost:8100|http://$MINIKUBE_IP:30100|g" frontend/web-admin/.env.local
+```
+
+Or edit `frontend/web-user/.env.local` and `frontend/web-admin/.env.local` manually and replace `localhost:8100` with `$(minikube ip):30100`.
+
+> Revert to `localhost:8100` when switching back to Docker Compose (Option A).
+
+#### 8b. Hit the API through Kong
+
+```bash
+MINIKUBE_IP=$(minikube ip)
+
+# Register a user
+curl -X POST http://$MINIKUBE_IP:30100/api/v1/auth/register/ \
+  -H "Content-Type: application/json" \
+  -d '{"username":"testuser","email":"test@example.com","password":"testpass123"}'
+
+# Login
+curl -X POST http://$MINIKUBE_IP:30100/api/v1/auth/login/ \
+  -H "Content-Type: application/json" \
+  -d '{"username":"testuser","password":"testpass123"}'
+```
+
+Or port-forward Kong to `localhost` if preferred:
+
+```bash
+kubectl port-forward svc/kong 8100:8100 -n platform
+# Now the frontend .env.local default (localhost:8100) works as-is
+```
+
+#### Kubernetes workflow commands
+
+| Command | What it does |
+|---|---|
+| `make k8s-build` | Build all 4 service images inside minikube |
+| `make k8s-up` | Apply all K8s manifests (namespace, configmaps, secrets, services) |
+| `make k8s-down` | Delete all services/configmaps/secrets from the cluster |
+| `make k8s-status` | Show pod status in the `platform` namespace |
+| `make k8s-logs SVC=user-service` | Tail logs for a service |
+| `make k8s-restart SVC=user-service` | Rolling restart after a configmap/secret change |
+
+#### After changing a ConfigMap or Secret
+
+```bash
+# Re-apply the changed file
+kubectl apply -f infrastructure/k8s/configmaps/user-service.yml
+
+# Trigger a rolling restart so pods pick up the new values
+make k8s-restart SVC=user-service
+```
+
+#### Stop (Kubernetes)
+
+```bash
+make k8s-down       # remove services from cluster
+make infra-down     # stop Docker Compose infrastructure
+minikube stop       # stop the cluster (preserves state)
+# minikube delete   # full teardown — removes all cluster data
+```
+
+---
+
+### Frontend
+
+Frontend dev servers are independent of Docker vs. Kubernetes — start them the same way either way.
 
 ```bash
 # Install npm dependencies (once after cloning, or after package changes)
@@ -59,29 +237,26 @@ make frontend-start
 
 `frontend-start` is equivalent to `frontend-install` + `frontend-dev`. Use `make frontend-dev` to skip the install step on subsequent runs.
 
-### Stop
-
 ```bash
-# Stop frontends
+# Stop frontend dev servers
 make frontend-stop
-
-# Stop all backend services and infrastructure
-make down
 ```
 
-### Tail logs
+---
+
+## Useful commands
 
 ```bash
+# Tail all Docker Compose service logs
 make logs
-```
 
-### Inspect LocalStack S3
-
-```bash
+# Inspect LocalStack S3 buckets
 aws --endpoint-url=http://localhost:4566 s3 ls
 ```
 
-### Kong API Gateway
+---
+
+## Kong API Gateway
 
 All browser/client API traffic goes through Kong on port 8100:
 
