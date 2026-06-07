@@ -1,5 +1,5 @@
 .PHONY: up down logs ps infra-up infra-down install-hooks lint frontend-install frontend-dev frontend-build frontend-start frontend-stop \
-        k8s-build k8s-up k8s-down k8s-status k8s-logs k8s-restart
+        k8s-build k8s-up k8s-down k8s-status k8s-logs k8s-restart k8s-ingress-setup
 
 ENV_FILE = infrastructure/.env
 COMPOSE_BASE = docker compose --env-file $(ENV_FILE) -f infrastructure/docker-compose.infra.yml
@@ -80,17 +80,29 @@ k8s-build:
 	  docker build --target production -t transcode-worker:local   services/transcode-worker/
 	@echo "All images built inside minikube."
 
-# Apply namespace, configmaps, secrets, observability, and all service manifests
+# Enable the nginx ingress controller addon (run once per minikube cluster)
+k8s-ingress-setup:
+	minikube addons enable ingress
+	@echo "Waiting for ingress-nginx controller to be ready..."
+	kubectl wait --namespace ingress-nginx \
+	  --for=condition=ready pod \
+	  --selector=app.kubernetes.io/component=controller \
+	  --timeout=120s || kubectl get pods -n ingress-nginx
+	@echo "ingress-nginx is ready."
+
+# Apply namespace, configmaps, secrets, observability, service manifests, and ingress
 k8s-up:
 	kubectl apply -f $(K8S_DIR)/namespaces.yml
 	kubectl apply -f $(K8S_DIR)/configmaps/
 	kubectl apply -f $(K8S_DIR)/secrets/
 	kubectl apply -f $(K8S_DIR)/observability/
 	kubectl apply -f $(K8S_DIR)/services/
+	kubectl apply -f $(K8S_DIR)/ingress.yml
 	@echo "Applied. Watch pods with: make k8s-status"
 
 # Delete all resources in the platform namespace (leaves the namespace itself)
 k8s-down:
+	kubectl delete -f $(K8S_DIR)/ingress.yml    --ignore-not-found
 	kubectl delete -f $(K8S_DIR)/services/      --ignore-not-found
 	kubectl delete -f $(K8S_DIR)/observability/ --ignore-not-found
 	kubectl delete -f $(K8S_DIR)/secrets/       --ignore-not-found

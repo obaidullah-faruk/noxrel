@@ -10,7 +10,7 @@ Choose one of two ways to run the backend services:
 |---|---|---|
 | **Best for** | Simple local dev, first-time setup | Learning K8s with real services |
 | **What runs in Docker** | Everything | Infrastructure only (Postgres, Redis, Kafka, LocalStack, observability) |
-| **What runs in K8s** | — | App services + Kong |
+| **What runs in K8s** | — | App services + nginx Ingress |
 | **Extra tools needed** | Docker Desktop | Docker Desktop + kubectl + minikube |
 
 Frontend dev servers (`web-user`, `web-admin`) are the same for both options — see [Frontend](#frontend) below.
@@ -74,7 +74,7 @@ make down
 
 ### Option B — Kubernetes (minikube)
 
-Infrastructure stays in Docker Compose. The four app services and Kong run as pods in a local minikube cluster.
+Infrastructure stays in Docker Compose. The four app services run as pods in a local minikube cluster, with nginx Ingress handling routing.
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -90,7 +90,7 @@ Infrastructure stays in Docker Compose. The four app services and Kong run as po
 │    video-service      ├─→ host.docker.internal (infra)   │
 │    streaming-service  │                                  │
 │    transcode-worker  ─┘                                  │
-│    kong  (NodePort 30100) ← browser / curl / frontend    │
+│    nginx Ingress (port 80) ← browser / curl / frontend   │
 └──────────────────────────────────────────────────────────┘
 ```
 
@@ -108,10 +108,11 @@ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 ```
 
-#### 3b. Start minikube
+#### 3b. Start minikube and enable nginx Ingress
 
 ```bash
 minikube start --cpus=3 --memory=4096 --driver=docker
+make k8s-ingress-setup
 ```
 
 #### 4b. Start infrastructure (Docker Compose)
@@ -150,54 +151,55 @@ kubectl get pods -n platform -w
 
 All pods should reach `Running` / `READY 1/1` within ~2 minutes.
 
-#### 7b. Point the frontends at minikube Kong
+#### 7b. Point the frontends at minikube Ingress
 
-In Kubernetes mode Kong is exposed at `<minikube-ip>:30100`, not `localhost:8100`. Update both frontend env files:
+In Kubernetes mode the nginx Ingress is exposed at `<minikube-ip>:80`, not `localhost:8100`. Update both frontend env files:
 
 ```bash
 MINIKUBE_IP=$(minikube ip)
 
-# web-user
-sed -i.bak "s|http://localhost:8100|http://$MINIKUBE_IP:30100|g" frontend/web-user/.env.local
+# web-user — replaces the Docker Compose default (localhost:8100) with the minikube IP
+sed -i.bak "s|http://localhost:8100|http://$MINIKUBE_IP|g" frontend/web-user/.env.local
 
 # web-admin
-sed -i.bak "s|http://localhost:8100|http://$MINIKUBE_IP:30100|g" frontend/web-admin/.env.local
+sed -i.bak "s|http://localhost:8100|http://$MINIKUBE_IP|g" frontend/web-admin/.env.local
 ```
 
-Or edit `frontend/web-user/.env.local` and `frontend/web-admin/.env.local` manually and replace `localhost:8100` with `$(minikube ip):30100`.
+Or edit the files manually and replace `http://localhost:8100` with `http://$(minikube ip)`.
 
 > Revert to `localhost:8100` when switching back to Docker Compose (Option A).
 
-#### 8b. Hit the API through Kong
+#### 8b. Hit the API through nginx Ingress
 
 ```bash
 MINIKUBE_IP=$(minikube ip)
 
 # Register a user
-curl -X POST http://$MINIKUBE_IP:30100/api/v1/auth/register/ \
+curl -X POST http://$MINIKUBE_IP/api/v1/auth/register/ \
   -H "Content-Type: application/json" \
   -d '{"username":"testuser","email":"test@example.com","password":"testpass123"}'
 
 # Login
-curl -X POST http://$MINIKUBE_IP:30100/api/v1/auth/login/ \
+curl -X POST http://$MINIKUBE_IP/api/v1/auth/login/ \
   -H "Content-Type: application/json" \
   -d '{"username":"testuser","password":"testpass123"}'
 ```
 
-Or port-forward Kong to `localhost` if preferred:
+Or use `minikube tunnel` to expose the Ingress at `localhost` and avoid updating the env files:
 
 ```bash
-kubectl port-forward svc/kong 8100:8100 -n platform
-# Now the frontend .env.local default (localhost:8100) works as-is
+minikube tunnel
+# Ingress is now reachable at http://localhost — update .env.local to http://localhost
 ```
 
 #### Kubernetes workflow commands
 
 | Command | What it does |
 |---|---|
+| `make k8s-ingress-setup` | Enable nginx Ingress addon in minikube (once per cluster) |
 | `make k8s-build` | Build all 4 service images inside minikube |
-| `make k8s-up` | Apply all K8s manifests (namespace, configmaps, secrets, services) |
-| `make k8s-down` | Delete all services/configmaps/secrets from the cluster |
+| `make k8s-up` | Apply all K8s manifests (namespace, configmaps, secrets, services, ingress) |
+| `make k8s-down` | Delete all services/configmaps/secrets/ingress from the cluster |
 | `make k8s-status` | Show pod status in the `platform` namespace |
 | `make k8s-logs SVC=user-service` | Tail logs for a service |
 | `make k8s-restart SVC=user-service` | Rolling restart after a configmap/secret change |
@@ -256,23 +258,39 @@ aws --endpoint-url=http://localhost:4566 s3 ls
 
 ---
 
-## Kong API Gateway
+## API Gateway
 
-All browser/client API traffic goes through Kong on port 8100:
+### Docker Compose (Option A) — Kong on port 8100
+
+All browser/client API traffic goes through Kong:
 
 ```
-http://localhost:8100/api/v1/auth/*       → user-service:8000
-http://localhost:8100/api/v1/users/*      → user-service:8000
-http://localhost:8100/api/v1/roles/*      → user-service:8000
+http://localhost:8100/api/v1/auth/*        → user-service:8000
+http://localhost:8100/api/v1/users/*       → user-service:8000
+http://localhost:8100/api/v1/roles/*       → user-service:8000
 http://localhost:8100/api/v1/permissions/* → user-service:8000
-http://localhost:8100/api/v1/videos/*     → video-service:8001
-http://localhost:8100/api/v1/catalog/*    → video-service:8001
-http://localhost:8100/api/v1/stream/*     → streaming-service:3002
+http://localhost:8100/api/v1/videos/*      → video-service:8001
+http://localhost:8100/api/v1/catalog/*     → video-service:8001
+http://localhost:8100/api/v1/stream/*      → streaming-service:3002
 ```
 
 Kong admin API (inspect live config/routes): `http://localhost:8101`
 
 Kong is configured in **DB-less declarative mode** — all config lives in `infrastructure/kong/kong.yml`. Reload after changes with `docker exec infrastructure-kong-1 kong reload`.
+
+### Kubernetes (Option B) — nginx Ingress on port 80
+
+The same routes are served by the nginx Ingress controller at `http://$(minikube ip)`:
+
+```
+http://<minikube-ip>/api/v1/auth/*        → user-service:8000
+http://<minikube-ip>/api/v1/users/*       → user-service:8000
+http://<minikube-ip>/api/v1/roles/*       → user-service:8000
+http://<minikube-ip>/api/v1/permissions/* → user-service:8000
+http://<minikube-ip>/api/v1/videos/*      → video-service:8001
+http://<minikube-ip>/api/v1/catalog/*     → video-service:8001
+http://<minikube-ip>/api/v1/stream/*      → streaming-service:3002
+```
 
 ## Architecture
 
