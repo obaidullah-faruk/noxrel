@@ -77,7 +77,8 @@ k8s-build:
 	  docker build --target production -t user-service:local       services/user-service/ && \
 	  docker build --target production -t video-service:local      services/video-service/ && \
 	  docker build --target production -t streaming-service:local  services/streaming-service/ && \
-	  docker build --target production -t transcode-worker:local   services/transcode-worker/
+	  docker build --target production -t transcode-worker:local   services/transcode-worker/ && \
+	  docker build --target production -t billing-service:local    services/billing-service/
 	@echo "All images built inside minikube."
 
 # Enable the nginx ingress controller addon (run once per minikube cluster)

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: billing-service-config
+  namespace: platform
+data:
+  DEBUG: "False"
+  LOG_LEVEL: "INFO"
+  # Infra runs in Docker Compose — reached via host.docker.internal from minikube pods
+  DB_HOST: "host.docker.internal"
+  DB_PORT: "5432"
+  DB_NAME: "billing_service"
+  # HOST listener on 9094 — the only listener minikube pods can reach
+  KAFKA_BOOTSTRAP_SERVERS: "host.docker.internal:9094"
+  KAFKA_CONSUMER_GROUP: "billing-service"
+  STRIPE_SUCCESS_URL: "http://localhost:3000/billing/success"
+  STRIPE_CANCEL_URL: "http://localhost:3000/billing/cancel"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.platform.svc.cluster.local:4317"
+  SERVICE_NAME: "billing-service"

@@ -29,6 +29,11 @@ scrape_configs:
       - targets: ["streaming-service:3002"]
     metrics_path: /metrics
 
+  - job_name: billing-service
+    static_configs:
+      - targets: ["billing-service:8003"]
+    metrics_path: /metrics
+
   - job_name: redis
     static_configs:
       - targets: ["redis-exporter:9121"]

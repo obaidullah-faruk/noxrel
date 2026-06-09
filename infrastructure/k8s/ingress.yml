@@ -66,3 +66,10 @@ spec:
                 name: streaming-service
                 port:
                   number: 3002
+          - path: /api/v1/billing
+            pathType: Prefix
+            backend:
+              service:
+                name: billing-service
+                port:
+                  number: 8003

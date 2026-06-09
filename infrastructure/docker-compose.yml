@@ -193,6 +193,59 @@ services:
         tag: streaming-service
     restart: unless-stopped
 
+  billing-service-test:
+    build:
+      context: ../services/billing-service
+      dockerfile: Dockerfile
+      target: test
+    env_file:
+      - ../services/billing-service/.env
+    environment:
+      DB_HOST: postgres
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: >
+      sh -c "uv run pytest /app/tests/ -v --tb=short"
+    profiles: ["test"]
+
+  billing-service:
+    build:
+      context: ../services/billing-service
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - "8003:8003"
+    env_file:
+      - ../services/billing-service/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8003/health"]
+      interval: 15s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: 127.0.0.1:24224
+        fluentd-async: "true"
+        tag: billing-service
+    command: >
+      sh -c "
+        uv sync --frozen --no-dev &&
+        uv run alembic upgrade head &&
+        uv run uvicorn app.main:app --host 0.0.0.0 --port 8003
+      "
+    restart: unless-stopped
+
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.153.0
     command: ["--config=/etc/otel/otel-collector-config.yaml"]
