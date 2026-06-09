@@ -233,7 +233,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ userId: s
                     <CalendarTodayRoundedIcon sx={{ fontSize: 15, color: '#10B981' }} />
                   </Box>
                   <Box>
-                    <Typography variant="caption" color="text.secondary" display="block">
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
                       Joined
                     </Typography>
                     <Typography variant="body2" sx={{ fontWeight: 500 }}>
@@ -259,12 +259,12 @@ export default function UserDetailPage({ params }: { params: Promise<{ userId: s
                     </Box>
                     <Box>
                       {user.profile?.country_code && (
-                        <Typography variant="caption" color="text.secondary" display="block">
+                        <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
                           Country: {user.profile.country_code}
                         </Typography>
                       )}
                       {user.profile?.preferred_language && (
-                        <Typography variant="caption" color="text.secondary" display="block">
+                        <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
                           Language: {user.profile.preferred_language}
                         </Typography>
                       )}

@@ -1,5 +1,6 @@
 import type { PaginatedVideos, Video, VideoEditPayload } from '@/types/video';
 import type { PaginatedUsers, User } from '@/types/user';
+import type { AdminSubscription, Refund } from '@/types/billing';
 
 // All requests go through Kong (port 8100 locally).
 // Kong routes /api/v1/* to the appropriate upstream service.
@@ -31,14 +32,28 @@ function redirectToLogin(): never {
   throw new Error('Session expired.');
 }
 
+// Fail fast on an unreachable gateway instead of letting a request hang.
+// In K8s mode a misconfigured gateway URL (e.g. an unroutable minikube IP)
+// would otherwise freeze the UI for the OS-level connect timeout (~11s).
+const REQUEST_TIMEOUT_MS = 8000;
+
 async function apiFetch<T>(url: string, options: RequestInit = {}, retry = true): Promise<T> {
-  const res = await fetch(url, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      ...options,
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+    });
+  } catch (err) {
+    if (err instanceof DOMException && err.name === 'TimeoutError') {
+      throw new Error('Gateway unreachable — request timed out. Is the API gateway running?');
+    }
+    throw new Error('Cannot reach the API gateway.');
+  }
 
   // On 401, attempt one silent token refresh then replay the original request.
   if (res.status === 401 && retry) {
@@ -124,6 +139,33 @@ export async function fetchUsers(
 export async function fetchUser(token: string, userId: string): Promise<User> {
   return apiFetch<User>(`${GATEWAY}/api/v1/users/${userId}`, {
     headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+// ── Billing Service (admin) ─────────────────────────────────────────────────────
+
+export async function fetchAdminSubscriptions(
+  token: string,
+  params: { page?: number; page_size?: number } = {},
+): Promise<AdminSubscription[]> {
+  const qs = new URLSearchParams();
+  if (params.page)      qs.set('page', String(params.page));
+  if (params.page_size) qs.set('page_size', String(params.page_size));
+  const query = qs.toString() ? `?${qs}` : '';
+  return apiFetch<AdminSubscription[]>(`${GATEWAY}/api/v1/billing/admin/subscriptions${query}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export async function refundSubscription(
+  token: string,
+  subscriptionId: string,
+  body: { amount_usd?: number; reason?: string } = {},
+): Promise<Refund> {
+  return apiFetch<Refund>(`${GATEWAY}/api/v1/billing/admin/subscriptions/${subscriptionId}/refund`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(body),
   });
 }
 

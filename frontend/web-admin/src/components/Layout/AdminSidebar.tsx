@@ -9,6 +9,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import VideoLibraryRoundedIcon from '@mui/icons-material/VideoLibraryRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
+import CreditCardRoundedIcon from '@mui/icons-material/CreditCardRounded';
 import PlayCircleFilledRoundedIcon from '@mui/icons-material/PlayCircleFilledRounded';
 
 export const DRAWER_WIDTH = 240;
@@ -21,6 +22,7 @@ const NAV = [
       { label: 'Dashboard', href: '/dashboard', icon: DashboardRoundedIcon },
       { label: 'Videos',    href: '/videos',    icon: VideoLibraryRoundedIcon },
       { label: 'Users',     href: '/users',     icon: PeopleRoundedIcon },
+      { label: 'Subscriptions', href: '/subscriptions', icon: CreditCardRoundedIcon },
     ],
   },
 ];

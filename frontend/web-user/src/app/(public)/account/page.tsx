@@ -14,10 +14,9 @@ import { alpha, useTheme } from '@mui/material/styles';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import CreditCardRoundedIcon from '@mui/icons-material/CreditCardRounded';
+import { fetchCurrentUser } from '@/lib/api';
 import { getToken } from '@/lib/auth-client';
 import type { User } from '@/types/user';
-
-const GATEWAY = process.env.NEXT_PUBLIC_API_GATEWAY_URL ?? 'http://localhost:8100';
 
 const AVATAR_COLORS = ['#6366F1', '#8B5CF6', '#EC4899', '#10B981', '#F59E0B', '#0284C7'];
 function avatarColor(name: string): string {
@@ -46,16 +45,18 @@ export default function AccountPage() {
   const [error, setError]     = useState<string | null>(null);
 
   useEffect(() => {
-    getToken().then(token => {
+    (async () => {
+      const token = await getToken();
       if (!token) { setError('Not signed in'); setLoading(false); return; }
-      fetch(`${GATEWAY}/api/v1/users/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then(r => r.ok ? r.json() : Promise.reject(new Error(`${r.status}`)))
-        .then((u: User) => setUser(u))
-        .catch(err => setError(String(err)))
-        .finally(() => setLoading(false));
-    });
+      try {
+        const u = await fetchCurrentUser(token);
+        setUser(u);
+      } catch (err) {
+        setError(String(err));
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
   if (loading) {
@@ -165,7 +166,7 @@ export default function AccountPage() {
 
           <Button
             component={Link}
-            href="/subscriptions"
+            href="/billing"
             variant="outlined"
             fullWidth
             sx={{ borderRadius: 2, fontWeight: 600 }}

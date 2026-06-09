@@ -1,4 +1,5 @@
 import type { PaginatedVideos, Video } from '@/types/video';
+import type { User } from '@/types/user';
 
 const GATEWAY = process.env.NEXT_PUBLIC_API_GATEWAY_URL ?? 'http://localhost:8100';
 
@@ -70,4 +71,10 @@ export async function fetchVideo(token: string, videoId: string): Promise<Video>
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (token) headers['Authorization'] = `Bearer ${token}`;
   return apiFetch<Video>(`${GATEWAY}/api/v1/catalog/${videoId}/`, { headers }, true);
+}
+
+export async function fetchCurrentUser(token: string): Promise<User> {
+  return apiFetch<User>(`${GATEWAY}/api/v1/users/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 }

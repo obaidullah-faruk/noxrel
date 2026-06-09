@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
   try {
     const upstream = await fetch(`${GATEWAY}/api/v1/auth/register`, {
       method: 'POST',
+      signal: AbortSignal.timeout(8000),
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
