@@ -42,6 +42,7 @@ cp services/user-service/.env.example      services/user-service/.env
 cp services/video-service/.env.example     services/video-service/.env
 cp services/transcode-worker/.env.example  services/transcode-worker/.env
 cp services/streaming-service/.env.example services/streaming-service/.env
+cp services/billing-service/.env.example   services/billing-service/.env
 
 # Frontends (copy to .env.local)
 cp frontend/web-user/.env.example  frontend/web-user/.env.local
@@ -49,6 +50,18 @@ cp frontend/web-admin/.env.example frontend/web-admin/.env.local
 ```
 
 Edit each file to fill in secrets (JWT keys, etc.) before the first run.
+
+#### Stripe keys (billing-service)
+
+`services/billing-service/.env` contains two placeholders that **cannot be auto-generated** — you must supply real Stripe test-mode keys:
+
+| Variable | Where to get it |
+|---|---|
+| `STRIPE_SECRET_KEY` | [dashboard.stripe.com/test/apikeys](https://dashboard.stripe.com/test/apikeys) — copy the **Secret key** (`sk_test_…`) |
+| `STRIPE_WEBHOOK_SECRET` | Run `stripe listen --forward-to localhost:8003/api/v1/billing/webhooks/stripe` — the CLI prints the signing secret (`whsec_…`) |
+
+All other values in `.env.example` files work as-is for local dev — only these two Stripe keys require manual input. The billing-service will start without them, but checkout and webhooks will fail until they are set.
+
 
 Once done, continue with **[Option A](#option-a--docker-compose)** or **[Option B](#option-b--kubernetes-minikube)**.
 
@@ -151,23 +164,29 @@ kubectl get pods -n platform -w
 
 All pods should reach `Running` / `READY 1/1` within ~2 minutes.
 
-#### 7b. Point the frontends at minikube Ingress
+#### 7b. Point the frontends at the nginx Ingress
 
-In Kubernetes mode the nginx Ingress is exposed at `<minikube-ip>:80`, not `localhost:8100`. Update both frontend env files:
+In Kubernetes mode the API is served by the nginx Ingress inside the cluster, not by Docker Compose on `localhost:8100`. How you reach it depends on your minikube driver.
+
+**macOS / Windows (Docker driver) — use port-forward.** On the Docker driver the minikube IP (e.g. `192.168.49.2`) lives inside the Docker VM and is **not routable from your host or browser** — pointing the env files at it will make every request hang ~11s and then fail with a `502`. Forward the Ingress controller to `localhost:8100` instead and leave the env files at their Docker Compose default:
+
+```bash
+# Keep this running in its own terminal while you use the apps.
+kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8100:80
+```
+
+`frontend/web-user/.env.local` and `frontend/web-admin/.env.local` already point at `http://localhost:8100`, so no edit is needed — the port-forward makes the cluster Ingress answer there.
+
+**Linux (or hyperkit/qemu/kvm drivers) — the minikube IP is host-routable**, so you can point the env files straight at it:
 
 ```bash
 MINIKUBE_IP=$(minikube ip)
-
-# web-user — replaces the Docker Compose default (localhost:8100) with the minikube IP
 sed -i.bak "s|http://localhost:8100|http://$MINIKUBE_IP|g" frontend/web-user/.env.local
-
-# web-admin
 sed -i.bak "s|http://localhost:8100|http://$MINIKUBE_IP|g" frontend/web-admin/.env.local
+# Revert to localhost:8100 (and delete the .env.local.bak files) when switching back to Docker Compose.
 ```
 
-Or edit the files manually and replace `http://localhost:8100` with `http://$(minikube ip)`.
-
-> Revert to `localhost:8100` when switching back to Docker Compose (Option A).
+> **Next.js reads `.env.local` only at startup.** After changing either env file — or after starting the port-forward — **restart the dev server** (`npm run dev`) or the old gateway URL stays baked in and requests keep failing.
 
 #### 8b. Hit the API through nginx Ingress
 
@@ -185,11 +204,12 @@ curl -X POST http://$MINIKUBE_IP/api/v1/auth/login/ \
   -d '{"username":"testuser","password":"testpass123"}'
 ```
 
-Or use `minikube tunnel` to expose the Ingress at `localhost` and avoid updating the env files:
+On the Docker driver, reach these same endpoints through the port-forward from 7b (`localhost:8100`) instead of the minikube IP:
 
 ```bash
-minikube tunnel
-# Ingress is now reachable at http://localhost — update .env.local to http://localhost
+curl -X POST http://localhost:8100/api/v1/auth/login/ \
+  -H "Content-Type: application/json" \
+  -d '{"username":"testuser","password":"testpass123"}'
 ```
 
 #### Kubernetes workflow commands
@@ -272,6 +292,7 @@ http://localhost:8100/api/v1/permissions/* → user-service:8000
 http://localhost:8100/api/v1/videos/*      → video-service:8001
 http://localhost:8100/api/v1/catalog/*     → video-service:8001
 http://localhost:8100/api/v1/stream/*      → streaming-service:3002
+http://localhost:8100/api/v1/billing/*     → billing-service:8003
 ```
 
 Kong admin API (inspect live config/routes): `http://localhost:8101`
@@ -290,6 +311,7 @@ http://<minikube-ip>/api/v1/permissions/* → user-service:8000
 http://<minikube-ip>/api/v1/videos/*      → video-service:8001
 http://<minikube-ip>/api/v1/catalog/*     → video-service:8001
 http://<minikube-ip>/api/v1/stream/*      → streaming-service:3002
+http://<minikube-ip>/api/v1/billing/*     → billing-service:8003
 ```
 
 ## Architecture
@@ -303,7 +325,7 @@ http://<minikube-ip>/api/v1/stream/*      → streaming-service:3002
 | streaming-service | Fastify (Node.js) | Redis | HLS/DASH manifest serving |
 | live-service | Node.js + nginx-rtmp | Redis | RTMP ingest + live HLS |
 | social-service | FastAPI | MongoDB | Comments, likes, follows |
-| billing-service | Django REST | PostgreSQL | Subscriptions, payments |
+| billing-service | FastAPI + SQLAlchemy | PostgreSQL | Stripe subscriptions, trials, invoices, in-process scheduled jobs (APScheduler) |
 | search-service | FastAPI | Elasticsearch | Full-text video/channel search |
 | notification-service | FastAPI | — | Email, push, in-app notifications |
 | ai-service | FastAPI + Claude API | PostgreSQL + Redis | AI-powered features |
@@ -330,6 +352,7 @@ http://<minikube-ip>/api/v1/stream/*      → streaming-service:3002
 | user-service | 8000 | Direct access (bypasses Kong) |
 | video-service | 8001 | Direct access (bypasses Kong) |
 | streaming-service | 3002 | Direct access (bypasses Kong) |
+| billing-service | 8003 | Direct access (bypasses Kong) |
 
 ## Local UIs
 
@@ -455,12 +478,12 @@ Use sparingly — CI runs the same checks and will catch any bypass.
 | transcode-worker | ✅ implemented | [services/transcode-worker/README.md](services/transcode-worker/README.md) |
 | streaming-service | ✅ implemented | [services/streaming-service/README.md](services/streaming-service/README.md) |
 | web-admin | ✅ implemented | [frontend/web-admin/README.md](frontend/web-admin/README.md) |
-| live-service | planned | — |
-| social-service | planned | — |
-| billing-service | planned | — |
-| search-service | planned | — |
-| notification-service | planned | — |
-| ai-service | planned | — |
+| live-service | pending | — |
+| social-service | pending | — |
+| billing-service | ✅ implemented | - |
+| search-service | pending | — |
+| notification-service | pending | — |
+| ai-service | pending | — |
 | web-user | ✅ implemented | [frontend/web-user/README.md](frontend/web-user/README.md) |
 
 ## Repository Layout
