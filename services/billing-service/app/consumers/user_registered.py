@@ -49,6 +49,7 @@ async def handle_user_registered(user_id: str, email: str) -> None:
             db.add(subscription)
             await db.commit()
 
+            assert subscription.trial_end is not None  # set two lines above
             await publish(
                 "billing.trial_started",
                 {"user_id": user_id, "trial_end": subscription.trial_end.isoformat()},

@@ -42,8 +42,8 @@ async def handle_checkout_completed(session_obj, db: AsyncSession) -> None:
 
     sub.stripe_subscription_id = stripe_sub_id
     sub.status = stripe_sub.status
-    sub.current_period_start = datetime.fromtimestamp(stripe_sub.current_period_start, tz=UTC)
-    sub.current_period_end = datetime.fromtimestamp(stripe_sub.current_period_end, tz=UTC)
+    sub.current_period_start = datetime.fromtimestamp(stripe_sub.current_period_start, tz=UTC)  # type: ignore[attr-defined]
+    sub.current_period_end = datetime.fromtimestamp(stripe_sub.current_period_end, tz=UTC)  # type: ignore[attr-defined]
     await db.commit()
 
     await publish("payment.succeeded", {"user_id": str(sub.user_id), "plan": sub.plan_id and str(sub.plan_id)})

@@ -104,7 +104,7 @@ async def create_checkout_session(body: CheckoutSessionIn, user: CurrentUser, db
         cancel_url=settings.stripe_cancel_url,
         metadata={"user_id": str(user.id), "plan_id": str(plan.id)},
     )
-    return CheckoutSessionOut(checkout_url=session.url, session_id=session.id)
+    return CheckoutSessionOut(checkout_url=session.url or "", session_id=session.id)
 
 
 # ---------------------------------------------------------------------------
@@ -229,7 +229,7 @@ async def add_payment_method(body: AddPaymentMethodIn, user: CurrentUser, db: As
     except stripe.error.StripeError as exc:
         raise HTTPException(status_code=422, detail=str(exc.user_message)) from exc
 
-    card = pm.get("card", {})
+    card = pm.card
     existing_defaults = await db.execute(
         select(PaymentMethod).where(PaymentMethod.user_id == user.id, PaymentMethod.is_default == True)  # noqa: E712
     )
@@ -238,11 +238,11 @@ async def add_payment_method(body: AddPaymentMethodIn, user: CurrentUser, db: As
     payment_method = PaymentMethod(
         user_id=user.id,
         stripe_payment_method_id=body.stripe_payment_method_id,
-        type=pm.get("type", "card"),
-        card_brand=card.get("brand", ""),
-        last4=card.get("last4", ""),
-        exp_month=card.get("exp_month", 0),
-        exp_year=card.get("exp_year", 0),
+        type=pm.type or "card",
+        card_brand=card.brand if card else "",
+        last4=card.last4 if card else "",
+        exp_month=card.exp_month if card else 0,
+        exp_year=card.exp_year if card else 0,
         is_default=not has_default,
     )
     db.add(payment_method)
@@ -343,7 +343,7 @@ async def admin_refund_subscription(
         raise HTTPException(status_code=404, detail="No paid invoice found")
 
     stripe_invoice = await retrieve_invoice(latest_invoice.stripe_invoice_id)
-    charge_id = stripe_invoice.get("charge")
+    charge_id = stripe_invoice.charge  # type: ignore[attr-defined]
     if not charge_id:
         raise HTTPException(status_code=422, detail="No charge associated with invoice")
 
@@ -360,5 +360,5 @@ async def admin_refund_subscription(
     return RefundOut(
         refund_id=refund.id,
         amount_usd=Decimal(refund.amount) / 100,
-        status=refund.status,
+        status=refund.status or "unknown",
     )

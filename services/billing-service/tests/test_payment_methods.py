@@ -7,10 +7,12 @@ from httpx import AsyncClient
 
 def _mock_stripe_pm(pm_id: str = "pm_test123") -> MagicMock:
     pm = MagicMock()
-    pm.get = lambda key, default=None: {
-        "type": "card",
-        "card": {"brand": "visa", "last4": "4242", "exp_month": 12, "exp_year": 2030},
-    }.get(key, default)
+    pm.type = "card"
+    pm.card = MagicMock()
+    pm.card.brand = "visa"
+    pm.card.last4 = "4242"
+    pm.card.exp_month = 12
+    pm.card.exp_year = 2030
     return pm
 
 

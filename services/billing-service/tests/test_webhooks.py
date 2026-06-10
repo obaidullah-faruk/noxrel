@@ -141,7 +141,7 @@ class TestTrialEndingWebhook:
         }
 
         # give it a stripe_subscription_id so lookup works
-        trialing_subscription.stripe_subscription_id = stripe_sub_obj["id"]
+        trialing_subscription.stripe_subscription_id = stripe_sub_obj["id"]  # type: ignore[assignment]
         await db_session.commit()
 
         with patch("app.billing.webhooks.publish", new_callable=AsyncMock) as mock_publish:
