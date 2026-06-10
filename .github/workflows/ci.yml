@@ -23,6 +23,11 @@ jobs:
             lint_cmd: "uv run ruff check . && uv run mypy . --ignore-missing-imports"
             test_cmd: "uv run pytest tests/ -v --tb=short"
             django_settings: ""
+          - service: billing-service
+            install_cmd: "pip install uv && uv sync --group dev"
+            lint_cmd: "uv run ruff check . && uv run mypy . --ignore-missing-imports"
+            test_cmd: "uv run pytest tests/ -v --tb=short"
+            django_settings: ""
 
     services:
       postgres:
@@ -72,3 +77,31 @@ jobs:
       - name: Test
         working-directory: services/${{ matrix.service }}
         run: ${{ matrix.test_cmd }}
+
+  lint-test-node:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: streaming-service
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+          cache-dependency-path: services/${{ matrix.service }}/package-lock.json
+      - name: Install
+        working-directory: services/${{ matrix.service }}
+        run: npm ci
+      - name: Lint
+        working-directory: services/${{ matrix.service }}
+        run: npm run lint
+      - name: Typecheck
+        working-directory: services/${{ matrix.service }}
+        run: npm run typecheck
+      - name: Test
+        working-directory: services/${{ matrix.service }}
+        run: npm test
