@@ -20,7 +20,7 @@ spec:
           command:
             - sh
             - -c
-            - uv run python manage.py migrate --noinput
+            - uv run --frozen --no-dev python manage.py migrate --noinput
           envFrom:
             - configMapRef:
                 name: video-service-config
@@ -47,6 +47,12 @@ spec:
             limits:
               cpu: "500m"
               memory: "512Mi"
+          startupProbe:
+            httpGet:
+              path: /health/
+              port: 8001
+            periodSeconds: 10
+            failureThreshold: 30
           readinessProbe:
             httpGet:
               path: /health/

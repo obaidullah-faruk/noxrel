@@ -19,6 +19,7 @@ dependencies = [
     "gunicorn>=23.0",
     "whitenoise>=6.7",
     "structlog>=24.4",
+    "requests>=2.32",
     "opentelemetry-sdk>=1.42.1",
     "opentelemetry-exporter-otlp-proto-grpc>=1.42.1",
     "opentelemetry-instrumentation-django>=0.63b1",

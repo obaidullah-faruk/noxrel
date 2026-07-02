@@ -85,6 +85,7 @@ jobs:
       matrix:
         include:
           - service: streaming-service
+          - service: live-service
 
     steps:
       - uses: actions/checkout@v4

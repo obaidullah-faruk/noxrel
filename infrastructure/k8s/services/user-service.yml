@@ -21,9 +21,9 @@ spec:
             - sh
             - -c
             - |
-              uv run python manage.py migrate --noinput &&
-              uv run python manage.py seed_rbac &&
-              uv run python manage.py create_dev_admin
+              uv run --frozen --no-dev python manage.py migrate --noinput &&
+              uv run --frozen --no-dev python manage.py seed_rbac &&
+              uv run --frozen --no-dev python manage.py create_dev_admin
           envFrom:
             - configMapRef:
                 name: user-service-config
@@ -46,7 +46,7 @@ spec:
               name: prometheus-multiproc
           resources:
             requests:
-              cpu: "100m"
+              cpu: "200m"
               memory: "256Mi"
             limits:
               cpu: "500m"

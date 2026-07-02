@@ -45,6 +45,16 @@ services:
           - /api/v1/stream
         strip_path: false
 
+  - name: live-service
+    url: http://live-service:3000
+    routes:
+      - name: live-routes
+        # Covers REST endpoints and the socket.io chat path
+        # (/api/v1/live/socket.io). The internal RTMP hooks are NOT routed here.
+        paths:
+          - /api/v1/live
+        strip_path: false
+
 # ---------------------------------------------------------------------------
 # Global plugins applied to all routes
 # ---------------------------------------------------------------------------

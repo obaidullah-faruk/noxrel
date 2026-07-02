@@ -12,6 +12,10 @@ metadata:
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
     nginx.ingress.kubernetes.io/cors-max-age: "3600"
     nginx.ingress.kubernetes.io/enable-request-id: "true"
+    # socket.io live chat is a long-lived WebSocket — raise the proxy timeouts so
+    # idle connections aren't dropped at the 60s default.
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
 spec:
   ingressClassName: nginx
   rules:
@@ -73,3 +77,13 @@ spec:
                 name: billing-service
                 port:
                   number: 8003
+          # Covers REST endpoints, heartbeat, and the socket.io chat path
+          # (/api/v1/live/socket.io). RTMP ingest is NOT routed here — it goes
+          # straight to the nginx-rtmp Service on 1935.
+          - path: /api/v1/live
+            pathType: Prefix
+            backend:
+              service:
+                name: live-service
+                port:
+                  number: 3000

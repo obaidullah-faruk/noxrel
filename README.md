@@ -1,288 +1,172 @@
 # Noxrel: Video Streaming Platform
 
-A cloud-native, event-driven video streaming platform built as a microservices monorepo.
+Cloud-native, event-driven video streaming platform (microservices monorepo).
 
-## Quick Start
+## Choose how to run the backend
 
-Choose one of two ways to run the backend services:
-
-| | [Option A — Docker Compose](#option-a--docker-compose) | [Option B — Kubernetes (minikube)](#option-b--kubernetes-minikube) |
+| | [Docker Compose](#docker-compose) | [Kubernetes (minikube)](#kubernetes-minikube) |
 |---|---|---|
-| **Best for** | Simple local dev, first-time setup | Learning K8s with real services |
-| **What runs in Docker** | Everything | Infrastructure only (Postgres, Redis, Kafka, LocalStack, observability) |
-| **What runs in K8s** | — | App services + nginx Ingress |
-| **Extra tools needed** | Docker Desktop | Docker Desktop + kubectl + minikube |
+| **Best for** | Fastest local dev | Learning K8s with real services |
+| **Backend runs in** | Docker Compose (all services + Kong) | minikube pods + nginx Ingress |
+| **Infra (Postgres, Kafka, …)** | Docker Compose | Docker Compose (`make infra-up`) |
+| **API URL for frontends** | `http://localhost:8100` | `http://localhost:8100` + port-forward (macOS/Windows) |
+| **Extra tools** | Docker Desktop | Docker Desktop + kubectl + minikube |
 
-Frontend dev servers (`web-user`, `web-admin`) are the same for both options — see [Frontend](#frontend) below.
+Frontends (`web-user` :3000, `web-admin` :3001) run the same way in both modes — see [Frontends](#frontends).
 
 ---
 
-### Common setup (both options)
-
-Complete these steps before following either Option A or Option B.
-
-#### 1. Install git hooks (once per clone)
+## One-time setup (both paths)
 
 ```bash
 make install-hooks
-```
 
-This installs [pre-commit](https://pre-commit.com/) hooks that run automatically on every `git commit`.
-
-#### 2. Copy environment files
-
-Each service, frontend, and the infrastructure stack ships an `.env.example`. Copy it to the appropriate local file before starting anything:
-
-```bash
-# Infrastructure stack (Elasticsearch/Kibana/Postgres/Grafana dev credentials)
 cp infrastructure/.env.example infrastructure/.env
-
-# Backend services (copy to .env)
 cp services/user-service/.env.example      services/user-service/.env
 cp services/video-service/.env.example     services/video-service/.env
 cp services/transcode-worker/.env.example  services/transcode-worker/.env
 cp services/streaming-service/.env.example services/streaming-service/.env
 cp services/billing-service/.env.example   services/billing-service/.env
-
-# Frontends (copy to .env.local)
-cp frontend/web-user/.env.example  frontend/web-user/.env.local
-cp frontend/web-admin/.env.example frontend/web-admin/.env.local
+cp frontend/web-user/.env.example          frontend/web-user/.env.local
+cp frontend/web-admin/.env.example         frontend/web-admin/.env.local
 ```
 
-Edit each file to fill in secrets (JWT keys, etc.) before the first run.
-
-#### Stripe keys (billing-service)
-
-`services/billing-service/.env` contains two placeholders that **cannot be auto-generated** — you must supply real Stripe test-mode keys:
-
-| Variable | Where to get it |
-|---|---|
-| `STRIPE_SECRET_KEY` | [dashboard.stripe.com/test/apikeys](https://dashboard.stripe.com/test/apikeys) — copy the **Secret key** (`sk_test_…`) |
-| `STRIPE_WEBHOOK_SECRET` | Run `stripe listen --forward-to localhost:8003/api/v1/billing/webhooks/stripe` — the CLI prints the signing secret (`whsec_…`) |
-
-All other values in `.env.example` files work as-is for local dev — only these two Stripe keys require manual input. The billing-service will start without them, but checkout and webhooks will fail until they are set.
-
-
-Once done, continue with **[Option A](#option-a--docker-compose)** or **[Option B](#option-b--kubernetes-minikube)**.
+Fill in secrets before the first run. **Stripe (billing only):** set `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` in `services/billing-service/.env` — see [dashboard.stripe.com/test/apikeys](https://dashboard.stripe.com/test/apikeys). Everything else works with the example defaults.
 
 ---
 
-### Option A — Docker Compose
+## Docker Compose
 
-Everything (infrastructure + all services + Kong) runs in Docker Compose. Kong is available at `localhost:8100` — the frontend `.env.local` files already point there by default.
-
-#### 3a. Start everything
+Everything (infra + services + Kong) in one stack. Kong is on port **8100** — frontends already point there.
 
 ```bash
-make up
+make up                  # start infra + all services
+make frontend-start      # web-user :3000, web-admin :3001
 ```
-
-#### Stop (Docker)
 
 ```bash
-make down
-```
-
----
-
-### Option B — Kubernetes (minikube)
-
-Infrastructure stays in Docker Compose. The four app services run as pods in a local minikube cluster, with nginx Ingress handling routing.
-
-```
-┌──────────────────────────────────────────────────────────┐
-│  Your local machine                                      │
-│                                                          │
-│  Docker Compose (make infra-up)                          │
-│    postgres:5432   redis:6379   kafka:9092/9094           │
-│    localstack:4566  elasticsearch:9200                   │
-│    prometheus  grafana  kibana  jaeger                   │
-│                                                          │
-│  Minikube cluster                                        │
-│    user-service      ─┐                                  │
-│    video-service      ├─→ host.docker.internal (infra)   │
-│    streaming-service  │                                  │
-│    transcode-worker  ─┘                                  │
-│    nginx Ingress (port 80) ← browser / curl / frontend   │
-└──────────────────────────────────────────────────────────┘
-```
-
-#### Prerequisites
-
-Install kubectl, minikube, and k9s (optional TUI for cluster browsing):
-
-```bash
-# macOS
-brew install kubectl minikube k9s
-
-# Linux
-curl -LO "https://dl.k8s.io/release/$(curl -sL https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
-```
-
-#### 3b. Start minikube and enable nginx Ingress
-
-```bash
-minikube start --cpus=3 --memory=4096 --driver=docker
-make k8s-ingress-setup
-```
-
-#### 4b. Start infrastructure (Docker Compose)
-
-```bash
-make infra-up
-```
-
-Verify all infra containers are healthy:
-
-```bash
-make ps
-```
-
-#### 5b. Build service images inside minikube
-
-```bash
-make k8s-build
-```
-
-This points the Docker CLI at minikube's internal daemon and builds all four service images there. The images never touch Docker Hub.
-
-#### 6b. Deploy to the cluster
-
-```bash
-make k8s-up
-```
-
-Watch pods start (Django services run DB migrations in an init container first):
-
-```bash
-make k8s-status
-# or live:
-kubectl get pods -n platform -w
-```
-
-All pods should reach `Running` / `READY 1/1` within ~2 minutes.
-
-#### 7b. Point the frontends at the nginx Ingress
-
-In Kubernetes mode the API is served by the nginx Ingress inside the cluster, not by Docker Compose on `localhost:8100`. How you reach it depends on your minikube driver.
-
-**macOS / Windows (Docker driver) — use port-forward.** On the Docker driver the minikube IP (e.g. `192.168.49.2`) lives inside the Docker VM and is **not routable from your host or browser** — pointing the env files at it will make every request hang ~11s and then fail with a `502`. Forward the Ingress controller to `localhost:8100` instead and leave the env files at their Docker Compose default:
-
-```bash
-# Keep this running in its own terminal while you use the apps.
-kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8100:80
-```
-
-`frontend/web-user/.env.local` and `frontend/web-admin/.env.local` already point at `http://localhost:8100`, so no edit is needed — the port-forward makes the cluster Ingress answer there.
-
-**Linux (or hyperkit/qemu/kvm drivers) — the minikube IP is host-routable**, so you can point the env files straight at it:
-
-```bash
-MINIKUBE_IP=$(minikube ip)
-sed -i.bak "s|http://localhost:8100|http://$MINIKUBE_IP|g" frontend/web-user/.env.local
-sed -i.bak "s|http://localhost:8100|http://$MINIKUBE_IP|g" frontend/web-admin/.env.local
-# Revert to localhost:8100 (and delete the .env.local.bak files) when switching back to Docker Compose.
-```
-
-> **Next.js reads `.env.local` only at startup.** After changing either env file — or after starting the port-forward — **restart the dev server** (`npm run dev`) or the old gateway URL stays baked in and requests keep failing.
-
-#### 8b. Hit the API through nginx Ingress
-
-```bash
-MINIKUBE_IP=$(minikube ip)
-
-# Register a user
-curl -X POST http://$MINIKUBE_IP/api/v1/auth/register/ \
-  -H "Content-Type: application/json" \
-  -d '{"username":"testuser","email":"test@example.com","password":"testpass123"}'
-
-# Login
-curl -X POST http://$MINIKUBE_IP/api/v1/auth/login/ \
-  -H "Content-Type: application/json" \
-  -d '{"username":"testuser","password":"testpass123"}'
-```
-
-On the Docker driver, reach these same endpoints through the port-forward from 7b (`localhost:8100`) instead of the minikube IP:
-
-```bash
-curl -X POST http://localhost:8100/api/v1/auth/login/ \
-  -H "Content-Type: application/json" \
-  -d '{"username":"testuser","password":"testpass123"}'
-```
-
-#### Kubernetes workflow commands
-
-| Command | What it does |
-|---|---|
-| `make k8s-ingress-setup` | Enable nginx Ingress addon in minikube (once per cluster) |
-| `make k8s-build` | Build all 4 service images inside minikube |
-| `make k8s-up` | Apply all K8s manifests (namespace, configmaps, secrets, services, ingress) |
-| `make k8s-down` | Delete all services/configmaps/secrets/ingress from the cluster |
-| `make k8s-status` | Show pod status in the `platform` namespace |
-| `make k8s-logs SVC=user-service` | Tail logs for a service |
-| `make k8s-restart SVC=user-service` | Rolling restart after a configmap/secret change |
-
-#### After changing a ConfigMap or Secret
-
-```bash
-# Re-apply the changed file
-kubectl apply -f infrastructure/k8s/configmaps/user-service.yml
-
-# Trigger a rolling restart so pods pick up the new values
-make k8s-restart SVC=user-service
-```
-
-#### Stop (Kubernetes)
-
-```bash
-make k8s-down       # remove services from cluster
-make infra-down     # stop Docker Compose infrastructure
-minikube stop       # stop the cluster (preserves state)
-# minikube delete   # full teardown — removes all cluster data
-```
-
----
-
-### Frontend
-
-Frontend dev servers are independent of Docker vs. Kubernetes — start them the same way either way.
-
-```bash
-# Install npm dependencies (once after cloning, or after package changes)
-make frontend-install
-
-# Start both frontend dev servers (web-user: 3000, web-admin: 3001)
-make frontend-start
-```
-
-`frontend-start` is equivalent to `frontend-install` + `frontend-dev`. Use `make frontend-dev` to skip the install step on subsequent runs.
-
-```bash
-# Stop frontend dev servers
+make down                # stop everything
 make frontend-stop
 ```
 
 ---
 
-## Useful commands
+## Kubernetes (minikube)
+
+Infra stays in Docker Compose; app services run as pods. Follow these steps **in order**:
 
 ```bash
-# Tail all Docker Compose service logs
-make logs
+# 1. Cluster + ingress
+minikube start --cpus=3 --memory=4096 --driver=docker
+make k8s-ingress-setup          # first run may take ~10 min
 
-# Inspect LocalStack S3 buckets
-aws --endpoint-url=http://localhost:4566 s3 ls
+# 2. Shared infra (Postgres, Redis, Kafka, LocalStack, observability)
+make infra-up
+make ps                         # verify containers are healthy
+
+# 3. Build images inside minikube and deploy
+make k8s-build
+make k8s-up
+make k8s-status                 # all pods should reach 1/1
+
+# 4. Bridge ingress to your machine (required on macOS/Windows Docker driver)
+make k8s-ingress-forward        # API at http://localhost:8100
+
+# 5. Frontends — point at the gateway and start
+make frontend-env-k8s           # sets localhost:8100 on Docker driver
+make frontend-start
+```
+
+### macOS / Windows — do **not** use `minikube ip` in `.env.local`
+
+On the Docker driver, the minikube IP (e.g. `192.168.49.2`) lives inside the Docker VM. Your browser and Next.js **cannot reach it** — requests hang and time out with *Gateway unreachable*.
+
+Use **`make k8s-ingress-forward`** and keep the gateway URL at **`http://localhost:8100`**. If you already ran the `sed`/`minikube ip` commands, reset with:
+
+```bash
+make frontend-env-k8s
+make k8s-ingress-forward
+make frontend-stop && make frontend-dev    # Next.js reads .env.local only at startup
+```
+
+### Linux (kvm / qemu / hyperkit)
+
+The minikube IP is host-routable — `make frontend-env-k8s` sets `http://$(minikube ip)` automatically. No port-forward needed.
+
+### Verify the API
+
+```bash
+curl http://localhost:8100/api/v1/auth/login/ \
+  -H "Content-Type: application/json" \
+  -d '{"username":"testuser","password":"testpass123"}'
+```
+
+### K8s commands
+
+| Command | Description |
+|---|---|
+| `make k8s-ingress-setup` | Enable nginx Ingress (pre-pulls images) |
+| `make k8s-ingress-forward` | Port-forward ingress → `localhost:8100` (Docker driver) |
+| `make k8s-ingress-forward-stop` | Stop the port-forward |
+| `make k8s-build` | Build all service images in minikube |
+| `make k8s-up` / `make k8s-down` | Apply / remove manifests |
+| `make k8s-status` | Pod status in `platform` namespace |
+| `make k8s-logs SVC=user-service` | Tail service logs |
+| `make k8s-restart SVC=user-service` | Rolling restart after config change |
+| `make frontend-env-k8s` | Set frontend `.env.local` for K8s mode |
+| `make frontend-env-compose` | Reset frontend `.env.local` for Compose mode |
+
+**After code changes:** rebuild the image inside minikube, then restart:
+
+```bash
+eval $(minikube docker-env) && docker build --target production -t user-service:local services/user-service/
+make k8s-restart SVC=user-service
+```
+
+**Stop K8s dev:**
+
+```bash
+make frontend-stop
+make k8s-ingress-forward-stop
+make k8s-down
+make infra-down
+minikube stop
 ```
 
 ---
 
-## API Gateway
+## Frontends
 
-### Docker Compose (Option A) — Kong on port 8100
+```bash
+make frontend-install    # once after clone / package changes
+make frontend-dev        # web-user :3000, web-admin :3001
+make frontend-stop
+```
 
-All browser/client API traffic goes through Kong:
+`make frontend-start` = install + dev.
+
+| App | URL |
+|---|---|
+| web-user | http://localhost:3000 |
+| web-admin | http://localhost:3001 |
+
+> **Next.js reads `.env.local` only at startup.** After changing gateway URL or starting the port-forward, restart the dev server.
+
+---
+
+## Going live (browser streaming)
+
+1. Sign in on **web-user** → **Go Live**
+2. Choose camera or screen, enter a title, click **Go Live**
+3. Stream appears on the **Live** page; admins can monitor in **web-admin → Live**
+
+Uses WebSocket ingest through the gateway (`/api/v1/live/...`) — no RTMP client needed for browser broadcasting.
+
+---
+
+## API gateway routes
+
+All browser traffic goes through the gateway (Kong on Compose, nginx Ingress on K8s):
 
 ```
 http://localhost:8100/api/v1/auth/*        → user-service:8000
@@ -295,215 +179,65 @@ http://localhost:8100/api/v1/stream/*      → streaming-service:3002
 http://localhost:8100/api/v1/billing/*     → billing-service:8003
 ```
 
-Kong admin API (inspect live config/routes): `http://localhost:8101`
-
-Kong is configured in **DB-less declarative mode** — all config lives in `infrastructure/kong/kong.yml`. Reload after changes with `docker exec infrastructure-kong-1 kong reload`.
-
-### Kubernetes (Option B) — nginx Ingress on port 80
-
-The same routes are served by the nginx Ingress controller at `http://$(minikube ip)`:
-
-```
-http://<minikube-ip>/api/v1/auth/*        → user-service:8000
-http://<minikube-ip>/api/v1/users/*       → user-service:8000
-http://<minikube-ip>/api/v1/roles/*       → user-service:8000
-http://<minikube-ip>/api/v1/permissions/* → user-service:8000
-http://<minikube-ip>/api/v1/videos/*      → video-service:8001
-http://<minikube-ip>/api/v1/catalog/*     → video-service:8001
-http://<minikube-ip>/api/v1/stream/*      → streaming-service:3002
-http://<minikube-ip>/api/v1/billing/*     → billing-service:8003
-```
-
-## Architecture
-
-| Service | Tech | DB | Description |
-|---|---|---|---|
-| auth-service | FastAPI | PostgreSQL + Redis | RS256 JWT issuance, login, token refresh |
-| user-service | Django REST | PostgreSQL + Redis | Profiles, RBAC, trial tracking |
-| video-service | Django REST | PostgreSQL + S3 | Multipart upload orchestration, video catalog, transcode trigger |
-| transcode-worker | Python + FFmpeg | S3 | Async video transcoding |
-| streaming-service | Fastify (Node.js) | Redis | HLS/DASH manifest serving |
-| live-service | Node.js + nginx-rtmp | Redis | RTMP ingest + live HLS |
-| social-service | FastAPI | MongoDB | Comments, likes, follows |
-| billing-service | FastAPI + SQLAlchemy | PostgreSQL | Stripe subscriptions, trials, invoices, in-process scheduled jobs (APScheduler) |
-| search-service | FastAPI | Elasticsearch | Full-text video/channel search |
-| notification-service | FastAPI | — | Email, push, in-app notifications |
-| ai-service | FastAPI + Claude API | PostgreSQL + Redis | AI-powered features |
-| web-user | Next.js | — | Viewer-facing app (port 3000) |
-| web-admin | Next.js | — | Admin dashboard (port 3001) |
-
-## Local Infrastructure
-
-| Service | Port | Notes |
-|---|---|---|
-| PostgreSQL | 5432 | |
-| MongoDB | 27017 | |
-| Redis | 6379 | |
-| Elasticsearch | 9200 | Log storage, APM data |
-| Kafka | 9092 | |
-| LocalStack (AWS) | 4566 | S3, SQS, SNS, SSM, Secrets Manager |
-| OTel Collector | 4317 / 4318 | gRPC / HTTP — services send traces here |
-| APM Server | 8200 | Elastic APM — services send APM data here |
-| Fluent Bit | 24224 | Centralized log collector (fluentd protocol) |
-| Redis exporter | 9121 | Redis metrics for Prometheus |
-| Kafka exporter | 9308 | Kafka consumer-lag metrics for Prometheus |
-| **Kong proxy** | **8100** | **All API traffic goes here** |
-| Kong admin | 8101 | Status, route inspection |
-| user-service | 8000 | Direct access (bypasses Kong) |
-| video-service | 8001 | Direct access (bypasses Kong) |
-| streaming-service | 3002 | Direct access (bypasses Kong) |
-| billing-service | 8003 | Direct access (bypasses Kong) |
-
-## Local UIs
-
-All browser-accessible endpoints in one place:
-
-| UI | URL | Credentials | Description |
-|---|---|---|---|
-| **web-user** | `http://localhost:3000` | — | Viewer-facing frontend |
-| **web-admin** | `http://localhost:3001` | — | Admin dashboard frontend |
-| **Kafka UI** | `http://localhost:8080` | — | Browse topics, messages, consumer groups |
-| **Jaeger** | `http://localhost:16686` | — | Distributed traces across services |
-| **Grafana** | `http://localhost:3003` | `admin` / `admin` | Noxrel Overview dashboard (auto-provisioned) |
-| **Kibana → Discover** | `http://localhost:5601` | `elastic` / `noxrel_dev` | Structured JSON logs, filterable by `trace_id` / `service` |
-| **Kibana → APM** | `http://localhost:5601/app/apm` | `elastic` / `noxrel_dev` | Latency, error rate, throughput per service |
-| **Prometheus** | `http://localhost:9090` | — | Raw metrics, ad-hoc PromQL queries |
-| **Elasticsearch** | `http://localhost:9200` | `elastic` / `noxrel_dev` | Raw ES API (log/APM indices) |
-| **Kong admin** | `http://localhost:8101` | — | Inspect live routes and Kong config |
-| **user-service Django admin** | `http://localhost:8000/admin/` | `admin@admin.com` / `admin1234` | Manage users, roles, permissions |
-| **video-service Django admin** | `http://localhost:8001/admin/` | *(create via manage.py)* | Manage video metadata |
-
-> **user-service admin credentials** are set by `DEV_ADMIN_EMAIL`, `DEV_ADMIN_USERNAME`, and `DEV_ADMIN_PASSWORD` in `services/user-service/.env`. Defaults: email `admin@admin.com`, password `admin1234`. The account is created automatically on first boot, or manually with:
-> ```bash
-> docker exec -it infrastructure-user-service-1 uv run python manage.py create_dev_admin
-> ```
-
-> **Elasticsearch / Kibana credentials** — Elasticsearch security is enabled so Kibana can install the Fleet APM integration (required for the APM service inventory to populate). The dev-only superuser is `elastic` / `noxrel_dev`; Kibana authenticates internally as `kibana_system` / `noxrel_dev`. The password is sourced from `ELASTIC_PASSWORD` in `infrastructure/.env` (copied from `infrastructure/.env.example`, see Quick Start step 2) — for local dev only; rotate via AWS Secrets Manager in production.
-
-## Observability
-
-All four implemented services are instrumented with OpenTelemetry. Traces, logs, and metrics flow through a central collector.
-
-| What you see | Where |
-|---|---|
-| Distributed traces (follow a request across services) | Jaeger `http://localhost:16686` |
-| Noxrel health, video pipeline, streaming, infra metrics | Grafana `http://localhost:3003` (`admin` / `admin`) |
-| Structured JSON logs, filter by `trace_id` / `service` | Kibana Discover `http://localhost:5601` (`elastic` / `noxrel_dev`) |
-| Latency, error rate, throughput per service | Kibana APM `http://localhost:5601/app/apm` (`elastic` / `noxrel_dev`) |
-| Raw PromQL queries | Prometheus `http://localhost:9090` |
-
-## Screenshots
-
-### Frontends
-
-<table>
-<tr>
-<td align="center" width="50%"><b>User App — Browse</b><br/><img src="images/user-home-page.png" alt="User home page"/></td>
-<td align="center" width="50%"><b>User App — Video Playback</b><br/><img src="images/user-ui-video-watching.png" alt="Video watching"/></td>
-</tr>
-<tr>
-<td align="center" colspan="2"><b>Admin Dashboard</b><br/><img src="images/admin-dashboard.png" alt="Admin dashboard" width="75%"/></td>
-</tr>
-</table>
-
-### Observability
-
-<table>
-<tr>
-<td align="center" width="50%"><b>Kibana APM — All Services</b><br/><img src="images/apm_services.png" alt="APM services inventory"/></td>
-<td align="center" width="50%"><b>Kibana APM — user-service Detail</b><br/><img src="images/apm_user_service.png" alt="APM user-service"/></td>
-</tr>
-<tr>
-<td align="center" width="50%"><b>Grafana — Noxrel Overview</b><br/><img src="images/grafana.png" alt="Grafana platform overview"/></td>
-<td align="center" width="50%"><b>Kafka UI — Topics</b><br/><img src="images/apache_kafka.png" alt="Apache Kafka topics"/></td>
-</tr>
-</table>
+Compose: Kong admin at http://localhost:8101. K8s: routes via ingress on port 80 (reach via `localhost:8100` with port-forward).
 
 ---
 
-## Git Workflow
+## Local URLs
 
-### Commit message format
-
-All commits must follow [Conventional Commits](https://www.conventionalcommits.org/). The `commit-msg` hook enforces this automatically.
-
-```
-<type>(<scope>): <description>
-
-feat(user-service): add email verification endpoint
-fix(auth-service): refresh token expiry off by one
-docs: update local dev setup in README
-ci: add billing-service to test matrix
-```
-
-**Allowed types:** `feat` `fix` `docs` `style` `refactor` `perf` `test` `build` `ci` `chore` `revert`
-
-**Breaking change:** append `!` before the colon — `feat(auth)!: drop v1 token support`
-
-### What the hooks check on every commit
-
-| Hook | What it does |
-|---|---|
-| `trailing-whitespace` | Strips trailing whitespace |
-| `end-of-file-fixer` | Ensures files end with a newline |
-| `check-yaml` / `check-json` / `check-toml` | Validates config file syntax |
-| `check-merge-conflict` | Blocks accidental merge conflict markers |
-| `detect-private-key` | Blocks accidental secret commits |
-| `check-added-large-files` | Blocks files > 1 MB |
-| `ruff` (with `--fix`) | Lints Python, auto-fixes what it can |
-| `ruff-format` | Formats Python code |
-| `mypy` | Type-checks all services |
-| `commitizen` | Validates conventional commit format |
-
-### Run all checks manually (without committing)
-
-```bash
-make lint
-```
-
-### Bypass hooks in an emergency
-
-```bash
-git commit --no-verify -m "chore: emergency hotfix"
-```
-
-Use sparingly — CI runs the same checks and will catch any bypass.
-
-## Services
-
-| Service | Status | README |
+| UI | URL | Notes |
 |---|---|---|
-| user-service | ✅ implemented | [services/user-service/README.md](services/user-service/README.md) |
-| video-service | ✅ implemented | [services/video-service/README.md](services/video-service/README.md) |
-| transcode-worker | ✅ implemented | [services/transcode-worker/README.md](services/transcode-worker/README.md) |
-| streaming-service | ✅ implemented | [services/streaming-service/README.md](services/streaming-service/README.md) |
-| web-admin | ✅ implemented | [frontend/web-admin/README.md](frontend/web-admin/README.md) |
-| live-service | pending | — |
-| social-service | pending | — |
-| billing-service | ✅ implemented | - |
-| search-service | pending | — |
-| notification-service | pending | — |
-| ai-service | pending | — |
-| web-user | ✅ implemented | [frontend/web-user/README.md](frontend/web-user/README.md) |
+| web-user | http://localhost:3000 | Viewer app |
+| web-admin | http://localhost:3001 | Admin dashboard |
+| API gateway | http://localhost:8100 | All `/api/v1/*` traffic |
+| Grafana | http://localhost:3003 | `admin` / `admin` |
+| Kibana | http://localhost:5601 | `elastic` / `noxrel_dev` |
+| Jaeger | http://localhost:16686 | Distributed traces |
+| Kafka UI | http://localhost:8080 | Topics / messages |
+| Prometheus | http://localhost:9090 | Raw metrics |
+| user-service admin | http://localhost:8000/admin/ | `admin@admin.com` / `admin1234` |
 
-## Repository Layout
+---
+
+## Architecture
+
+| Service | Tech | Description |
+|---|---|---|
+| user-service | Django REST | Auth, profiles, RBAC |
+| video-service | Django REST | Upload orchestration, catalog |
+| transcode-worker | Python + FFmpeg | Async transcoding |
+| streaming-service | Fastify | HLS manifest serving |
+| live-service | Node.js + nginx-rtmp | Live streaming |
+| billing-service | FastAPI | Stripe subscriptions |
+| web-user / web-admin | Next.js | Frontends |
+
+See [docs/architecture.md](docs/architecture.md) and [docs/Master_Plan.md](docs/Master_Plan.md) for the full design.
+
+---
+
+## Development
+
+```bash
+make lint                # run all pre-commit checks
+make logs                # Docker Compose logs
+```
+
+**Git commits** follow [Conventional Commits](https://www.conventionalcommits.org/) (`feat(scope): description`). Hooks run ruff, mypy, and format checks automatically. Bypass in emergencies: `git commit --no-verify`.
+
+---
+
+## Repository layout
 
 ```
 services/          # Backend microservices
 frontend/          # Next.js apps (web-user, web-admin)
-infrastructure/    # Docker Compose, Terraform, LocalStack init scripts
-docs/              # Architecture docs and per-phase implementation guides
-.github/workflows/ # CI: lint + test matrix per service
+infrastructure/    # Docker Compose, K8s manifests, Terraform, LocalStack
+docs/              # Architecture and phase guides
+.github/workflows/ # CI
 ```
 
-## Key Conventions
-
-- Every service exposes a `/health` endpoint.
-- All logging is structured JSON: `{ts, level, service, message, trace_id, request_id}`.
-- Config via environment variables — never commit secrets.
-- DB migrations: Alembic (FastAPI), Django migrations (Django).
-- Cross-service async communication via Kafka; every consumer has a DLQ.
+---
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+MIT — see [LICENSE](LICENSE).

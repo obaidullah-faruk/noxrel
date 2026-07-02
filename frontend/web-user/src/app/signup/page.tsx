@@ -49,9 +49,9 @@ function SignupForm() {
           const detail = body.detail;
           if (typeof detail === 'string') {
             setError(detail);
-          } else if (typeof body === 'object') {
+          } else if (detail && typeof detail === 'object') {
             const errs: Record<string, string> = {};
-            for (const [k, v] of Object.entries(body)) {
+            for (const [k, v] of Object.entries(detail as Record<string, unknown>)) {
               errs[k] = Array.isArray(v) ? (v as string[]).join(' ') : String(v);
             }
             setFieldErrors(errs);

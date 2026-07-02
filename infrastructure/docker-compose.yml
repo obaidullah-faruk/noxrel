@@ -307,3 +307,55 @@ services:
       timeout: 10s
       retries: 5
     restart: unless-stopped
+
+  live-service:
+    build:
+      context: ../services/live-service
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "3003:3000"
+    env_file:
+      - ../services/live-service/.env
+    volumes:
+      - ../services/live-service/src:/app/src
+      - live_scratch:/tmp/live    # FFmpeg segment scratch (named volume)
+    # Apply DB migrations, then run the dev server with reload.
+    command: ["sh", "-c", "npm run migrate up && npm run dev"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      localstack:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      start_period: 40s
+      retries: 5
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: 127.0.0.1:24224
+        fluentd-async: "true"
+        tag: live-service
+    restart: unless-stopped
+
+  nginx-rtmp:
+    build:
+      context: ./nginx-rtmp
+      dockerfile: Dockerfile
+    ports:
+      - "1935:1935"      # RTMP ingest (control port 8080 stays internal)
+    depends_on:
+      - live-service
+    restart: unless-stopped
+
+volumes:
+  live_scratch:

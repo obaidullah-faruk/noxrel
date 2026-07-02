@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: live-service-config
+  namespace: platform
+data:
+  # Container listens on 3000 (Dockerfile EXPOSE 3000). 3003 is the docker-compose
+  # HOST port only and is irrelevant inside the cluster.
+  PORT: "3000"
+  NODE_ENV: "production"
+  LOG_LEVEL: "info"
+
+  # Infra (Postgres, Redis, Mongo, Kafka, LocalStack S3) runs in the docker-compose
+  # stack, NOT in k8s — reach it from minikube via host.docker.internal, exactly
+  # like the other deployed services do. Kafka uses the host-mapped 9094 listener.
+  DATABASE_URL: "postgres://noxrel:noxrel@host.docker.internal:5432/live_service"
+  REDIS_URL: "redis://host.docker.internal:6379/3"
+  MONGODB_URL: "mongodb://host.docker.internal:27017"
+  MONGODB_DB: "live_service"
+  KAFKA_BROKERS: "host.docker.internal:9094"
+
+  AWS_REGION: "us-east-1"
+  AWS_ENDPOINT_URL: "http://host.docker.internal:4566"
+  S3_LIVE_BUCKET: "live-segments"
+  # Browsers fetch HLS segments directly, so this must be reachable from the
+  # viewer's machine — localhost, not host.docker.internal.
+  CDN_BASE_URL: "http://localhost:4566/live-segments"
+
+  # nginx-rtmp runs as its own in-cluster Deployment/Service (see live-service.yml).
+  NGINX_RTMP_URL: "rtmp://nginx-rtmp.platform.svc.cluster.local:1935/live"
+  NGINX_CONTROL_URL: "http://nginx-rtmp.platform.svc.cluster.local:8080/control"
+
+  VIDEO_SERVICE_INTERNAL_URL: "http://video-service.platform.svc.cluster.local:8001"
+
+  RENDITIONS: "720p,480p"
+  MAX_STREAM_DURATION_HOURS: "12"
+
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.platform.svc.cluster.local:4317"
+  OTEL_SERVICE_NAME: "live-service"

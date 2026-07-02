@@ -10,6 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
 import { alpha, useTheme } from '@mui/material/styles';
 import PlayCircleFilledRoundedIcon from '@mui/icons-material/PlayCircleFilledRounded';
+import SensorsRoundedIcon from '@mui/icons-material/SensorsRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
@@ -70,6 +71,7 @@ export function AppHeader() {
           {[
             { label: 'Home', href: '/' },
             { label: 'Browse', href: '/?category=all' },
+            { label: 'Live', href: '/live' },
           ].map(({ label, href }) => (
             <Button
               key={label}
@@ -87,6 +89,23 @@ export function AppHeader() {
               {label}
             </Button>
           ))}
+          {authReady && isLoggedIn && (
+            <Button
+              component={Link}
+              href="/go-live"
+              size="small"
+              startIcon={<SensorsRoundedIcon sx={{ fontSize: '1rem !important' }} />}
+              sx={{
+                color: theme.palette.error.main,
+                fontWeight: 600,
+                fontSize: '0.875rem',
+                px: 1.5,
+                '&:hover': { bgcolor: alpha(theme.palette.error.main, 0.08) },
+              }}
+            >
+              Go Live
+            </Button>
+          )}
         </Box>
 
         <Box sx={{ flex: 1 }} />

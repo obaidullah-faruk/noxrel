@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import { alpha, useTheme } from '@mui/material/styles';
 import PlayCircleOutlineRoundedIcon from '@mui/icons-material/PlayCircleOutlineRounded';
 import { VideoCard } from '@/components/VideoCard/VideoCard';
+import { LiveStrip } from '@/components/LiveStrip/LiveStrip';
 import { fetchCatalogVideos } from '@/lib/api';
 import { useAuth } from '@/components/Auth/AuthContext';
 import type { Video } from '@/types/video';
@@ -70,6 +71,9 @@ function HomePageInner() {
           Stream the latest uploads in HD quality
         </Typography>
       </Box>
+
+      {/* Live Now — renders only when streams are live */}
+      <LiveStrip />
 
       {/* Category filter */}
       <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 3 }}>

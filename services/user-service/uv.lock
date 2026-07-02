@@ -1513,6 +1513,7 @@ dependencies = [
     { name = "psycopg", extra = ["binary"] },
     { name = "python-decouple" },
     { name = "redis" },
+    { name = "requests" },
     { name = "structlog" },
     { name = "whitenoise" },
 ]
@@ -1552,6 +1553,7 @@ requires-dist = [
     { name = "psycopg", extras = ["binary"], specifier = ">=3.2" },
     { name = "python-decouple", specifier = ">=3.8" },
     { name = "redis", specifier = ">=5.2" },
+    { name = "requests", specifier = ">=2.32" },
     { name = "structlog", specifier = ">=24.4" },
     { name = "whitenoise", specifier = ">=6.7" },
 ]

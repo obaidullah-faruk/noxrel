@@ -6,7 +6,7 @@ bind = "0.0.0.0:8001"
 workers = 4
 timeout = 60
 accesslog = "-"
-reload = True
+reload = os.environ.get("DEBUG", "").lower() in ("1", "true", "yes")
 
 
 def on_starting(server):

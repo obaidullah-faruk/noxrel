@@ -1,0 +1,150 @@
+# live-service (Phase 05) — Fastify app + nginx-rtmp ingest edge.
+#
+# Two Deployments + two Services:
+#   live-service  — REST + socket.io chat, runs one FFmpeg child per live session.
+#                   Migration runs in an init container (node-pg-migrate).
+#   nginx-rtmp    — RTMP ingest. OBS/FFmpeg publishes here; nginx-rtmp calls back
+#                   into live-service's /internal/rtmp hooks to start/stop encoding.
+#
+# replicas MUST stay 1: each pod runs FFmpeg processes bound to the sessions it
+# accepted, and segment scratch is pod-local. Scaling needs sticky ingest routing
+# (out of scope for local dev).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: live-service
+  namespace: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: live-service
+  template:
+    metadata:
+      labels:
+        app: live-service
+    spec:
+      initContainers:
+        # Built from the Dockerfile `migrate` target: the production image has
+        # neither node-pg-migrate (a devDependency) nor the src/db/migrations SQL.
+        - name: migrate
+          image: live-service-migrate:local
+          imagePullPolicy: Never
+          command: ["npm", "run", "migrate", "up"]
+          envFrom:
+            - configMapRef:
+                name: live-service-config
+            - secretRef:
+                name: live-service-secrets
+      containers:
+        - name: live-service
+          image: live-service:local
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: live-service-config
+            - secretRef:
+                name: live-service-secrets
+          volumeMounts:
+            - name: live-scratch
+              mountPath: /tmp/live
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              # FFmpeg software encoding is CPU-heavy; the trimmed RENDITIONS
+              # ladder (720p,480p) keeps a laptop cluster usable.
+              cpu: "2"
+              memory: "1Gi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            failureThreshold: 3
+      volumes:
+        - name: live-scratch
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: live-service
+  namespace: platform
+spec:
+  selector:
+    app: live-service
+  ports:
+    - port: 3000
+      targetPort: 3000
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-rtmp
+  namespace: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-rtmp
+  template:
+    metadata:
+      labels:
+        app: nginx-rtmp
+    spec:
+      containers:
+        - name: nginx-rtmp
+          image: nginx-rtmp:local
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 1935   # RTMP ingest
+            - containerPort: 8080   # control + health (internal only)
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "300m"
+              memory: "128Mi"
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-rtmp
+  namespace: platform
+spec:
+  selector:
+    app: nginx-rtmp
+  ports:
+    - name: rtmp
+      port: 1935
+      targetPort: 1935
+    - name: control
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP

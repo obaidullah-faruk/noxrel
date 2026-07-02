@@ -1,6 +1,6 @@
-# video-service — CLAUDE.md
+# video-service — AGENTS.md
 
-Read the root `CLAUDE.md` first, then this file.
+Read the root `AGENTS.md` first, then this file.
 
 ## What This Service Owns
 

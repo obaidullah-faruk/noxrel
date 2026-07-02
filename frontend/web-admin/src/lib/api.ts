@@ -1,6 +1,7 @@
 import type { PaginatedVideos, Video, VideoEditPayload } from '@/types/video';
 import type { PaginatedUsers, User } from '@/types/user';
 import type { AdminSubscription, Refund } from '@/types/billing';
+import type { LiveSession } from '@/types/live';
 
 // All requests go through Kong (port 8100 locally).
 // Kong routes /api/v1/* to the appropriate upstream service.
@@ -166,6 +167,23 @@ export async function refundSubscription(
     method: 'POST',
     headers: { Authorization: `Bearer ${token}` },
     body: JSON.stringify(body),
+  });
+}
+
+// ── Live Service (admin) ────────────────────────────────────────────────────────
+
+// Public endpoint, but admins use it to monitor every active broadcast.
+export async function fetchLiveSessions(token: string): Promise<LiveSession[]> {
+  return apiFetch<LiveSession[]>(`${GATEWAY}/api/v1/live/sessions`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+// Admin-only: force-ends a live session and drops the publisher (nginx-rtmp).
+export async function forceEndLiveSession(token: string, sessionId: string): Promise<void> {
+  await apiFetch<unknown>(`${GATEWAY}/api/v1/live/sessions/${sessionId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
   });
 }
 

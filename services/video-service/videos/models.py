@@ -48,6 +48,9 @@ class Video(models.Model):
     is_published = models.BooleanField(default=False)
     published_at = models.DateTimeField(null=True, blank=True)
     is_live = models.BooleanField(default=False)
+    # Links a replay video to its live session; makes /internal/videos/from_live
+    # idempotent under live-service retries.
+    live_session_id = models.UUIDField(null=True, blank=True, unique=True)
 
     # Denormalized stats (synced via Kafka from Social Service)
     view_count = models.BigIntegerField(default=0)

@@ -17,6 +17,7 @@ COPY pyproject.toml uv.lock ./
 
 # --- production image: no dev deps ---
 FROM base AS production
+ENV UV_NO_DEV=1
 RUN uv sync --frozen --no-dev
 COPY . .
 
@@ -25,7 +26,7 @@ EXPOSE 8001
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
     CMD curl -f http://localhost:8001/health/ || exit 1
 
-CMD ["uv", "run", "gunicorn", "config.wsgi:application", \
+CMD ["uv", "run", "--frozen", "--no-dev", "gunicorn", "config.wsgi:application", \
      "--bind", "0.0.0.0:8001", \
      "--workers", "4", \
      "--timeout", "60", \

@@ -11,6 +11,7 @@ import VideoLibraryRoundedIcon from '@mui/icons-material/VideoLibraryRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import CreditCardRoundedIcon from '@mui/icons-material/CreditCardRounded';
 import PlayCircleFilledRoundedIcon from '@mui/icons-material/PlayCircleFilledRounded';
+import SensorsRoundedIcon from '@mui/icons-material/SensorsRounded';
 
 export const DRAWER_WIDTH = 240;
 export const DRAWER_COLLAPSED_WIDTH = 68;
@@ -21,6 +22,7 @@ const NAV = [
     items: [
       { label: 'Dashboard', href: '/dashboard', icon: DashboardRoundedIcon },
       { label: 'Videos',    href: '/videos',    icon: VideoLibraryRoundedIcon },
+      { label: 'Live',      href: '/live',      icon: SensorsRoundedIcon },
       { label: 'Users',     href: '/users',     icon: PeopleRoundedIcon },
       { label: 'Subscriptions', href: '/subscriptions', icon: CreditCardRoundedIcon },
     ],
