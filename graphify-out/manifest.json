@@ -1,0 +1,2237 @@
+{
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/postcss.config.mjs": {
+    "mtime": 1780043338.7855132,
+    "ast_hash": "239f3ebf717465dc636818a1a619398d",
+    "semantic_hash": "239f3ebf717465dc636818a1a619398d"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/next-env.d.ts": {
+    "mtime": 1780146547.4392397,
+    "ast_hash": "a64595e6014adce3002d3bf762d2dbeb",
+    "semantic_hash": "a64595e6014adce3002d3bf762d2dbeb"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/package.json": {
+    "mtime": 1781120993.761877,
+    "ast_hash": "c0b06b28a2f06b0e6622bee46b1bb1b2",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/tsconfig.json": {
+    "mtime": 1780146547.4400628,
+    "ast_hash": "4c20b373a3a6e74bd9825bb4e97fe052",
+    "semantic_hash": "4c20b373a3a6e74bd9825bb4e97fe052"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/eslint.config.mjs": {
+    "mtime": 1780043335.4869566,
+    "ast_hash": "dfa1f5f6a7037bf39dc510f30b180002",
+    "semantic_hash": "dfa1f5f6a7037bf39dc510f30b180002"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/next.config.ts": {
+    "mtime": 1780043330.9508667,
+    "ast_hash": "1690c98e5d0b3ab2d41903b617a264b8",
+    "semantic_hash": "1690c98e5d0b3ab2d41903b617a264b8"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/proxy.ts": {
+    "mtime": 1780043426.3310025,
+    "ast_hash": "750afc4e0d945171bb0bd373a6bbf963",
+    "semantic_hash": "750afc4e0d945171bb0bd373a6bbf963"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/types/video.ts": {
+    "mtime": 1780043408.31316,
+    "ast_hash": "1a30ff5b645a1d41708408e13e845a88",
+    "semantic_hash": "1a30ff5b645a1d41708408e13e845a88"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/types/user.ts": {
+    "mtime": 1780043409.9890928,
+    "ast_hash": "ba905fed6533abee7b9723c920399ab1",
+    "semantic_hash": "ba905fed6533abee7b9723c920399ab1"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/layout.tsx": {
+    "mtime": 1780254792.8275776,
+    "ast_hash": "96a8bea0542b6b7dbb9fb2425b89834f",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/signup/layout.tsx": {
+    "mtime": 1780045102.8016841,
+    "ast_hash": "f53d4790a0fdb6453cc6b7d28e0e7b1a",
+    "semantic_hash": "f53d4790a0fdb6453cc6b7d28e0e7b1a"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/signup/page.tsx": {
+    "mtime": 1781200373.8629045,
+    "ast_hash": "ed009b0047a65f9679ad5ecb459ba09e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/(public)/layout.tsx": {
+    "mtime": 1780254848.024281,
+    "ast_hash": "3f4785d1ac8f4ae98c8f20db23a0e8ba",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/(public)/page.tsx": {
+    "mtime": 1781121171.5264506,
+    "ast_hash": "464cf42ce423c2195abb99071daeb2a4",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/(public)/subscriptions/page.tsx": {
+    "mtime": 1781005185.250293,
+    "ast_hash": "1878480b0806bd0872a0485b578a8690",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/(public)/videos/[videoId]/page.tsx": {
+    "mtime": 1780146583.4186776,
+    "ast_hash": "c1ac1e224201cbdeae3e9fe1497429f8",
+    "semantic_hash": "c1ac1e224201cbdeae3e9fe1497429f8"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/(public)/account/page.tsx": {
+    "mtime": 1781005185.2500846,
+    "ast_hash": "853a340332c3289ed049473e6f70d1eb",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/api/auth/token/route.ts": {
+    "mtime": 1780043732.9263575,
+    "ast_hash": "4e6625b5c0c2a80a5ce4e3a5947ff16f",
+    "semantic_hash": "4e6625b5c0c2a80a5ce4e3a5947ff16f"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/api/auth/refresh/route.ts": {
+    "mtime": 1781005185.2504866,
+    "ast_hash": "22cc5f01122b9e0d56b4b2519dcdd423",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/api/auth/logout/route.ts": {
+    "mtime": 1780043725.4031792,
+    "ast_hash": "b0da10b30b690c85080c4db77d9460df",
+    "semantic_hash": "b0da10b30b690c85080c4db77d9460df"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/api/auth/register/route.ts": {
+    "mtime": 1781005185.2505763,
+    "ast_hash": "503d1b2fce8fc38f19c500f12af60c6c",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/api/auth/login/route.ts": {
+    "mtime": 1781005185.2503896,
+    "ast_hash": "64cc9d5eea199650d3f85a375b0b09a4",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/api/stream/[videoId]/manifest/route.ts": {
+    "mtime": 1780043738.9849937,
+    "ast_hash": "16dd2f6102010704f90386bc98a8c04f",
+    "semantic_hash": "16dd2f6102010704f90386bc98a8c04f"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/api/stream/[videoId]/resume/route.ts": {
+    "mtime": 1780043753.1226332,
+    "ast_hash": "15fd8d66ef41ff09469fb66f19e28fd2",
+    "semantic_hash": "15fd8d66ef41ff09469fb66f19e28fd2"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/api/stream/[videoId]/heartbeat/route.ts": {
+    "mtime": 1780043742.3531353,
+    "ast_hash": "c30c04b14d15666fcf8c7721e8bbd898",
+    "semantic_hash": "c30c04b14d15666fcf8c7721e8bbd898"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/login/layout.tsx": {
+    "mtime": 1780043673.561119,
+    "ast_hash": "043c5baf3f96977b27361b666952e92b",
+    "semantic_hash": "043c5baf3f96977b27361b666952e92b"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/login/page.tsx": {
+    "mtime": 1780254806.1238346,
+    "ast_hash": "630b1d92827ab25c249dd9cd1323ab5e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/components/ThemeToggle/ThemeContext.tsx": {
+    "mtime": 1780045761.5303857,
+    "ast_hash": "de2f1d28bb32be67a4af42347a18095d",
+    "semantic_hash": "de2f1d28bb32be67a4af42347a18095d"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/components/ThemeToggle/ThemeToggle.tsx": {
+    "mtime": 1780043439.8446352,
+    "ast_hash": "019b1e77c4c31163013e6163a23ae614",
+    "semantic_hash": "019b1e77c4c31163013e6163a23ae614"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/components/Auth/AuthContext.tsx": {
+    "mtime": 1780045938.4727135,
+    "ast_hash": "42d9714e8fcaeee8f836b2f4b34b8d65",
+    "semantic_hash": "42d9714e8fcaeee8f836b2f4b34b8d65"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/components/Layout/AppHeader.tsx": {
+    "mtime": 1781201268.3605268,
+    "ast_hash": "077b60d3d2b55085e100f33febb2ca73",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/components/VideoPlayer/VideoPlayer.tsx": {
+    "mtime": 1780043510.0869086,
+    "ast_hash": "dc24588c2edaac7d9056bfd581678fec",
+    "semantic_hash": "dc24588c2edaac7d9056bfd581678fec"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/components/VideoCard/VideoCard.tsx": {
+    "mtime": 1780047508.9208574,
+    "ast_hash": "4bce1909dedaa7d510dd37dfb6f65e5c",
+    "semantic_hash": "4bce1909dedaa7d510dd37dfb6f65e5c"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/lib/streaming.ts": {
+    "mtime": 1780043390.5175815,
+    "ast_hash": "c0fb31e9d793b171c0d2ea1d65df0ad9",
+    "semantic_hash": "c0fb31e9d793b171c0d2ea1d65df0ad9"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/lib/api.ts": {
+    "mtime": 1781005185.2508538,
+    "ast_hash": "5eacd905d874a74a4325a95b78acbb8a",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/lib/jwt-cookies.ts": {
+    "mtime": 1780043383.9371095,
+    "ast_hash": "f484093e9e4d0fc5d3eea391cd4100b8",
+    "semantic_hash": "f484093e9e4d0fc5d3eea391cd4100b8"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/lib/theme.ts": {
+    "mtime": 1780043371.7787926,
+    "ast_hash": "43af0a836fc3df8fbbf8958431ecf9f3",
+    "semantic_hash": "43af0a836fc3df8fbbf8958431ecf9f3"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/lib/auth.ts": {
+    "mtime": 1780043384.5443277,
+    "ast_hash": "dabe8ff8e696ab07071c988e02bf9054",
+    "semantic_hash": "dabe8ff8e696ab07071c988e02bf9054"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/lib/auth-client.ts": {
+    "mtime": 1780043388.102779,
+    "ast_hash": "e2af67ed04e081d8c758ecb9ff7a81a6",
+    "semantic_hash": "e2af67ed04e081d8c758ecb9ff7a81a6"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/postcss.config.mjs": {
+    "mtime": 1779897153.3459847,
+    "ast_hash": "239f3ebf717465dc636818a1a619398d",
+    "semantic_hash": "239f3ebf717465dc636818a1a619398d"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/next-env.d.ts": {
+    "mtime": 1780227564.10085,
+    "ast_hash": "ba64ff7d54714a8f64db89b1003207d8",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/package.json": {
+    "mtime": 1780227317.8131707,
+    "ast_hash": "ee9493a585659a245ef1c923817701c7",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/tsconfig.json": {
+    "mtime": 1780146547.4391832,
+    "ast_hash": "4c20b373a3a6e74bd9825bb4e97fe052",
+    "semantic_hash": "4c20b373a3a6e74bd9825bb4e97fe052"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/eslint.config.mjs": {
+    "mtime": 1779897153.3456936,
+    "ast_hash": "dfa1f5f6a7037bf39dc510f30b180002",
+    "semantic_hash": "dfa1f5f6a7037bf39dc510f30b180002"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/next.config.ts": {
+    "mtime": 1779942579.1821997,
+    "ast_hash": "1690c98e5d0b3ab2d41903b617a264b8",
+    "semantic_hash": "1690c98e5d0b3ab2d41903b617a264b8"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/proxy.ts": {
+    "mtime": 1779941838.1722739,
+    "ast_hash": "0d98b6940904144289b5e160acdfa439",
+    "semantic_hash": "0d98b6940904144289b5e160acdfa439"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/types/video.ts": {
+    "mtime": 1779897305.6758075,
+    "ast_hash": "8193552b0aa089e9260fc9a54d48a515",
+    "semantic_hash": "8193552b0aa089e9260fc9a54d48a515"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/types/user.ts": {
+    "mtime": 1779897310.9835203,
+    "ast_hash": "97184266bbbc75e972d16076e5b54014",
+    "semantic_hash": "97184266bbbc75e972d16076e5b54014"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/layout.tsx": {
+    "mtime": 1780229399.4931097,
+    "ast_hash": "422599450b0731b27e40d94fe99bed30",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/api/auth/token/route.ts": {
+    "mtime": 1779941886.7931836,
+    "ast_hash": "97b391ef81330b9927978f0fa676013d",
+    "semantic_hash": "97b391ef81330b9927978f0fa676013d"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/api/auth/refresh/route.ts": {
+    "mtime": 1779941818.446775,
+    "ast_hash": "c4b6b1325a5a01fc2413c7d71535ef62",
+    "semantic_hash": "c4b6b1325a5a01fc2413c7d71535ef62"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/api/auth/logout/route.ts": {
+    "mtime": 1779940228.8896573,
+    "ast_hash": "da5b0b04484242aaf7400c97c2e9c259",
+    "semantic_hash": "da5b0b04484242aaf7400c97c2e9c259"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/api/auth/login/route.ts": {
+    "mtime": 1781005185.2493482,
+    "ast_hash": "8c17ec20f918c78700d62bc21989bac2",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/api/stream/[videoId]/manifest/route.ts": {
+    "mtime": 1779943246.5059679,
+    "ast_hash": "16dd2f6102010704f90386bc98a8c04f",
+    "semantic_hash": "16dd2f6102010704f90386bc98a8c04f"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/api/stream/[videoId]/resume/route.ts": {
+    "mtime": 1779943252.3530133,
+    "ast_hash": "15fd8d66ef41ff09469fb66f19e28fd2",
+    "semantic_hash": "15fd8d66ef41ff09469fb66f19e28fd2"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/api/stream/[videoId]/heartbeat/route.ts": {
+    "mtime": 1779943250.0456758,
+    "ast_hash": "c30c04b14d15666fcf8c7721e8bbd898",
+    "semantic_hash": "c30c04b14d15666fcf8c7721e8bbd898"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/login/layout.tsx": {
+    "mtime": 1779943893.6364822,
+    "ast_hash": "043c5baf3f96977b27361b666952e92b",
+    "semantic_hash": "043c5baf3f96977b27361b666952e92b"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/login/page.tsx": {
+    "mtime": 1780254871.771515,
+    "ast_hash": "2a24bd2d81adbe32b982237629dfb986",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/(admin)/layout.tsx": {
+    "mtime": 1780254857.4618683,
+    "ast_hash": "503ba7772b4789ace0430b9e372727d3",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/(admin)/page.tsx": {
+    "mtime": 1779906656.360754,
+    "ast_hash": "ce774ed9c243edcdbd0639edcc6ae838",
+    "semantic_hash": "ce774ed9c243edcdbd0639edcc6ae838"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/(admin)/dashboard/page.tsx": {
+    "mtime": 1780861193.2971554,
+    "ast_hash": "6f3faffe7f014c25289a92e2dfba2391",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/(admin)/videos/page.tsx": {
+    "mtime": 1780255447.3161068,
+    "ast_hash": "30cc94ed463de1b47e28435696995f77",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/(admin)/videos/[videoId]/page.tsx": {
+    "mtime": 1780228309.1383047,
+    "ast_hash": "973481cbecd9914651ee0702f34cf5ef",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/(admin)/users/page.tsx": {
+    "mtime": 1780255443.3709767,
+    "ast_hash": "479ca86cd682d65ed7477b082bdfb8d7",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/(admin)/users/[userId]/page.tsx": {
+    "mtime": 1781005185.249209,
+    "ast_hash": "39d29d814b27bdbd601f941813da73a7",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/components/ThemeToggle/ThemeContext.tsx": {
+    "mtime": 1779897339.1020277,
+    "ast_hash": "f350c31dab7b1f8a4fa312316c8b06da",
+    "semantic_hash": "f350c31dab7b1f8a4fa312316c8b06da"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/components/ThemeToggle/ThemeToggle.tsx": {
+    "mtime": 1779943591.0008466,
+    "ast_hash": "019b1e77c4c31163013e6163a23ae614",
+    "semantic_hash": "019b1e77c4c31163013e6163a23ae614"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/components/Auth/AuthContext.tsx": {
+    "mtime": 1779905113.156429,
+    "ast_hash": "4b2ac1e58bf5fee633ddfad796dc4f58",
+    "semantic_hash": "4b2ac1e58bf5fee633ddfad796dc4f58"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/components/VideoUpload/VideoUploadDialog.tsx": {
+    "mtime": 1780255678.749555,
+    "ast_hash": "ace32a400c1c394959a6bcc1e245134b",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/components/Layout/AdminSidebar.tsx": {
+    "mtime": 1781201354.8519018,
+    "ast_hash": "e459b68627ea2da4d3fb0dcc04b072f5",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/components/Layout/AdminHeader.tsx": {
+    "mtime": 1779943575.7087634,
+    "ast_hash": "8bfbf2d15b84f2bf7954e4bbd1da31d0",
+    "semantic_hash": "8bfbf2d15b84f2bf7954e4bbd1da31d0"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/components/VideoPlayer/VideoPlayer.tsx": {
+    "mtime": 1779944407.394919,
+    "ast_hash": "dc24588c2edaac7d9056bfd581678fec",
+    "semantic_hash": "dc24588c2edaac7d9056bfd581678fec"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/components/Dashboard/StatsCards.tsx": {
+    "mtime": 1780228197.0893633,
+    "ast_hash": "f775fc0bf84d0524ef2ab1b4e7c4a11d",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/components/Dashboard/SignupsChart.tsx": {
+    "mtime": 1779943636.4903195,
+    "ast_hash": "f5471af2c2d9bfd2a1a324c0c4b0d764",
+    "semantic_hash": "f5471af2c2d9bfd2a1a324c0c4b0d764"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/components/Dashboard/TranscodeQueueTable.tsx": {
+    "mtime": 1779943657.5486267,
+    "ast_hash": "50ec33c3ff49cc6f080ecbe8de4aa3f7",
+    "semantic_hash": "50ec33c3ff49cc6f080ecbe8de4aa3f7"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/components/Dashboard/ViewsChart.tsx": {
+    "mtime": 1779943624.1076748,
+    "ast_hash": "e46b5e0fa5f6b5ad920f2248a3a484eb",
+    "semantic_hash": "e46b5e0fa5f6b5ad920f2248a3a484eb"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/components/UserActivity/ActivityTimeline.tsx": {
+    "mtime": 1779943980.5497298,
+    "ast_hash": "23768dc52452afc70287fe5389ff9ac8",
+    "semantic_hash": "23768dc52452afc70287fe5389ff9ac8"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/components/DataTable/PaginatedTable.tsx": {
+    "mtime": 1779993596.2641892,
+    "ast_hash": "cfeb90ffd707c2c26cb2f77e26de70e2",
+    "semantic_hash": "cfeb90ffd707c2c26cb2f77e26de70e2"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/lib/streaming.ts": {
+    "mtime": 1779943257.5515602,
+    "ast_hash": "2f83512629bb04405022b1b6323adf06",
+    "semantic_hash": "2f83512629bb04405022b1b6323adf06"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/lib/api.ts": {
+    "mtime": 1781201309.0904808,
+    "ast_hash": "aa26aa36fa22f724ca5f292c58998188",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/lib/jwt-cookies.ts": {
+    "mtime": 1779941804.2430255,
+    "ast_hash": "ba5428b48424e7d5ea1d466896d52488",
+    "semantic_hash": "ba5428b48424e7d5ea1d466896d52488"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/lib/theme.ts": {
+    "mtime": 1779943521.0481505,
+    "ast_hash": "43af0a836fc3df8fbbf8958431ecf9f3",
+    "semantic_hash": "43af0a836fc3df8fbbf8958431ecf9f3"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/lib/auth.ts": {
+    "mtime": 1779906602.2494535,
+    "ast_hash": "83f1f8b43f03c93fa9f5d5ae5e288c82",
+    "semantic_hash": "83f1f8b43f03c93fa9f5d5ae5e288c82"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/lib/auth-client.ts": {
+    "mtime": 1779906606.1677456,
+    "ast_hash": "384fab0507752577c0591af9bbd1b2fb",
+    "semantic_hash": "384fab0507752577c0591af9bbd1b2fb"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/.claude/settings.json": {
+    "mtime": 1780151233.3080454,
+    "ast_hash": "87f0d903477984d0587a02f8fe185263",
+    "semantic_hash": "87f0d903477984d0587a02f8fe185263"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/.claude/settings.local.json": {
+    "mtime": 1781120978.6483357,
+    "ast_hash": "2a629dd602671aef76f442467314eb27",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/postgres/init-databases.sh": {
+    "mtime": 1781120804.3595767,
+    "ast_hash": "b1d60f89037ce159a0fd98b1f02689b7",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/localstack/init-scripts/04-streaming-bucket-policy.sh": {
+    "mtime": 1779866783.4926324,
+    "ast_hash": "5999e1d96b83c60c51fe596b36f2976f",
+    "semantic_hash": "5999e1d96b83c60c51fe596b36f2976f"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/localstack/init-scripts/01-s3-buckets.sh": {
+    "mtime": 1779943149.147116,
+    "ast_hash": "a47e6af505c8bdfecb72a2a843e81df9",
+    "semantic_hash": "a47e6af505c8bdfecb72a2a843e81df9"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/app/worker.py": {
+    "mtime": 1780146926.5403438,
+    "ast_hash": "fa5ba0c4dc6b1ff4fc777b1168987344",
+    "semantic_hash": "fa5ba0c4dc6b1ff4fc777b1168987344"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/app/__init__.py": {
+    "mtime": 1779831492.8126,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/app/core/logging.py": {
+    "mtime": 1779831510.1695116,
+    "ast_hash": "a5e8bf00d7c0eab30db7d540fad94ff6",
+    "semantic_hash": "a5e8bf00d7c0eab30db7d540fad94ff6"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/app/core/config.py": {
+    "mtime": 1780146467.2818284,
+    "ast_hash": "d168ec850efed6e6c3b88b1af049114c",
+    "semantic_hash": "d168ec850efed6e6c3b88b1af049114c"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/app/core/__init__.py": {
+    "mtime": 1779831494.7896624,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/app/core/telemetry.py": {
+    "mtime": 1780146508.5912206,
+    "ast_hash": "63fe869271215a06768f1608b6998604",
+    "semantic_hash": "63fe869271215a06768f1608b6998604"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/app/core/kafka.py": {
+    "mtime": 1779918164.282872,
+    "ast_hash": "08fd3303b9665c324a3f0ca1703c7aff",
+    "semantic_hash": "08fd3303b9665c324a3f0ca1703c7aff"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/app/core/s3.py": {
+    "mtime": 1779831753.1654394,
+    "ast_hash": "2186e2655202e6b7d97bc42bfa5a779b",
+    "semantic_hash": "2186e2655202e6b7d97bc42bfa5a779b"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/app/transcoder/ffmpeg.py": {
+    "mtime": 1779938607.9124277,
+    "ast_hash": "af0291ad1f163b07558578273fea6e8d",
+    "semantic_hash": "af0291ad1f163b07558578273fea6e8d"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/app/transcoder/__init__.py": {
+    "mtime": 1779831531.1666968,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/app/transcoder/pipeline.py": {
+    "mtime": 1779938519.9379616,
+    "ast_hash": "f1e88cde9b1a050aa2d02a039e6c8744",
+    "semantic_hash": "f1e88cde9b1a050aa2d02a039e6c8744"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/app/transcoder/profiles.py": {
+    "mtime": 1779938524.149768,
+    "ast_hash": "45613e83bc5d8f25d2560c80fee9fb5c",
+    "semantic_hash": "45613e83bc5d8f25d2560c80fee9fb5c"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/tests/conftest.py": {
+    "mtime": 1779831599.0125818,
+    "ast_hash": "6d153ac5e5b07e36515d93d2a7d858aa",
+    "semantic_hash": "6d153ac5e5b07e36515d93d2a7d858aa"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/tests/__init__.py": {
+    "mtime": 1779831592.6438956,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/tests/test_ffmpeg.py": {
+    "mtime": 1779938698.8068223,
+    "ast_hash": "f32a497e802254f0fecc0b2f6fff5c13",
+    "semantic_hash": "f32a497e802254f0fecc0b2f6fff5c13"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/tests/test_pipeline.py": {
+    "mtime": 1779938581.5177052,
+    "ast_hash": "3ddd5d8e7a77ad1ccd3898d6c640e0a9",
+    "semantic_hash": "3ddd5d8e7a77ad1ccd3898d6c640e0a9"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/tests/test_s3.py": {
+    "mtime": 1779832375.1265686,
+    "ast_hash": "6d0bc33ec5c7a0d2b0d8186c061121bf",
+    "semantic_hash": "6d0bc33ec5c7a0d2b0d8186c061121bf"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/package.json": {
+    "mtime": 1780150627.5183785,
+    "ast_hash": "c583557e565eed50a14238bcfeaddb33",
+    "semantic_hash": "c583557e565eed50a14238bcfeaddb33"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/tsconfig.json": {
+    "mtime": 1779866403.5534775,
+    "ast_hash": "3dc4a014558fddae6a15df1211162a69",
+    "semantic_hash": "3dc4a014558fddae6a15df1211162a69"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/eslint.config.js": {
+    "mtime": 1779866407.8388848,
+    "ast_hash": "069942b07d503be1c30bb83f8fb62f14",
+    "semantic_hash": "069942b07d503be1c30bb83f8fb62f14"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/vitest.config.ts": {
+    "mtime": 1779866579.6401663,
+    "ast_hash": "199772118bbc2a56aded616ac0e1a346",
+    "semantic_hash": "199772118bbc2a56aded616ac0e1a346"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/tests/manifest.test.ts": {
+    "mtime": 1779866562.1529648,
+    "ast_hash": "df55ad68d75fc25b836e1d320d93741c",
+    "semantic_hash": "df55ad68d75fc25b836e1d320d93741c"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/tests/quality.test.ts": {
+    "mtime": 1779866541.7340093,
+    "ast_hash": "2c06319557d64e67785d2338f8a23db2",
+    "semantic_hash": "2c06319557d64e67785d2338f8a23db2"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/tests/heartbeat.test.ts": {
+    "mtime": 1779866576.1318595,
+    "ast_hash": "c0688bebfe78cae3265b3faf3d35d2cf",
+    "semantic_hash": "c0688bebfe78cae3265b3faf3d35d2cf"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/index.ts": {
+    "mtime": 1780146516.1647093,
+    "ast_hash": "f3e441ddce5c47316d23df9a084c39ca",
+    "semantic_hash": "f3e441ddce5c47316d23df9a084c39ca"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/config.ts": {
+    "mtime": 1780146516.164554,
+    "ast_hash": "de119383abac9ecf3a7d9e8a26501096",
+    "semantic_hash": "de119383abac9ecf3a7d9e8a26501096"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/instrumentation.ts": {
+    "mtime": 1780132899.9706104,
+    "ast_hash": "a6717883e028f9e2f761071b3e00f85e",
+    "semantic_hash": "a6717883e028f9e2f761071b3e00f85e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/core/exceptions.ts": {
+    "mtime": 1779866451.5632772,
+    "ast_hash": "eb0c1988e3ef05cabf244a3f68e18afd",
+    "semantic_hash": "eb0c1988e3ef05cabf244a3f68e18afd"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/core/telemetry.ts": {
+    "mtime": 1780128335.09731,
+    "ast_hash": "7d8d16377f0af933ccd8be1a6ff74091",
+    "semantic_hash": "7d8d16377f0af933ccd8be1a6ff74091"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/core/health.ts": {
+    "mtime": 1780146516.1646383,
+    "ast_hash": "65e6d566b1d415abe6246251c6dd0743",
+    "semantic_hash": "65e6d566b1d415abe6246251c6dd0743"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/core/metrics.ts": {
+    "mtime": 1780137601.7458365,
+    "ast_hash": "51ac7452edf81ef26fa68b0c02773aa1",
+    "semantic_hash": "51ac7452edf81ef26fa68b0c02773aa1"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/core/logging.ts": {
+    "mtime": 1779866708.9106293,
+    "ast_hash": "60aaac5e52ffac7b2bd28aa046f74ab5",
+    "semantic_hash": "60aaac5e52ffac7b2bd28aa046f74ab5"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/routes/stream.routes.ts": {
+    "mtime": 1779911422.9799776,
+    "ast_hash": "719c997030eedb1c7e1733f4211a3362",
+    "semantic_hash": "719c997030eedb1c7e1733f4211a3362"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/handlers/resume.handler.ts": {
+    "mtime": 1779866510.4278157,
+    "ast_hash": "d2c6e7cc56be45059f9622544f8f6d78",
+    "semantic_hash": "d2c6e7cc56be45059f9622544f8f6d78"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/handlers/quality.ts": {
+    "mtime": 1779866745.5940313,
+    "ast_hash": "f025e8b91522887d72f9be75e418ef7a",
+    "semantic_hash": "f025e8b91522887d72f9be75e418ef7a"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/handlers/heartbeat.handler.ts": {
+    "mtime": 1779866505.9519799,
+    "ast_hash": "8de05c8af0efc4c716e5d034fcd4acb3",
+    "semantic_hash": "8de05c8af0efc4c716e5d034fcd4acb3"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/handlers/manifest.handler.ts": {
+    "mtime": 1779866500.9063132,
+    "ast_hash": "c2573cda9af1dd4edfe825618b31b0a0",
+    "semantic_hash": "c2573cda9af1dd4edfe825618b31b0a0"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/services/s3.service.ts": {
+    "mtime": 1779918492.4137197,
+    "ast_hash": "3ce49a4e16fed275eb426eddc6b583b6",
+    "semantic_hash": "3ce49a4e16fed275eb426eddc6b583b6"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/services/redis.service.ts": {
+    "mtime": 1780146516.164851,
+    "ast_hash": "8986d054cbb729cce0f7b042f59fb951",
+    "semantic_hash": "8986d054cbb729cce0f7b042f59fb951"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/src/services/kafka.service.ts": {
+    "mtime": 1780146516.1647816,
+    "ast_hash": "fcd5288ed8793d859925c7bbd71e71a8",
+    "semantic_hash": "fcd5288ed8793d859925c7bbd71e71a8"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/gunicorn.conf.py": {
+    "mtime": 1780230127.0714166,
+    "ast_hash": "5a3ea86aad284dac9410fd54c4e5b298",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/manage.py": {
+    "mtime": 1779831294.835879,
+    "ast_hash": "95cb74342a0d6010c2bfff05887c77b5",
+    "semantic_hash": "95cb74342a0d6010c2bfff05887c77b5"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/auth_api/models.py": {
+    "mtime": 1779831294.8352437,
+    "ast_hash": "ef14dda893a5ce5c4adaadcd2bcf17ec",
+    "semantic_hash": "ef14dda893a5ce5c4adaadcd2bcf17ec"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/auth_api/serializers.py": {
+    "mtime": 1780076135.5184102,
+    "ast_hash": "360cd57a860b1fe4d25a26e3c20a5dd7",
+    "semantic_hash": "360cd57a860b1fe4d25a26e3c20a5dd7"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/auth_api/__init__.py": {
+    "mtime": 1779791971.5747802,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/auth_api/apps.py": {
+    "mtime": 1779831294.835186,
+    "ast_hash": "126d1d6735e86d95d48c502f858dbfac",
+    "semantic_hash": "126d1d6735e86d95d48c502f858dbfac"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/auth_api/admin.py": {
+    "mtime": 1779831294.8351305,
+    "ast_hash": "5a9355d0561941c86741228a93bca3e2",
+    "semantic_hash": "5a9355d0561941c86741228a93bca3e2"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/auth_api/tests.py": {
+    "mtime": 1779831294.8353696,
+    "ast_hash": "61c4da0491171e52febe9da45ffd4225",
+    "semantic_hash": "61c4da0491171e52febe9da45ffd4225"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/auth_api/urls.py": {
+    "mtime": 1779792714.078898,
+    "ast_hash": "261d97db91d8b3fe34e11396c3f4cd70",
+    "semantic_hash": "261d97db91d8b3fe34e11396c3f4cd70"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/auth_api/views.py": {
+    "mtime": 1779831294.8355505,
+    "ast_hash": "34e038c09900bff8407986c52b0baf04",
+    "semantic_hash": "34e038c09900bff8407986c52b0baf04"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/auth_api/migrations/__init__.py": {
+    "mtime": 1779791971.5760434,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/core/logging.py": {
+    "mtime": 1779792198.9735036,
+    "ast_hash": "dcd25ae39d9c74e30e749fbf7b0ae99d",
+    "semantic_hash": "dcd25ae39d9c74e30e749fbf7b0ae99d"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/core/metrics.py": {
+    "mtime": 1780230073.0154686,
+    "ast_hash": "b163e65e1f31c65ad4cd8e1a395a6048",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/core/__init__.py": {
+    "mtime": 1779791971.9211287,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/core/telemetry.py": {
+    "mtime": 1780146432.981917,
+    "ast_hash": "a7131c29a7d5c49688069c5d7dd29d55",
+    "semantic_hash": "a7131c29a7d5c49688069c5d7dd29d55"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/core/kafka.py": {
+    "mtime": 1779831294.8358228,
+    "ast_hash": "45208f096cafa34bf3c4ddfdf0c1d1f7",
+    "semantic_hash": "45208f096cafa34bf3c4ddfdf0c1d1f7"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/core/permissions.py": {
+    "mtime": 1779792227.7332547,
+    "ast_hash": "656db8aae41ae76941f74a69a0c467a5",
+    "semantic_hash": "656db8aae41ae76941f74a69a0c467a5"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/core/exceptions.py": {
+    "mtime": 1779792214.18436,
+    "ast_hash": "af936d94526b24d960a76f94e22cd26d",
+    "semantic_hash": "af936d94526b24d960a76f94e22cd26d"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/core/pagination.py": {
+    "mtime": 1779993496.246209,
+    "ast_hash": "d36fb491dafd4490ab756377cccadb96",
+    "semantic_hash": "d36fb491dafd4490ab756377cccadb96"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/core/urls.py": {
+    "mtime": 1779792252.9596393,
+    "ast_hash": "e4abfa6c8a39ee35ac3a9b63db8a1895",
+    "semantic_hash": "e4abfa6c8a39ee35ac3a9b63db8a1895"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/core/middleware.py": {
+    "mtime": 1779792206.2978606,
+    "ast_hash": "e57a90cef1871744d1cb3477745b5ad0",
+    "semantic_hash": "e57a90cef1871744d1cb3477745b5ad0"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/core/views.py": {
+    "mtime": 1780230989.3467414,
+    "ast_hash": "3fdf62f8ebc0864ed9a384d07194cd64",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/config/asgi.py": {
+    "mtime": 1779831294.8356044,
+    "ast_hash": "58ae1ed847720f4c7c213b322927d017",
+    "semantic_hash": "58ae1ed847720f4c7c213b322927d017"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/config/__init__.py": {
+    "mtime": 1779791971.256067,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/config/settings.py": {
+    "mtime": 1780230042.8609288,
+    "ast_hash": "fdeee6ed5a6b6a70476851515565f2e7",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/config/urls.py": {
+    "mtime": 1780230098.6120296,
+    "ast_hash": "520d7c93e6073a0c8a8e4d42ce5bba5a",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/config/wsgi.py": {
+    "mtime": 1780130736.5247185,
+    "ast_hash": "478d2b30806bcc26be78be763e6772e6",
+    "semantic_hash": "478d2b30806bcc26be78be763e6772e6"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/tests/test_pagination.py": {
+    "mtime": 1779993555.9089212,
+    "ast_hash": "41f0452834f85e22bcb989992feae7e8",
+    "semantic_hash": "41f0452834f85e22bcb989992feae7e8"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/tests/conftest.py": {
+    "mtime": 1779994758.721471,
+    "ast_hash": "b707e1393cca9717fbeedb6844ea66fc",
+    "semantic_hash": "b707e1393cca9717fbeedb6844ea66fc"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/tests/test_auth.py": {
+    "mtime": 1779831294.8367662,
+    "ast_hash": "0e3daebfa710b1cd698c62fd4437f063",
+    "semantic_hash": "0e3daebfa710b1cd698c62fd4437f063"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/tests/test_rbac.py": {
+    "mtime": 1779831294.8368325,
+    "ast_hash": "317a57fd674f22974551b15c40070a2d",
+    "semantic_hash": "317a57fd674f22974551b15c40070a2d"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/tests/__init__.py": {
+    "mtime": 1779791343.7353098,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/roles/models.py": {
+    "mtime": 1779831294.8361914,
+    "ast_hash": "870fe5d862a050acd2284788c76c52b6",
+    "semantic_hash": "870fe5d862a050acd2284788c76c52b6"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/roles/serializers.py": {
+    "mtime": 1779792375.3084528,
+    "ast_hash": "6f47cf88585646ff2ce817dabf3a10b6",
+    "semantic_hash": "6f47cf88585646ff2ce817dabf3a10b6"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/roles/__init__.py": {
+    "mtime": 1779791971.7277162,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/roles/apps.py": {
+    "mtime": 1779831294.835943,
+    "ast_hash": "91053db7562ff386daaf152b3cbeca9c",
+    "semantic_hash": "91053db7562ff386daaf152b3cbeca9c"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/roles/admin.py": {
+    "mtime": 1779792406.426634,
+    "ast_hash": "2f02e124b31d00fe0758b256d0b76d1b",
+    "semantic_hash": "2f02e124b31d00fe0758b256d0b76d1b"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/roles/tests.py": {
+    "mtime": 1779831294.836261,
+    "ast_hash": "61c4da0491171e52febe9da45ffd4225",
+    "semantic_hash": "61c4da0491171e52febe9da45ffd4225"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/roles/urls.py": {
+    "mtime": 1779792396.0391862,
+    "ast_hash": "1d578d4934c1f42c2c351ef6364afda4",
+    "semantic_hash": "1d578d4934c1f42c2c351ef6364afda4"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/roles/views.py": {
+    "mtime": 1779993512.0090086,
+    "ast_hash": "dc9f9ff5383aab9ef4c2bd3a029fe03f",
+    "semantic_hash": "dc9f9ff5383aab9ef4c2bd3a029fe03f"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/roles/migrations/__init__.py": {
+    "mtime": 1779791971.7293797,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/roles/migrations/0001_initial.py": {
+    "mtime": 1779831294.8361242,
+    "ast_hash": "f4694f3dbeeb7a60f1e497c0e06550a6",
+    "semantic_hash": "f4694f3dbeeb7a60f1e497c0e06550a6"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/roles/management/__init__.py": {
+    "mtime": 1779792558.2450237,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/roles/management/commands/seed_rbac.py": {
+    "mtime": 1779831294.8360155,
+    "ast_hash": "9cbf1348bbedffe5a2f0b8041894b02c",
+    "semantic_hash": "9cbf1348bbedffe5a2f0b8041894b02c"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/roles/management/commands/__init__.py": {
+    "mtime": 1779792558.24508,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/subscriptions/models.py": {
+    "mtime": 1779831294.8365147,
+    "ast_hash": "5261ebd75d324e35a14cc6ab8ae7d284",
+    "semantic_hash": "5261ebd75d324e35a14cc6ab8ae7d284"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/subscriptions/serializers.py": {
+    "mtime": 1779831294.8365693,
+    "ast_hash": "59e9179dfa18158aa9740140e7b2d148",
+    "semantic_hash": "59e9179dfa18158aa9740140e7b2d148"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/subscriptions/__init__.py": {
+    "mtime": 1779791971.8939435,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/subscriptions/apps.py": {
+    "mtime": 1779831294.8363295,
+    "ast_hash": "50fe5381d7a39d4930ac633dbcd84cf0",
+    "semantic_hash": "50fe5381d7a39d4930ac633dbcd84cf0"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/subscriptions/admin.py": {
+    "mtime": 1779792640.1064346,
+    "ast_hash": "c8c564dd27c1755959a39efe5ca4144e",
+    "semantic_hash": "c8c564dd27c1755959a39efe5ca4144e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/subscriptions/tests.py": {
+    "mtime": 1779831294.836622,
+    "ast_hash": "61c4da0491171e52febe9da45ffd4225",
+    "semantic_hash": "61c4da0491171e52febe9da45ffd4225"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/subscriptions/urls.py": {
+    "mtime": 1779792632.173872,
+    "ast_hash": "abb00232d767bdf7a833347f2b5bdb48",
+    "semantic_hash": "abb00232d767bdf7a833347f2b5bdb48"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/subscriptions/views.py": {
+    "mtime": 1779831294.8366733,
+    "ast_hash": "9e10e648a01dc42e22600ec1e5fcadef",
+    "semantic_hash": "9e10e648a01dc42e22600ec1e5fcadef"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/subscriptions/migrations/__init__.py": {
+    "mtime": 1779791971.8954406,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/subscriptions/migrations/0001_initial.py": {
+    "mtime": 1779831294.8364587,
+    "ast_hash": "3b1323eb680e0234aead9459829bc293",
+    "semantic_hash": "3b1323eb680e0234aead9459829bc293"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/subscriptions/management/__init__.py": {
+    "mtime": 1779792558.2509782,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/subscriptions/management/commands/__init__.py": {
+    "mtime": 1779792558.251039,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/subscriptions/management/commands/expire_trials.py": {
+    "mtime": 1779831294.8364,
+    "ast_hash": "1327e36507d9052fd86883495d47fa63",
+    "semantic_hash": "1327e36507d9052fd86883495d47fa63"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/accounts/models.py": {
+    "mtime": 1779817005.3399696,
+    "ast_hash": "7dc9611b46418d2f25aa0c226fb76cb6",
+    "semantic_hash": "7dc9611b46418d2f25aa0c226fb76cb6"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/accounts/serializers.py": {
+    "mtime": 1779831294.8349683,
+    "ast_hash": "59a8a1ccb2efa0aaeebcf267a1051adc",
+    "semantic_hash": "59a8a1ccb2efa0aaeebcf267a1051adc"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/accounts/__init__.py": {
+    "mtime": 1779791971.423917,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/accounts/apps.py": {
+    "mtime": 1779831294.8347638,
+    "ast_hash": "c5d664e94cff62cf1ba50dcf76ec3f57",
+    "semantic_hash": "c5d664e94cff62cf1ba50dcf76ec3f57"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/accounts/admin.py": {
+    "mtime": 1779831294.8347092,
+    "ast_hash": "54f523882f59ee774985e2bbd3bbb07b",
+    "semantic_hash": "54f523882f59ee774985e2bbd3bbb07b"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/accounts/tests.py": {
+    "mtime": 1779831294.8350177,
+    "ast_hash": "61c4da0491171e52febe9da45ffd4225",
+    "semantic_hash": "61c4da0491171e52febe9da45ffd4225"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/accounts/urls.py": {
+    "mtime": 1779913275.9477243,
+    "ast_hash": "c08225e7aa0ec9693718b40748885ea2",
+    "semantic_hash": "c08225e7aa0ec9693718b40748885ea2"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/accounts/views.py": {
+    "mtime": 1779913275.9478116,
+    "ast_hash": "f4596a7a107bcbf9ec26eb44ebae5780",
+    "semantic_hash": "f4596a7a107bcbf9ec26eb44ebae5780"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/accounts/migrations/__init__.py": {
+    "mtime": 1779791971.4258263,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/accounts/migrations/0001_initial.py": {
+    "mtime": 1779831294.8349175,
+    "ast_hash": "b5e353e826a3a1222f88e22a4d7272ae",
+    "semantic_hash": "b5e353e826a3a1222f88e22a4d7272ae"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/accounts/management/__init__.py": {
+    "mtime": 1779792558.2479203,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/accounts/management/commands/__init__.py": {
+    "mtime": 1779792558.2479758,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/accounts/management/commands/create_dev_admin.py": {
+    "mtime": 1779831294.8348253,
+    "ast_hash": "dc078170ab998488936327c804c13d0b",
+    "semantic_hash": "dc078170ab998488936327c804c13d0b"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/gunicorn.conf.py": {
+    "mtime": 1780230118.3869517,
+    "ast_hash": "4edc2c5c6a3fc32993bcabd7166e1ed6",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/manage.py": {
+    "mtime": 1779830396.0055585,
+    "ast_hash": "95cb74342a0d6010c2bfff05887c77b5",
+    "semantic_hash": "95cb74342a0d6010c2bfff05887c77b5"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/uploaders/models.py": {
+    "mtime": 1779826341.1089585,
+    "ast_hash": "3824880b42211ad0bb510d3fce8422c7",
+    "semantic_hash": "3824880b42211ad0bb510d3fce8422c7"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/uploaders/__init__.py": {
+    "mtime": 1779826101.8536553,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/uploaders/apps.py": {
+    "mtime": 1779830396.004697,
+    "ast_hash": "f231b7b77e57443c49a44e87c5620571",
+    "semantic_hash": "f231b7b77e57443c49a44e87c5620571"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/uploaders/admin.py": {
+    "mtime": 1779826386.269534,
+    "ast_hash": "04b5525a3456910d1141ea144cff58d1",
+    "semantic_hash": "04b5525a3456910d1141ea144cff58d1"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/uploaders/tests.py": {
+    "mtime": 1779830396.0047565,
+    "ast_hash": "61c4da0491171e52febe9da45ffd4225",
+    "semantic_hash": "61c4da0491171e52febe9da45ffd4225"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/uploaders/s3.py": {
+    "mtime": 1779918347.1070263,
+    "ast_hash": "f7783dfcafbacc5437ed447c3a93c3f8",
+    "semantic_hash": "f7783dfcafbacc5437ed447c3a93c3f8"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/uploaders/urls.py": {
+    "mtime": 1779826381.1250207,
+    "ast_hash": "6494945684780986a2d3a753d8778271",
+    "semantic_hash": "6494945684780986a2d3a753d8778271"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/uploaders/views.py": {
+    "mtime": 1779913464.3009317,
+    "ast_hash": "f7958bdb935c0bb233b2e6aa48eab29a",
+    "semantic_hash": "f7958bdb935c0bb233b2e6aa48eab29a"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/uploaders/migrations/__init__.py": {
+    "mtime": 1779826101.8548775,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/uploaders/migrations/0001_initial.py": {
+    "mtime": 1779830396.0047987,
+    "ast_hash": "8bbc65472d14384b55cd6c7e2c120499",
+    "semantic_hash": "8bbc65472d14384b55cd6c7e2c120499"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/core/logging.py": {
+    "mtime": 1779826116.8932743,
+    "ast_hash": "13ed7d2c73d1a45e3bb750e91d1c5313",
+    "semantic_hash": "13ed7d2c73d1a45e3bb750e91d1c5313"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/core/metrics.py": {
+    "mtime": 1780230058.5538735,
+    "ast_hash": "b163e65e1f31c65ad4cd8e1a395a6048",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/core/__init__.py": {
+    "mtime": 1779826111.0865166,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/core/telemetry.py": {
+    "mtime": 1780146731.1871614,
+    "ast_hash": "da18c9ab3caba98ada6f4af210ebcecf",
+    "semantic_hash": "da18c9ab3caba98ada6f4af210ebcecf"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/core/authentication.py": {
+    "mtime": 1779918985.4385974,
+    "ast_hash": "dd793b4c09dccc868597598f64554a28",
+    "semantic_hash": "dd793b4c09dccc868597598f64554a28"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/core/kafka.py": {
+    "mtime": 1779830396.0050206,
+    "ast_hash": "45208f096cafa34bf3c4ddfdf0c1d1f7",
+    "semantic_hash": "45208f096cafa34bf3c4ddfdf0c1d1f7"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/core/permissions.py": {
+    "mtime": 1779914262.4727173,
+    "ast_hash": "9d7f1a64084a8c1ff5f6551d8088b3d6",
+    "semantic_hash": "9d7f1a64084a8c1ff5f6551d8088b3d6"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/core/exceptions.py": {
+    "mtime": 1779826128.354526,
+    "ast_hash": "af936d94526b24d960a76f94e22cd26d",
+    "semantic_hash": "af936d94526b24d960a76f94e22cd26d"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/core/pagination.py": {
+    "mtime": 1779993497.3238313,
+    "ast_hash": "d36fb491dafd4490ab756377cccadb96",
+    "semantic_hash": "d36fb491dafd4490ab756377cccadb96"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/core/urls.py": {
+    "mtime": 1779826151.4492087,
+    "ast_hash": "e4abfa6c8a39ee35ac3a9b63db8a1895",
+    "semantic_hash": "e4abfa6c8a39ee35ac3a9b63db8a1895"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/core/middleware.py": {
+    "mtime": 1779826129.6328163,
+    "ast_hash": "e57a90cef1871744d1cb3477745b5ad0",
+    "semantic_hash": "e57a90cef1871744d1cb3477745b5ad0"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/core/views.py": {
+    "mtime": 1780146731.1867592,
+    "ast_hash": "046660af240830fe2826870826ccea55",
+    "semantic_hash": "046660af240830fe2826870826ccea55"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/config/asgi.py": {
+    "mtime": 1779830396.0048058,
+    "ast_hash": "58ae1ed847720f4c7c213b322927d017",
+    "semantic_hash": "58ae1ed847720f4c7c213b322927d017"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/config/__init__.py": {
+    "mtime": 1779826098.2300162,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/config/settings.py": {
+    "mtime": 1780230036.6784256,
+    "ast_hash": "a5b90f4bbfbf20a1792b340ee1153f1a",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/config/urls.py": {
+    "mtime": 1780230094.1320918,
+    "ast_hash": "9be4f1d2ad44017de90f7fe9a35e6a4f",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/config/test_settings.py": {
+    "mtime": 1779918990.9793174,
+    "ast_hash": "33e94b2157e3247c3d206f1a4338f52b",
+    "semantic_hash": "33e94b2157e3247c3d206f1a4338f52b"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/config/wsgi.py": {
+    "mtime": 1780130737.3185978,
+    "ast_hash": "478d2b30806bcc26be78be763e6772e6",
+    "semantic_hash": "478d2b30806bcc26be78be763e6772e6"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/catalog/models.py": {
+    "mtime": 1779830396.0051215,
+    "ast_hash": "ef14dda893a5ce5c4adaadcd2bcf17ec",
+    "semantic_hash": "ef14dda893a5ce5c4adaadcd2bcf17ec"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/catalog/__init__.py": {
+    "mtime": 1779826101.9845557,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/catalog/apps.py": {
+    "mtime": 1779830396.004683,
+    "ast_hash": "4cdbd3dfd0e98969dac7732da1aa5ee5",
+    "semantic_hash": "4cdbd3dfd0e98969dac7732da1aa5ee5"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/catalog/admin.py": {
+    "mtime": 1779830396.0049949,
+    "ast_hash": "5a9355d0561941c86741228a93bca3e2",
+    "semantic_hash": "5a9355d0561941c86741228a93bca3e2"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/catalog/tests.py": {
+    "mtime": 1779830396.0043483,
+    "ast_hash": "61c4da0491171e52febe9da45ffd4225",
+    "semantic_hash": "61c4da0491171e52febe9da45ffd4225"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/catalog/urls.py": {
+    "mtime": 1780046619.8010967,
+    "ast_hash": "42cb9d44badc7c38215992e603f67127",
+    "semantic_hash": "42cb9d44badc7c38215992e603f67127"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/catalog/views.py": {
+    "mtime": 1780076142.0599983,
+    "ast_hash": "7df3aec27b075d419dca49ec61905e53",
+    "semantic_hash": "7df3aec27b075d419dca49ec61905e53"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/catalog/migrations/__init__.py": {
+    "mtime": 1779826101.9857273,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/tests/test_pagination.py": {
+    "mtime": 1779993568.2710466,
+    "ast_hash": "e3d5df4ec28eaa1866ef33d5e0634ffc",
+    "semantic_hash": "e3d5df4ec28eaa1866ef33d5e0634ffc"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/tests/conftest.py": {
+    "mtime": 1779919016.063059,
+    "ast_hash": "27a9e8101e89b5af0aae90c0962eaa0a",
+    "semantic_hash": "27a9e8101e89b5af0aae90c0962eaa0a"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/tests/__init__.py": {
+    "mtime": 1779826414.088509,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/tests/test_videos.py": {
+    "mtime": 1779919027.8615062,
+    "ast_hash": "ec8253fe9372f4efefee65a27ec6dd2f",
+    "semantic_hash": "ec8253fe9372f4efefee65a27ec6dd2f"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/tests/test_upload.py": {
+    "mtime": 1779918077.5568948,
+    "ast_hash": "ab7534d1105e956fd5144481e57fffc2",
+    "semantic_hash": "ab7534d1105e956fd5144481e57fffc2"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/models.py": {
+    "mtime": 1781120590.6014209,
+    "ast_hash": "4dcdbac40a442efefb4a9541d83e0e29",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/internal_urls.py": {
+    "mtime": 1781120622.7515533,
+    "ast_hash": "73c91761c3e03ead7244cbe9581f27af",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/serializers.py": {
+    "mtime": 1779826604.227807,
+    "ast_hash": "b109511faf6e5b112311008d50459a8b",
+    "semantic_hash": "b109511faf6e5b112311008d50459a8b"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/__init__.py": {
+    "mtime": 1779826101.7239323,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/apps.py": {
+    "mtime": 1779830396.0045276,
+    "ast_hash": "f6fb4e244a115c75bac61e083a01b5ec",
+    "semantic_hash": "f6fb4e244a115c75bac61e083a01b5ec"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/admin.py": {
+    "mtime": 1779826332.3561506,
+    "ast_hash": "3430ffcbd93f8b22aab5f73e88bf7ae4",
+    "semantic_hash": "3430ffcbd93f8b22aab5f73e88bf7ae4"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/internal_views.py": {
+    "mtime": 1781120609.2741494,
+    "ast_hash": "c9420d9c11ed1c85ae30b56c2e950ee2",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/tests.py": {
+    "mtime": 1779830396.0048516,
+    "ast_hash": "61c4da0491171e52febe9da45ffd4225",
+    "semantic_hash": "61c4da0491171e52febe9da45ffd4225"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/urls.py": {
+    "mtime": 1779918347.1073494,
+    "ast_hash": "945317cd13e2ec4d86e6255ace0cb39d",
+    "semantic_hash": "945317cd13e2ec4d86e6255ace0cb39d"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/views.py": {
+    "mtime": 1779993524.8611436,
+    "ast_hash": "4dde1f681d16d446cbf9065d7dac3ea5",
+    "semantic_hash": "4dde1f681d16d446cbf9065d7dac3ea5"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/migrations/__init__.py": {
+    "mtime": 1779826101.7278366,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/migrations/0001_initial.py": {
+    "mtime": 1779830396.0052946,
+    "ast_hash": "bc05323af3acba5b965ea2bd681c518e",
+    "semantic_hash": "bc05323af3acba5b965ea2bd681c518e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/management/__init__.py": {
+    "mtime": 1779915670.2808177,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/management/commands/consume_transcode_events.py": {
+    "mtime": 1779918387.834814,
+    "ast_hash": "13e93a26005f8a4ce4840e2c9ad6df8f",
+    "semantic_hash": "13e93a26005f8a4ce4840e2c9ad6df8f"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/management/commands/__init__.py": {
+    "mtime": 1779915670.2824233,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/components/Layout/AppFooter.tsx": {
+    "mtime": 1780255559.6558542,
+    "ast_hash": "0ec4394e95575f15704e5f495dd9fb34",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/components/Layout/AdminFooter.tsx": {
+    "mtime": 1780254839.4182155,
+    "ast_hash": "56f2e0031d1ca09fba6ad354c0f603ba",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/load-test/run.py": {
+    "mtime": 1780259498.1452982,
+    "ast_hash": "c4316525b8b4cdfa5fc9d9722f301175",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/load-test/created_users.json": {
+    "mtime": 1780304505.827454,
+    "ast_hash": "28f37381e9afc4a7fbc48421aba38ff4",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/kibana/init.sh": {
+    "mtime": 1780256432.0432477,
+    "ast_hash": "2a1ab0d91f210f67e3a4d6232810d21f",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/kibana/dashboard.json": {
+    "mtime": 1780256417.383931,
+    "ast_hash": "db6f58e5abe7c28ce07caa6ac2a764be",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/kibana/data_view.json": {
+    "mtime": 1780256416.1786392,
+    "ast_hash": "129e77e440ec703d58422dd8c8f24f2c",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/grafana/dashboards/noxrel-overview.json": {
+    "mtime": 1780256434.2150185,
+    "ast_hash": "762cdaac839eccf8f5d4915d67646c13",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/__init__.py": {
+    "mtime": 1780844325.2177966,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/main.py": {
+    "mtime": 1781005036.355371,
+    "ast_hash": "cec10a9117f29345b4d5a3cad761825c",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/core/logging.py": {
+    "mtime": 1780844343.089043,
+    "ast_hash": "4681ec1a7d2505905de787d73a156cbf",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/core/metrics.py": {
+    "mtime": 1780844923.4005442,
+    "ast_hash": "ee5be06b672a277f55b2133ab88614dc",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/core/config.py": {
+    "mtime": 1780951546.0119884,
+    "ast_hash": "40b9050bf6853c74e43cb5f04cb4fb9d",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/core/database.py": {
+    "mtime": 1780857767.3758428,
+    "ast_hash": "0a45b91febdf733b88572c4c376dbfde",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/core/security.py": {
+    "mtime": 1780951535.3033748,
+    "ast_hash": "ad5655718a4bd14d41379acbefe7e239",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/core/__init__.py": {
+    "mtime": 1780844325.6679292,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/core/telemetry.py": {
+    "mtime": 1781005036.9309087,
+    "ast_hash": "2625554d0dcf26e722af99b870cf2769",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/core/kafka.py": {
+    "mtime": 1780951581.7055686,
+    "ast_hash": "5f43378f94384e0d8a4b27727bcb8025",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/consumers/__init__.py": {
+    "mtime": 1780844327.1334674,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/consumers/user_registered.py": {
+    "mtime": 1781086158.796601,
+    "ast_hash": "c575b663a1cd73a235841271bb39e352",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/jobs/tasks.py": {
+    "mtime": 1781005036.9318588,
+    "ast_hash": "b56a4b2d2cadd195df2992f914882f0f",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/jobs/__init__.py": {
+    "mtime": 1780857712.0910468,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/jobs/scheduler.py": {
+    "mtime": 1781005036.9316425,
+    "ast_hash": "fc8a5cfa484deccc6e3ab0e70b1eaef7",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/billing/models.py": {
+    "mtime": 1781005036.9308484,
+    "ast_hash": "eae235ae197be6153d3a1f0ee3983d12",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/billing/__init__.py": {
+    "mtime": 1780844326.2091303,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/billing/schemas.py": {
+    "mtime": 1780844404.9473672,
+    "ast_hash": "e35a5c1b988108e79996acbea193e57b",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/billing/router.py": {
+    "mtime": 1781086208.8214378,
+    "ast_hash": "918533c4a5f7b89214e964cc34e74688",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/billing/webhooks.py": {
+    "mtime": 1781086204.809994,
+    "ast_hash": "8b3f7f6daece77976d252c2cf9bf4fb5",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/tests/conftest.py": {
+    "mtime": 1781005036.931404,
+    "ast_hash": "026718ebb8f2c9181032c0f8b89d2d02",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/tests/test_plans.py": {
+    "mtime": 1780844562.8268287,
+    "ast_hash": "62d56c41705e74eb07acb25530ed6650",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/tests/__init__.py": {
+    "mtime": 1780844327.4638145,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/tests/test_webhooks.py": {
+    "mtime": 1781086169.422124,
+    "ast_hash": "d65472c160947d0140f13a7e07d82685",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/tests/test_invoices.py": {
+    "mtime": 1780844591.7542732,
+    "ast_hash": "5ab1560d37842e20e45d203f6aa19d58",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/tests/test_health.py": {
+    "mtime": 1780844923.4010718,
+    "ast_hash": "5baf8eb3b75265dd564be5bd711c402e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/tests/test_subscription.py": {
+    "mtime": 1780952204.4622102,
+    "ast_hash": "1d1121c688c092da7981b9bf5f63af51",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/alembic/env.py": {
+    "mtime": 1780857796.7095215,
+    "ast_hash": "40b1d5a0bfdb72025ae2718985220360",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/alembic/versions/0001_initial.py": {
+    "mtime": 1781005036.9307187,
+    "ast_hash": "9d08929399e1088aa151f4c2c12da989",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/ARCHITECTURE.md": {
+    "mtime": 1780425779.7765203,
+    "ast_hash": "8bd28b1a837efae2aaa99a156a7763a6",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/.pre-commit-config.yaml": {
+    "mtime": 1780834677.5669398,
+    "ast_hash": "d9a95efa6a4140c5a96ca3058e8cce78",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/README.md": {
+    "mtime": 1781203224.0026946,
+    "ast_hash": "bc64ba988ac04cea1d1b0911421801ce",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/README.md": {
+    "mtime": 1780075612.8716104,
+    "ast_hash": "28d478dcb0337c69501933550126d96d",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/README.md": {
+    "mtime": 1779914006.3517983,
+    "ast_hash": "f15aaa42d5d299d091b1171097ea56ad",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/load-test/requirements.txt": {
+    "mtime": 1780257541.625177,
+    "ast_hash": "456ebe311fa39ca68d5c5bc85d58aa60",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/load-test/config.yaml": {
+    "mtime": 1780259444.6487179,
+    "ast_hash": "5598a8077719b6f93b1a3e51d91944b2",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/load-test/README.md": {
+    "mtime": 1780259531.0540721,
+    "ast_hash": "f1f5157437ee476c6511a473ca6cad3c",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/.claude/agents/code-reviewer.md": {
+    "mtime": 1782931911.257441,
+    "ast_hash": "2ca6c57d229ee8ef1d411eecc3e438ea",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/phase-08-observability.md": {
+    "mtime": 1780127095.3194358,
+    "ast_hash": "c7db413ea95c2d44a5b5f7ad571afe93",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/phase-07-subscriptions.md": {
+    "mtime": 1780858076.03147,
+    "ast_hash": "45054656381c1f7c6400a447b8b90646",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/architecture.md": {
+    "mtime": 1779825446.737322,
+    "ast_hash": "3ea0f7b7c24f1cc732c6420240b897bf",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/phase-09-scale-cost.md": {
+    "mtime": 1779740361.8859851,
+    "ast_hash": "b331fe612b5652b042506d6a50fd4e13",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/phase-03-video-pipeline.md": {
+    "mtime": 1779825413.4730082,
+    "ast_hash": "3dc7b8683fe3d542be8e9284e3f505b1",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/phases.md": {
+    "mtime": 1779783439.2509277,
+    "ast_hash": "fe8b1d14cb3c49bf1b110766e582d071",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/video-upload-and-streaming-explained.md": {
+    "mtime": 1780085329.549483,
+    "ast_hash": "8c655a7de218466f461bd9ebb734b80e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/phase-10-mobile.md": {
+    "mtime": 1779740409.1459267,
+    "ast_hash": "c08c0b35042214f302985914d54facd4",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/platform-deep-dive.md": {
+    "mtime": 1782931913.5497582,
+    "ast_hash": "44b059ddacac3b1d79b9ba5d29342e16",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/phase-12-chatbot-ai.md": {
+    "mtime": 1779825690.1075807,
+    "ast_hash": "7eba80d1ff93384ec1f467fb453da8cd",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/phase-02-auth-users.md": {
+    "mtime": 1779742003.870384,
+    "ast_hash": "e9b7cc46c04cbe5d6e6edac477afa43e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/phase-01-foundation.md": {
+    "mtime": 1780081261.3100717,
+    "ast_hash": "210f035f9367f850c0505a211f1c1257",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/Master_Plan.md": {
+    "mtime": 1779825473.5345767,
+    "ast_hash": "d32b98052bf1802d5009bae36f63d68f",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/observability-deep-dive.md": {
+    "mtime": 1780231558.1064575,
+    "ast_hash": "94d1a140e69c916c803737aac7c66e5b",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/phase-11-kubernetes.md": {
+    "mtime": 1780081292.2906096,
+    "ast_hash": "8e89c6ae3cc8c55c98cc2d3aa4702a85",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/deploy-billing-service-k8s.md": {
+    "mtime": 1780858145.5441034,
+    "ast_hash": "ae181b648c64977d1ce7e14107100e8e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/phase-06-social.md": {
+    "mtime": 1779740221.829933,
+    "ast_hash": "a73ea7d46991c2d7361ad5a43a3269d6",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/phase-04-streaming.md": {
+    "mtime": 1779865688.4559834,
+    "ast_hash": "ba9cc91c0f08f48b963dda4c822324ae",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/graphify.md": {
+    "mtime": 1782931950.0684228,
+    "ast_hash": "7f0d487fe50ec647de0d619ff657a176",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/db-schema.md": {
+    "mtime": 1779825465.5386186,
+    "ast_hash": "60888657aae248d6708d95447989d584",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/phase-05-live-streaming.md": {
+    "mtime": 1782931923.3662026,
+    "ast_hash": "f82f84cbc2c63501648053d4314dbaf4",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/.github/workflows/ci.yml": {
+    "mtime": 1781120943.7769384,
+    "ast_hash": "ccfca233811ffc726c2545b1bd8b9333",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/docker-compose.infra.yml": {
+    "mtime": 1780834677.5690675,
+    "ast_hash": "0ff3cf92a4baa242d0c34d349af44575",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/docker-compose.yml": {
+    "mtime": 1781120869.0868583,
+    "ast_hash": "30120abbabf7bb4a93c23b8b2624a73c",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/ingress.yml": {
+    "mtime": 1781170315.0606024,
+    "ast_hash": "c60401b3a94fc0f6ca1c608e849885b2",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/namespaces.yml": {
+    "mtime": 1780834677.5731795,
+    "ast_hash": "2be9f7e7c328c9d1c9d9f581f09b19a4",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/configmaps/streaming-service.yml": {
+    "mtime": 1780834677.5707693,
+    "ast_hash": "358957e15bd60d9d54d1868c67d558d6",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/configmaps/transcode-worker.yml": {
+    "mtime": 1780834677.57138,
+    "ast_hash": "896b4351518c042f45311e50af21fc65",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/configmaps/billing-service.yml": {
+    "mtime": 1780857917.7359502,
+    "ast_hash": "e123647edff37e39988d9c03c72064a8",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/configmaps/user-service.yml": {
+    "mtime": 1780834677.5719864,
+    "ast_hash": "09d09623571256feaae256c0227abca4",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/configmaps/video-service.yml": {
+    "mtime": 1780834677.5724695,
+    "ast_hash": "dde1fe6a12e1e55f2cb9ebbe313975fd",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/observability/otel-collector.yml": {
+    "mtime": 1780834677.57408,
+    "ast_hash": "02b8362794787215504eb88defa6c238",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/observability/fluent-bit.yml": {
+    "mtime": 1780834677.573624,
+    "ast_hash": "83fd73fe576a4985ff1a1b99cede4bf1",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/services/streaming-service.yml": {
+    "mtime": 1780834677.575967,
+    "ast_hash": "a1bbaa35636ddcb3d1dc7ca78732b2fb",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/services/user-service-hpa.yml": {
+    "mtime": 1780834677.5766976,
+    "ast_hash": "066e1dce46af0b6e4fd4575386b65d35",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/services/transcode-worker.yml": {
+    "mtime": 1780834677.5763197,
+    "ast_hash": "fd1ab68b1a828591c624f4b41633678e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/services/billing-service.yml": {
+    "mtime": 1780857909.6521354,
+    "ast_hash": "56d276614eeb63940c83f05160b074bd",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/services/user-service.yml": {
+    "mtime": 1781173441.4921525,
+    "ast_hash": "9ac88cf75bbc48e38f5007027a11ea20",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/services/video-service.yml": {
+    "mtime": 1780834677.577211,
+    "ast_hash": "901eb1579df71ff73915a8fb35b80a73",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/kong/kong.yml": {
+    "mtime": 1781120819.1541831,
+    "ast_hash": "043c4795e525dbca867fe370abcb4cb3",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/grafana/provisioning/datasources/datasources.yaml": {
+    "mtime": 1780256412.499127,
+    "ast_hash": "2b89dac07b6ca2def333fccd4984663f",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/grafana/provisioning/dashboards/dashboards.yaml": {
+    "mtime": 1780256413.6044428,
+    "ast_hash": "74db24a8b19d55e213e60122fdb4d25e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/otel/otel-collector-config.yaml": {
+    "mtime": 1780834677.5778248,
+    "ast_hash": "949395e53bd5c1d7b30307afd25286ee",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/prometheus/alerts.yaml": {
+    "mtime": 1780256414.5444953,
+    "ast_hash": "196b4559faa3a39d6b64c35d790125d9",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/prometheus/prometheus.yml": {
+    "mtime": 1781005106.555427,
+    "ast_hash": "c1db3209bd99516d52dac2417d2bb6ca",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/README.md": {
+    "mtime": 1779832202.5246177,
+    "ast_hash": "28b13773f01f621857a1b5b37ed56fdc",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/README.md": {
+    "mtime": 1780146516.1642847,
+    "ast_hash": "2d5dee0e6b6c42e1f9ccc6440ea9ac50",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/README.md": {
+    "mtime": 1779801976.9377413,
+    "ast_hash": "1fcc3d7dd0a7a86d8a86bec8762f7e90",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/README.md": {
+    "mtime": 1779830720.9682598,
+    "ast_hash": "10a4c4f3629478de779d0d000470989c",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/public/file.svg": {
+    "mtime": 1779913904.973197,
+    "ast_hash": "5a7cf15203348f0915990406e4fe2fc2",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/public/vercel.svg": {
+    "mtime": 1779913904.9659476,
+    "ast_hash": "5570ba747e9dd6fdb68e7e2dd32d1cec",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/public/next.svg": {
+    "mtime": 1779913904.965682,
+    "ast_hash": "2c469ea859f2cba868be3a6bd258a961",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/public/globe.svg": {
+    "mtime": 1779913904.9666405,
+    "ast_hash": "0666a56cc38cb6872fad06c182ef2660",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/public/window.svg": {
+    "mtime": 1779913904.9654794,
+    "ast_hash": "f2d60ec0c2c0d62aac6a19dc14ea108d",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/images/admin-dashboard.png": {
+    "mtime": 1780306582.8065903,
+    "ast_hash": "55205e5a163b931c810ebe9b113d9494",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/images/user-home-page.png": {
+    "mtime": 1780307186.7727196,
+    "ast_hash": "6c0abd3f5a0a8108fee34f423fe567d2",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/images/apm_user_service.png": {
+    "mtime": 1780306308.253285,
+    "ast_hash": "48cca4cc5d77889abd6723a34e995ade",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/images/user-ui-video-watching.png": {
+    "mtime": 1780306629.5895562,
+    "ast_hash": "d0855889fa947d71909d56ecd9a6151f",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/images/grafana.png": {
+    "mtime": 1780306166.9867444,
+    "ast_hash": "05a8f022902674a3e69f11fdd63e8022",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/images/apm_services.png": {
+    "mtime": 1780306260.8220294,
+    "ast_hash": "cc94091d3e3d27549c8bd222ec0f9d81",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/images/apache_kafka.png": {
+    "mtime": 1780306397.912799,
+    "ast_hash": "0ae78fbe958c0c4947fb05307ba32c38",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/types/billing.ts": {
+    "mtime": 1780858911.336449,
+    "ast_hash": "87b59d6b925d56945ff93d32708f4878",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/(public)/billing/page.tsx": {
+    "mtime": 1780951901.3423882,
+    "ast_hash": "375702a5f92352bf1b0890fb80f2fdfd",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/lib/billing.ts": {
+    "mtime": 1780862614.197399,
+    "ast_hash": "2b518dc701fdb667053f8506a04f56c6",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/types/billing.ts": {
+    "mtime": 1780858917.9812603,
+    "ast_hash": "a42a7c7f244794a0c9577ad79e418963",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/(admin)/subscriptions/page.tsx": {
+    "mtime": 1780951921.735279,
+    "ast_hash": "591b8598d43d6153a013fc6ee2f542b9",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/types/live.ts": {
+    "mtime": 1781121000.8288572,
+    "ast_hash": "499915a67f84935badc13d3207c278fe",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/(public)/live/page.tsx": {
+    "mtime": 1781121143.5264878,
+    "ast_hash": "03bc6bf681b3958a499dd6b269817591",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/(public)/live/[sessionId]/page.tsx": {
+    "mtime": 1781121062.256446,
+    "ast_hash": "065b33322ebdd31c6370d732e660155b",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/components/LivePlayer/LivePlayer.tsx": {
+    "mtime": 1781121028.4495642,
+    "ast_hash": "c2ab0609c4ee6d0dc03548d68bf427fc",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/components/LiveCard/LiveCard.tsx": {
+    "mtime": 1781121133.3876789,
+    "ast_hash": "c16803fee4514cc8031266059e48a48c",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/components/LiveChat/LiveChat.tsx": {
+    "mtime": 1781121043.5654726,
+    "ast_hash": "31e856da2b9aeae225dfd9f5a2c64e26",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/components/LiveStrip/LiveStrip.tsx": {
+    "mtime": 1781121161.6418824,
+    "ast_hash": "6de1cc81e832edeac299d58ce423b40b",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/components/LiveMeta/LiveMeta.tsx": {
+    "mtime": 1781121050.397464,
+    "ast_hash": "9e32c8d1c4a7ecc85481089501570ce3",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/lib/billing-display.ts": {
+    "mtime": 1780951887.1765969,
+    "ast_hash": "e069f58ffeced34c97170ac3ea400d94",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/lib/live.ts": {
+    "mtime": 1781202670.1520278,
+    "ast_hash": "77226254c52312e0ff68eaaf84b92335",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/lib/billing-display.ts": {
+    "mtime": 1780951892.4359252,
+    "ast_hash": "f1c91df4acca3f56267dabf24c221d4f",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/localstack/init-scripts/05-live-bucket.sh": {
+    "mtime": 1781120713.6346476,
+    "ast_hash": "6e1cd0168e7267ea77f37ca1b9552358",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/package.json": {
+    "mtime": 1781120874.5685923,
+    "ast_hash": "0432f79f0d99ae910d9c22a14fd26f9d",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/tsconfig.json": {
+    "mtime": 1781119977.3404114,
+    "ast_hash": "3dc4a014558fddae6a15df1211162a69",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/eslint.config.js": {
+    "mtime": 1781119982.240277,
+    "ast_hash": "069942b07d503be1c30bb83f8fb62f14",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/vitest.config.ts": {
+    "mtime": 1781119985.3219106,
+    "ast_hash": "199772118bbc2a56aded616ac0e1a346",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/tests/ffmpeg-args.test.ts": {
+    "mtime": 1781202561.827683,
+    "ast_hash": "3d2f442b01582773862ebbf2997aaa6e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/tests/jwt-auth.test.ts": {
+    "mtime": 1781120557.0621867,
+    "ast_hash": "aecc8630f88ef4791b084ea17f6ce0bd",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/tests/hls.test.ts": {
+    "mtime": 1781120520.5321326,
+    "ast_hash": "90459acad3a4a3fdec02a0b0f5130797",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/tests/vod-finalize.test.ts": {
+    "mtime": 1781120578.7948663,
+    "ast_hash": "05cba183d53c81fdee23be76da257884",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/tests/segment-sync.test.ts": {
+    "mtime": 1781120536.7467494,
+    "ast_hash": "0cd15c0247d3bbe56dc7ecabcb299823",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/tests/chat-clean.test.ts": {
+    "mtime": 1781120545.4846053,
+    "ast_hash": "b655bbae30e097f1bf47529bbb091f57",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/types.ts": {
+    "mtime": 1781120047.2163851,
+    "ast_hash": "a4a371dfbdfde984c3e49d37ba449480",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/index.ts": {
+    "mtime": 1781202471.9752314,
+    "ast_hash": "bf9f5aaba7089b210de548d06c0817a0",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/config.ts": {
+    "mtime": 1781120032.4769473,
+    "ast_hash": "a5dd7b01238a728f69027de61adbe070",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/core/jwt.ts": {
+    "mtime": 1781120054.93198,
+    "ast_hash": "a23fd120a521bddc016ffdcf19323b77",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/core/exceptions.ts": {
+    "mtime": 1781120041.483295,
+    "ast_hash": "f7585a5c445560f52329b33187b302ce",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/core/health.ts": {
+    "mtime": 1781120392.5698793,
+    "ast_hash": "afb4783a0ee4281bf8539587fde78b33",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/core/auth.ts": {
+    "mtime": 1781120323.1628318,
+    "ast_hash": "0d508127ee2b24cf242cf04f5cfc819b",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/core/logging.ts": {
+    "mtime": 1781120036.3210502,
+    "ast_hash": "60aaac5e52ffac7b2bd28aa046f74ab5",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/chat/chat.service.ts": {
+    "mtime": 1781120498.0107913,
+    "ast_hash": "1ee742c2a834b90a7ff90e5befc63b9c",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/chat/chat.gateway.ts": {
+    "mtime": 1781202478.5829194,
+    "ast_hash": "a13e1e9dd288e506c580868b52e639cc",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/db/pool.ts": {
+    "mtime": 1781120058.8057692,
+    "ast_hash": "8f37a380f9b9e15608b1d863c36a07c2",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/db/stream-keys.repo.ts": {
+    "mtime": 1781120085.9840937,
+    "ast_hash": "6d8461739ff9493c13aa91ea34c059f4",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/db/segments.repo.ts": {
+    "mtime": 1781120116.072718,
+    "ast_hash": "b456a2e658aedbf7051a741b98746ac0",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/db/sessions.repo.ts": {
+    "mtime": 1781120105.7833924,
+    "ast_hash": "5dd6c8f01674dc8debbdc359ef77d426",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/db/migrations/1718000000000_init.sql": {
+    "mtime": 1781120076.2299905,
+    "ast_hash": "399b349f0ae0071242a97fac85133cdd",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/routes/stream-keys.routes.ts": {
+    "mtime": 1781120329.8897228,
+    "ast_hash": "900e05310e5c8b10141e15446b6eb857",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/routes/sessions.routes.ts": {
+    "mtime": 1781120335.7331786,
+    "ast_hash": "d48049b36d96868425f273efb8e02b1f",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/routes/internal.routes.ts": {
+    "mtime": 1781120340.6167037,
+    "ast_hash": "d6b99ad3c6d5d43b9d01eecebb625776",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/handlers/stream-keys.handler.ts": {
+    "mtime": 1781120301.9485652,
+    "ast_hash": "134a3d59e0498145a112c9cff1b783b4",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/handlers/vod-finalize.handler.ts": {
+    "mtime": 1781120247.2246852,
+    "ast_hash": "4b21f2b20ebf98fc240675d37b0d3a4d",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/handlers/sessions.handler.ts": {
+    "mtime": 1781120314.7209291,
+    "ast_hash": "f03b36902b97fa4cb17bd9897bc7aa86",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/handlers/rtmp-hooks.handler.ts": {
+    "mtime": 1781120292.4838338,
+    "ast_hash": "77f3d30de7096fda780472b2c7e45783",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/services/nginx-control.service.ts": {
+    "mtime": 1781120225.6393118,
+    "ast_hash": "e1524826316eaa503af7e525bbc1cc1d",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/services/s3.service.ts": {
+    "mtime": 1781120149.3055835,
+    "ast_hash": "7a6b88f4e44a4699aa661d0c5a3c5bb1",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/services/vod-register.service.ts": {
+    "mtime": 1781120234.8235612,
+    "ast_hash": "766cb89b8dcfb513cabd2561884ba849",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/services/segment-sync.service.ts": {
+    "mtime": 1781120197.5298479,
+    "ast_hash": "76de34dc0f7ea5c8616b34981aea92f1",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/services/ffmpeg.service.ts": {
+    "mtime": 1781202426.8173318,
+    "ast_hash": "31dde9ce0d8c259c24ad8624a97ca9a7",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/services/hls.ts": {
+    "mtime": 1781120166.7824016,
+    "ast_hash": "5581b7264af51dc0c48530c271c4b85d",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/services/mongo.service.ts": {
+    "mtime": 1781120348.2853062,
+    "ast_hash": "85f54d0dfefe74c5022fda2182a77102",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/services/reconcile.service.ts": {
+    "mtime": 1781120279.6161468,
+    "ast_hash": "b55b3a75b7214f7b2dec18cb91c27667",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/services/redis.service.ts": {
+    "mtime": 1781120127.2846303,
+    "ast_hash": "d1fca9d49430d077c8fa3a42aa08887a",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/services/kafka.service.ts": {
+    "mtime": 1781120136.8768747,
+    "ast_hash": "3f4704a875ecc75f61c993c44a66a5af",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/app/core/stripe_client.py": {
+    "mtime": 1781005036.9300737,
+    "ast_hash": "54132b0a94f5674ed554f27108e50b9f",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/tests/test_admin.py": {
+    "mtime": 1781005036.9306495,
+    "ast_hash": "49b03dda5f611b95086fac0f2e11bd0b",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/tests/test_consumer.py": {
+    "mtime": 1781005036.9300487,
+    "ast_hash": "e9a017fb878b16867479c4a5ef3a3aeb",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/tests/test_payment_methods.py": {
+    "mtime": 1781086250.3352225,
+    "ast_hash": "8d5958a4986d41e60252da829c2af156",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/tests/test_checkout.py": {
+    "mtime": 1781005036.930957,
+    "ast_hash": "3ea72919bb517aeef01c0c4e02ea3b0e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/tests/test_from_live.py": {
+    "mtime": 1781120678.7289422,
+    "ast_hash": "dc827705830a7a4b5129365230db4a19",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/videos/migrations/0002_add_live_session_id_to_video.py": {
+    "mtime": 1781120630.824113,
+    "ast_hash": "21d2e7c1808b850c7d922c74e1f0dbb8",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/k8s-hands-on.md": {
+    "mtime": 1780926658.9454281,
+    "ast_hash": "24bb3cf34cdd174747eaa5ea8c0206d0",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/README.md": {
+    "mtime": 1782931910.9003046,
+    "ast_hash": "5a999fd76ca52fb8ce0856621d9ff383",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-user/src/app/(public)/go-live/page.tsx": {
+    "mtime": 1781203349.6970282,
+    "ast_hash": "609dc46d12ce1b1cc96931db80aa5f8e",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/types/live.ts": {
+    "mtime": 1781201294.429052,
+    "ast_hash": "309ca09891e9442746922ad7a90cd615",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/frontend/web-admin/src/app/(admin)/live/page.tsx": {
+    "mtime": 1781201344.8909006,
+    "ast_hash": "5a49e91a8054c13bf9b66b6200e0b219",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/src/ingest/ingest.gateway.ts": {
+    "mtime": 1781202459.4291127,
+    "ast_hash": "c79cc1935dc2b104f39fadcc4daa25d8",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/AGENTS.md": {
+    "mtime": 1782931905.40557,
+    "ast_hash": "46bba42f4ef534a359cd10483be01849",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/docs/deploy-live-service-k8s.md": {
+    "mtime": 1781170534.1342385,
+    "ast_hash": "928f151d6c264ef6b528fde43ba72503",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/configmaps/live-service.yml": {
+    "mtime": 1781170263.0663726,
+    "ast_hash": "498f7b19ec6fb1c17934adcd268e5417",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/infrastructure/k8s/services/live-service.yml": {
+    "mtime": 1781170449.28916,
+    "ast_hash": "252c2c01e54c35cd19a418c1ac4c2467",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/live-service/AGENTS.md": {
+    "mtime": 1782931907.468918,
+    "ast_hash": "6511dc76ae4f18f0240b8e688a77e1a2",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/transcode-worker/AGENTS.md": {
+    "mtime": 1782931907.4764268,
+    "ast_hash": "04d366d86b9d754d59061a9d8bd6e7b1",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/streaming-service/AGENTS.md": {
+    "mtime": 1782931907.4726155,
+    "ast_hash": "3563e8cace5129852de4fd493f2e086a",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/billing-service/AGENTS.md": {
+    "mtime": 1782931907.4645681,
+    "ast_hash": "1d01dbe249cac995f316dd22986f69b6",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/user-service/AGENTS.md": {
+    "mtime": 1782931907.4814591,
+    "ast_hash": "a1e7f3ee3f5b55d340e7509877da1875",
+    "semantic_hash": ""
+  },
+  "/Users/mdobaidullahalfaruk/Documents/noxrel/services/video-service/AGENTS.md": {
+    "mtime": 1782931907.4851978,
+    "ast_hash": "5d7827587a3467c51e4428a608a821d4",
+    "semantic_hash": ""
+  }
+}

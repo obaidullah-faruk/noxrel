@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [{"source": "streaming_service", "target": "kafka_video_viewed", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "services/streaming-service/src/handlers/manifest.handler.ts", "source_location": null, "weight": 1.0}], "hyperedges": []}

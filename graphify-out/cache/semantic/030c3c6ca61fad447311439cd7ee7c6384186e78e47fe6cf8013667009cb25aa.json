@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [{"source": "web_admin", "target": "streaming_service", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "docs/phase-04-streaming.md", "source_location": null, "weight": 1.0}], "hyperedges": []}

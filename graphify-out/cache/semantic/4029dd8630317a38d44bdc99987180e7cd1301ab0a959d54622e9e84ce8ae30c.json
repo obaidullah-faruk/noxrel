@@ -1,0 +1,1 @@
+{"nodes": [{"id": "kafka_video_viewed", "label": "Kafka: video.viewed", "file_type": "concept", "source_file": "services/streaming-service/src/services/kafka.service.ts", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null}], "edges": [], "hyperedges": []}
