@@ -150,6 +150,16 @@ make frontend-stop
 | web-user | http://localhost:3000 |
 | web-admin | http://localhost:3001 |
 
+### web-user
+
+![noxrel viewer — discover videos](images/user-home-page.png)
+
+![noxrel viewer — video player](images/user-ui-video-watching.png)
+
+### web-admin
+
+![noxrel admin dashboard](images/admin-dashboard.png)
+
 > **Next.js reads `.env.local` only at startup.** After changing gateway URL or starting the port-forward, restart the dev server.
 
 ---
@@ -197,6 +207,16 @@ Compose: Kong admin at http://localhost:8101. K8s: routes via ingress on port 80
 | Prometheus | http://localhost:9090 | Raw metrics |
 | user-service admin | http://localhost:8000/admin/ | `admin@admin.com` / `admin1234` |
 
+### Observability
+
+![Grafana — Noxrel overview dashboard](images/grafana.png)
+
+![Elastic APM — services inventory](images/apm_services.png)
+
+![Elastic APM — user-service overview](images/apm_user_service.png)
+
+![Kafka UI — topics](images/apache_kafka.png)
+
 ---
 
 ## Architecture
@@ -210,8 +230,6 @@ Compose: Kong admin at http://localhost:8101. K8s: routes via ingress on port 80
 | live-service | Node.js + nginx-rtmp | Live streaming |
 | billing-service | FastAPI | Stripe subscriptions |
 | web-user / web-admin | Next.js | Frontends |
-
-See [docs/architecture.md](docs/architecture.md) and [docs/Master_Plan.md](docs/Master_Plan.md) for the full design.
 
 ---
 
