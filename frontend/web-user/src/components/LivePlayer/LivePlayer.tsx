@@ -33,9 +33,16 @@ export function LivePlayer({ sessionId, hlsMasterUrl }: LivePlayerProps) {
     const video = videoRef.current;
     if (!video) return;
 
+    const tryPlay = () => { void video.play().catch(() => {}); };
+
     if (!Hls.isSupported()) {
-      video.src = hlsMasterUrl; // Safari native HLS
-      return;
+      video.src = hlsMasterUrl;
+      video.addEventListener('loadedmetadata', tryPlay);
+      video.addEventListener('canplay', tryPlay);
+      return () => {
+        video.removeEventListener('loadedmetadata', tryPlay);
+        video.removeEventListener('canplay', tryPlay);
+      };
     }
 
     const hls = new Hls({
@@ -50,11 +57,16 @@ export function LivePlayer({ sessionId, hlsMasterUrl }: LivePlayerProps) {
     hls.attachMedia(video);
     hls.on(Hls.Events.MANIFEST_PARSED, (_evt, data) => {
       setLevels(data.levels.map(l => ({ height: l.height })));
-      void video.play().catch(() => {});
+      tryPlay();
     });
     hls.on(Hls.Events.LEVEL_SWITCHED, (_evt, data) => setCurrentLevel(data.level));
+    video.addEventListener('canplay', tryPlay);
 
-    return () => { hls.destroy(); hlsRef.current = null; };
+    return () => {
+      video.removeEventListener('canplay', tryPlay);
+      hls.destroy();
+      hlsRef.current = null;
+    };
   }, [hlsMasterUrl]);
 
   const selectLevel = (level: number) => {
@@ -65,7 +77,13 @@ export function LivePlayer({ sessionId, hlsMasterUrl }: LivePlayerProps) {
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ position: 'relative' }}>
-        <video ref={videoRef} controls style={{ width: '100%', borderRadius: 8, background: '#000' }} />
+        <video
+          ref={videoRef}
+          controls
+          autoPlay
+          playsInline
+          style={{ width: '100%', borderRadius: 8, background: '#000' }}
+        />
         <Chip label="LIVE" color="error" size="small"
               sx={{ position: 'absolute', top: 8, left: 8, fontWeight: 700 }} />
       </Box>

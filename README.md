@@ -77,18 +77,6 @@ make frontend-env-k8s           # sets localhost:8100 on Docker driver
 make frontend-start
 ```
 
-### macOS / Windows — do **not** use `minikube ip` in `.env.local`
-
-On the Docker driver, the minikube IP (e.g. `192.168.49.2`) lives inside the Docker VM. Your browser and Next.js **cannot reach it** — requests hang and time out with *Gateway unreachable*.
-
-Use **`make k8s-ingress-forward`** and keep the gateway URL at **`http://localhost:8100`**. If you already ran the `sed`/`minikube ip` commands, reset with:
-
-```bash
-make frontend-env-k8s
-make k8s-ingress-forward
-make frontend-stop && make frontend-dev    # Next.js reads .env.local only at startup
-```
-
 ### Linux (kvm / qemu / hyperkit)
 
 The minikube IP is host-routable — `make frontend-env-k8s` sets `http://$(minikube ip)` automatically. No port-forward needed.
@@ -165,6 +153,8 @@ make frontend-stop
 ---
 
 ## Going live (browser streaming)
+
+![noxrel — Go Live with live chat](images/live-streaming.png)
 
 1. Sign in on **web-user** → **Go Live**
 2. Choose camera or screen, enter a title, click **Go Live**

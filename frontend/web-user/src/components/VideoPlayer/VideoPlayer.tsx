@@ -20,6 +20,7 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 
 interface VideoPlayerProps {
   videoId: string;
+  manifestUrl?: string;
   onProgress?: (positionSeconds: number) => void;
   initialBandwidthEstimate?: number;
 }
@@ -30,7 +31,7 @@ function formatTime(seconds: number): string {
   return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
-export function VideoPlayer({ videoId, onProgress, initialBandwidthEstimate }: VideoPlayerProps) {
+export function VideoPlayer({ videoId, manifestUrl, onProgress, initialBandwidthEstimate }: VideoPlayerProps) {
   const videoRef     = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const hlsRef       = useRef<Hls | null>(null);
@@ -75,13 +76,25 @@ export function VideoPlayer({ videoId, onProgress, initialBandwidthEstimate }: V
 
     async function init() {
       try {
-        const manifestUrl = `/api/stream/${videoId}/manifest`;
-        const resumeRes = await fetch(`/api/stream/${videoId}/resume`);
-        const { position = 0 } = resumeRes.ok ? await resumeRes.json() : {};
+        const useDirectManifest = Boolean(manifestUrl);
+        const sourceUrl = manifestUrl ?? `/api/stream/${videoId}/manifest`;
+        let position = 0;
+        if (!useDirectManifest) {
+          const resumeRes = await fetch(`/api/stream/${videoId}/resume`);
+          const resumeData = resumeRes.ok ? await resumeRes.json() : {};
+          position = resumeData.position ?? 0;
+        }
         if (cancelled) return;
 
         const video = videoRef.current!;
         setLoading(false);
+
+        const startPlayback = () => {
+          if (!useDirectManifest && position > 0) {
+            video.currentTime = position;
+          }
+          video.play().catch(() => {});
+        };
 
         if (Hls.isSupported()) {
           const hlsConfig: Partial<Hls['config']> = { maxBufferLength: 30, enableWorker: true };
@@ -90,35 +103,35 @@ export function VideoPlayer({ videoId, onProgress, initialBandwidthEstimate }: V
           }
           const hls = new Hls(hlsConfig);
           hlsRef.current = hls;
-          hls.loadSource(manifestUrl);
+          hls.loadSource(sourceUrl);
           hls.attachMedia(video);
           hls.on(Hls.Events.MANIFEST_PARSED, (_, data) => {
             if (cancelled) return;
             setLevels(data.levels);
-            video.currentTime = position as number;
-            video.play().catch(() => {});
+            startPlayback();
           });
           hls.on(Hls.Events.LEVEL_SWITCHED, (_, data) => setCurrentLevel(data.level));
           hls.on(Hls.Events.ERROR, (_, data) => {
             if (data.fatal) setError('Playback error — please refresh.');
           });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          video.src = manifestUrl;
-          video.currentTime = position as number;
-          video.play().catch(() => {});
+          video.src = sourceUrl;
+          video.addEventListener('loadedmetadata', startPlayback, { once: true });
         } else {
           setError('HLS is not supported in this browser.');
         }
 
-        heartbeatRef.current = setInterval(() => {
-          const pos = video.currentTime;
-          fetch(`/api/stream/${videoId}/heartbeat`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ position: pos }),
-          }).catch(() => {});
-          onProgress?.(pos);
-        }, 30_000);
+        if (!useDirectManifest) {
+          heartbeatRef.current = setInterval(() => {
+            const pos = video.currentTime;
+            fetch(`/api/stream/${videoId}/heartbeat`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ position: pos }),
+            }).catch(() => {});
+            onProgress?.(pos);
+          }, 30_000);
+        }
       } catch (err) {
         if (!cancelled) {
           setLoading(false);
@@ -135,7 +148,7 @@ export function VideoPlayer({ videoId, onProgress, initialBandwidthEstimate }: V
       if (heartbeatRef.current) clearInterval(heartbeatRef.current);
       if (hideControlsRef.current) clearTimeout(hideControlsRef.current);
     };
-  }, [videoId, onProgress]);
+  }, [videoId, manifestUrl, onProgress, initialBandwidthEstimate]);
 
   // ── Video event listeners ─────────────────────────────────────────────────
   useEffect(() => {

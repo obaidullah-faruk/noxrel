@@ -15,6 +15,7 @@ export interface Video {
   available_qualities: string[];
   is_published: boolean;
   published_at: string | null;
+  is_live: boolean;
   view_count: number;
   created_at: string;
   updated_at: string;

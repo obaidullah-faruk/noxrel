@@ -9,6 +9,7 @@ import ListItem from '@mui/material/ListItem';
 import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import { useAuth } from '@/components/Auth/AuthContext';
+import { resolveAccessToken } from '@/lib/auth-client';
 import type { LiveChatMessage } from '@/types/live';
 
 const GATEWAY = process.env.NEXT_PUBLIC_API_GATEWAY_URL ?? 'http://localhost:8100';
@@ -23,22 +24,33 @@ export function LiveChat({ sessionId }: { sessionId: string }) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!token) return;
-    // Identity travels as the JWT; the server verifies it in the handshake.
-    const socket = io(GATEWAY, {
-      path: '/api/v1/live/socket.io',
-      auth: { token },
-      transports: ['websocket'],
-    });
-    socketRef.current = socket;
-    socket.emit('join_stream', sessionId);
-    socket.on('chat_message', (msg: LiveChatMessage) => {
-      setMessages(prev => [...prev.slice(-(MAX_MESSAGES - 1)), msg]);
-    });
-    socket.on('error', (e: { code?: string }) => {
-      if (e?.code === 'RATE_LIMITED') setRateLimited(true);
-    });
-    return () => { socket.disconnect(); socketRef.current = null; };
+    let cancelled = false;
+    let socket: Socket | null = null;
+
+    void (async () => {
+      const accessToken = token ?? await resolveAccessToken();
+      if (!accessToken || cancelled) return;
+
+      socket = io(GATEWAY, {
+        path: '/api/v1/live/socket.io',
+        auth: { token: accessToken },
+        transports: ['websocket'],
+      });
+      socketRef.current = socket;
+      socket.emit('join_stream', sessionId);
+      socket.on('chat_message', (msg: LiveChatMessage) => {
+        setMessages(prev => [...prev.slice(-(MAX_MESSAGES - 1)), msg]);
+      });
+      socket.on('error', (e: { code?: string }) => {
+        if (e?.code === 'RATE_LIMITED') setRateLimited(true);
+      });
+    })();
+
+    return () => {
+      cancelled = true;
+      socket?.disconnect();
+      socketRef.current = null;
+    };
   }, [sessionId, token]);
 
   useEffect(() => {

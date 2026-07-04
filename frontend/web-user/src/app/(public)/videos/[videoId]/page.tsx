@@ -112,7 +112,11 @@ export default function VideoWatchPage({ params }: { params: Promise<{ videoId: 
         <Grid size={{ xs: 12, md: 8 }}>
           {/* Player */}
           {video.status === 'ready' ? (
-            <VideoPlayer videoId={video.id} />
+            video.is_live && video.hls_manifest_url ? (
+              <VideoPlayer videoId={video.id} manifestUrl={video.hls_manifest_url} />
+            ) : (
+              <VideoPlayer videoId={video.id} />
+            )
           ) : (
             <Box
               sx={{
