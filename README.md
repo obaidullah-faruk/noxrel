@@ -2,6 +2,10 @@
 
 Cloud-native, event-driven video streaming platform (microservices monorepo).
 
+## Architecture Diagram
+
+![Noxrel Kubernetes architecture](docs/architecture.png)
+
 ## Choose how to run the backend
 
 | | [Docker Compose](#docker-compose) | [Kubernetes (minikube)](#kubernetes-minikube) |
@@ -220,6 +224,8 @@ Compose: Kong admin at http://localhost:8101. K8s: routes via ingress on port 80
 | live-service | Node.js + nginx-rtmp | Live streaming |
 | billing-service | FastAPI | Stripe subscriptions |
 | web-user / web-admin | Next.js | Frontends |
+
+Regenerate the diagram: `python docs/generate_architecture_diagram.py` (needs `diagrams`, `pillow`, and Graphviz).
 
 ---
 
