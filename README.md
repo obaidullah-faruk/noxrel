@@ -2,6 +2,8 @@
 
 Cloud-native, event-driven video streaming platform (microservices monorepo).
 
+**Full feature list:** [docs/features.md](docs/features.md) — auth, VOD, live, billing, frontends, infra, and remaining work.
+
 ## Architecture Diagram
 
 ![Noxrel Kubernetes architecture](docs/architecture.png)
@@ -246,9 +248,16 @@ make logs                # Docker Compose logs
 services/          # Backend microservices
 frontend/          # Next.js apps (web-user, web-admin)
 infrastructure/    # Docker Compose, K8s manifests, Terraform, LocalStack
-docs/              # Architecture and phase guides
+docs/              # Architecture, feature inventory, phase guides
 .github/workflows/ # CI
 ```
+
+## Docs
+
+| Document | Description |
+|---|---|
+| [docs/features.md](docs/features.md) | Complete feature list |
+
 
 ---
 
